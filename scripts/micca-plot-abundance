@@ -1,0 +1,122 @@
+#! /usr/bin/env python
+
+## This code is written by Davide Albanese, <davide.albanese@gmail.com>
+## Copyright (C) 2013 Fondazione Edmund Mach
+## Copyright (C) 2013 Davide Albanese
+
+## This program is free software: you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+
+## This program is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+
+## You should have received a copy of the GNU General Public License
+## along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+from __future__ import division
+
+import argparse
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib import rcParams
+
+from micca import argutils
+from micca import __version__
+
+
+def stacked_bars(x, cmap=None):
+
+    prng = np.random.RandomState(0)
+    xa = np.asarray(x)
+
+    if cmap is None:
+        cmap = plt.cm.get_cmap(rcParams['image.cmap'])
+
+    colors = [cmap(i) for i in np.linspace(0, 1, xa.shape[0])]
+    prng.shuffle(colors)
+
+    a = np.arange(xa.shape[1]) + 0.1
+    bars = []
+    for i in range(xa.shape[0]):
+        bm = xa[0:i, :].sum(axis=0)
+        bar = plt.bar(a, xa[i, :], bottom=bm, color=colors[i], linewidth=0)
+        bars.append(bar)
+    return bars
+
+
+def main():
+
+    description = """micca-plot-abundance plots OTUs relative abundaces for each sample from an
+OTU table.
+"""
+    epilog = """Example:
+
+ $ micca-plot-abundance otu_table.txt image.png
+
+micca v. %s.
+Author: Davide Albanese <davide.albanese@fmach.it>
+Fondazione Edmund Mach, 2014.
+""" % __version__
+
+    parser = argparse.ArgumentParser(
+        description=description,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        version=__version__, epilog=epilog)
+
+    parser.add_argument('otutable', help="input OTU table file",
+                        type=argutils.rfile)
+    parser.add_argument('output', type=argutils.wfile,
+                        help="output image file (.png, .pdf, .ps, .eps, .svg). "
+                             "The image type is autodetected from the file "
+                             "extension")
+    parser.add_argument('-s', '--sample-data', type=argutils.rfile,
+                        help="sample file")
+    parser.add_argument('-t', '--target',
+                        help="sample-data column to be used as label")
+    args = parser.parse_args()
+
+    otu_table = pd.read_csv(args.otutable, sep='\t', index_col=0)
+
+    tot_count = otu_table.sum(axis=1)
+    # tot count for each OTU
+    tot_count = tot_count.order(ascending=False)
+    # reorder rows by total counts
+    otu_table = otu_table.reindex(tot_count.index)
+    rel_abundance = otu_table / otu_table.sum(axis=0)
+
+    if args.sample_data:
+        sample_data = pd.read_csv(args.sample_data, sep='\t', index_col=0)
+        target = sample_data[args.target]
+        rel_abundance.columns = target[rel_abundance.columns]
+        xlabel = args.target
+    else:
+        xlabel = "Sample"
+
+    rel_abundance = rel_abundance.sort(axis=1)
+
+    fig = plt.figure(1)
+    ax = plt.subplot(111)
+    bars = stacked_bars(rel_abundance.as_matrix(), cmap=plt.cm.Paired)
+    ax.set_xticks(np.arange(rel_abundance.shape[1]) + 0.5)
+    ax.set_xticklabels(list(rel_abundance.columns), rotation=45,
+                       horizontalalignment='right', size=6)
+    lgd = ax.legend(bars, list(rel_abundance.index), loc='upper center',
+                    bbox_to_anchor=(0.5, -0.2), fontsize=8)
+
+    plt.xlabel(xlabel)
+    plt.ylabel("Relative Abundance")
+    plt.xlim((0.0, rel_abundance.shape[1]))
+    plt.ylim((0.0, 1.0))
+    ax.spines['right'].set_visible(False)
+    ax.spines['top'].set_visible(False)
+    ax.spines['bottom'].set_visible(False)
+    fig.savefig(args.output, bbox_extra_artists=(lgd,), bbox_inches='tight')
+
+main()

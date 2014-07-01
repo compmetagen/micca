@@ -1,0 +1,61 @@
+#! /usr/bin/env python
+
+## This code is written by Davide Albanese, <davide.albanese@gmail.com>
+## Copyright (C) 2013 Fondazione Edmund Mach
+## Copyright (C) 2013 Davide Albanese
+
+## This program is free software: you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+
+## This program is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+
+## You should have received a copy of the GNU General Public License
+## along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+import argparse
+
+from micca.otuutils import *
+from micca import argutils
+from micca import __version__
+
+
+def main():
+    description = """micca-rarefy rarefies an OTU table with a depth of perc % of the least
+abundant sample.
+"""
+    epilog = """Example:
+
+ $ micca-rarefy otu_table.txt rarefied.txt -p 95
+
+micca v. %s.
+Author: Davide Albanese <davide.albanese@fmach.it>
+Fondazione Edmund Mach, 2014.
+""" % __version__
+    
+    parser = argparse.ArgumentParser(
+        description=description,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        version=__version__, epilog=epilog)
+
+    parser.add_argument('input', help="input OTU table file",
+                        type=argutils.rfile)
+    parser.add_argument('output', help="output OTU table file",
+                        type=argutils.wfile)
+    parser.add_argument('-p', '--perc', metavar='PERC', default=80, type=int,
+                        help="depth in terms of %reads of the least abundant "
+                        "sample (default %(default)s)")
+    parser.add_argument('-s', '--seed', metavar='SEED', default=0, type=int,
+                        help="random seed for the random generator "
+                        "(default %(default)s)")
+
+    args = parser.parse_args()
+
+    rarefy_otu_table(args.input, args.output, perc=args.perc, seed=args.seed)
+
+main()

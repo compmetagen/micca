@@ -1,0 +1,70 @@
+#! /usr/bin/env python
+
+## This code is written by Davide Albanese, <davide.albanese@gmail.com>
+## Copyright (C) 2013 Fondazione Edmund Mach
+## Copyright (C) 2013 Davide Albanese
+
+## This program is free software: you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+
+## This program is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+
+## You should have received a copy of the GNU General Public License
+## along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+import argparse
+import os.path
+from Bio import SeqIO
+
+from micca import argutils
+from micca import __version__
+
+
+def main():
+
+    description = """micca-sff2fastq converts sff files to fastq (with Sanger 33 quality scores).
+"""
+    epilog = """Example:
+
+ $ micca-sff2fastq sample1.sff sample2.sff -o fastq_files
+
+micca v. %s.
+Author: Davide Albanese <davide.albanese@fmach.it>
+Fondazione Edmund Mach, 2014.
+""" % __version__
+
+    parser = argparse.ArgumentParser(
+        description=description,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        version=__version__, epilog=epilog)
+
+    parser.add_argument('input', nargs='+', type=argutils.rfile,
+                        help="input sff file(s)")
+    parser.add_argument('-t', '--trim', action="store_true", default=False,
+                        help="extract trimmed data")
+    parser.add_argument('-o', '--output-dir', metavar='DIR',
+                        default="fastq",
+                        help="output directory (default %(default)s)",
+                        type=argutils.wdir)
+
+    args = parser.parse_args()
+
+    if args.trim:
+        fmt = "sff-trim"
+    else:
+        fmt = "sff"
+
+    for in_filename in args.input:
+        prefix = os.path.splitext(os.path.basename(in_filename))[0]
+        out_filename = os.path.join(args.output_dir, prefix)+".fastq"
+        records = (rec.upper() for rec in SeqIO.parse(in_filename, fmt))
+        count = SeqIO.write(records, out_filename, "fastq")
+        print "%s: %d reads written" % (os.path.basename(out_filename), count)
+
+main()

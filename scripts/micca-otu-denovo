@@ -1,0 +1,196 @@
+#! /usr/bin/env python
+
+## This code is written by Davide Albanese, <davide.albanese@gmail.com>
+## Copyright (C) 2013 Fondazione Edmund Mach
+## Copyright (C) 2013 Davide Albanese
+
+## This program is free software: you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+
+## This program is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+
+## You should have received a copy of the GNU General Public License
+## along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+import sys
+import os
+import argparse
+import logging
+
+from micca.otu import *
+from micca import argutils
+from micca import __version__
+
+
+def main():
+    description = """micca-otu-denovo performs the OTU clustering the taxonomy assigment. Reads are
+clustered without any external reference. The output directory will contain
+the following:
+ 
+clusters.txt - a tab-delimited file where each row contains the sequence 
+               identifiers assigned to the cluster
+otu_table.txt - a tab-delimited file containing the number of times an OTU 
+                is found in each sample
+representatives.fasta - a FASTA file containing the representative sequence
+                        for each OTU
+taxonomy.txt - a two-columns, tab-delimited file containing the taxonomy
+               assigned to each OTU
+otu.log - the log file
+"""
+    epilog = """Example:
+
+ $ micca-otu-denovo sample1.fastq sample2.fastq sample3.fastq -s 0.95 \\
+   --rdp-max-memory=2000
+
+micca v. %s.
+Author: Davide Albanese <davide.albanese@fmach.it>
+Fondazione Edmund Mach, 2014.
+""" % __version__
+
+    parser = argparse.ArgumentParser(
+        description=description,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        version=__version__, epilog=epilog)
+
+    parser.add_argument('input', nargs='+', type=argutils.rfile,
+                        help="input fastq/a file(s)")
+    parser.add_argument('-f', '--format', choices=["fastq", "fasta"],
+                        default="fastq",
+                        help="input file format (default %(default)s)")
+    parser.add_argument('-s', '--similarity', metavar='SIMILARITY',
+                        type=float, default=0.97,
+                        help="similarity between cluster center "
+                             "and cluster sequences (default  %(default)s)")
+    parser.add_argument('-m', '--minsize', metavar='SIZE',
+                        type=int, default=2,
+                        help="minimum size for a cluster (e.g. 2 removes "
+                             "singletons) (default  %(default)s)")
+    parser.add_argument('-c', '--remove-chimeras', action="store_true",
+                        default=False, help="remove chimeric sequences "
+                                            "(recommended)")
+    parser.add_argument('-d', '--derep-fast', action="store_true",
+                        default=False,
+                        help="fastest (prefix based) but less accurate "
+                             "dereplication (recommended for dataset with "
+                             "200000+ seqs)")
+    parser.add_argument('-l', '--derep-fast-len', type=int,
+                        default=200,
+                        help="prefix length used in fast dereplication "
+                             "(default  %(default)s)")
+    parser.add_argument('-t', '--taxonomy', choices=["rdp", "blast"],
+                        default="rdp",
+                        help="protocol for taxonomy assignment"
+                             "(default %(default)s)")
+    parser.add_argument('-o', '--output-dir', metavar='DIR', default=".",
+                        help="output directory (default %(default)s)",
+                        type=argutils.wdir)
+
+    # Taxonomy assignment with RDP Classifier/Database
+    group_rdp = parser.add_argument_group(
+        "Taxonomy assignment with RDP Classifier/Database")
+    group_rdp.add_argument('--rdp-max-memory', metavar='MB', default=1000,
+                           type=int,
+                           help="maximum memory size for the java virtual "
+                                "machine in MB (default %(default)s)")
+    group_rdp.add_argument('--rdp-min-confidence', metavar='CONFIDENCE',
+                           type=float, default=0.8,
+                           help="minimum confidence value to assign taxonomy "
+                                "to a sequence (default %(default)s)")
+
+    # Taxonomy assignment with BLAST
+    group_blast = parser.add_argument_group("Taxonomy assignment with BLAST")
+    group_blast.add_argument('--blast-ref', metavar='FILE', type=argutils.rfile,
+                             help="reference sequences in fasta format")
+    group_blast.add_argument('--blast-ref-taxonomy', metavar='FILE',
+                             type=argutils.rfile,
+                             help="tab-separated id-to-taxonomy file. First "
+                                  "column contains the sequence identifiers, "
+                                  "and the second column contains the taxonomy "
+                                  "separated by semi-colons (e.g., Bacteria;"
+                                  "Firmicutes;Clostridia)")
+    group_blast.add_argument('--blast-num-threads', metavar='NUM',
+                             type=int, default=1,
+                             help="number of threads to use in blast search "
+                                  "(default %(default)s)")
+    group_blast.add_argument('--blast-e-value', metavar='VALUE',
+                             type=float, default=10e-30,
+                             help="maximum e-value to record an assignment "
+                                  "(default %(default)s)")
+    group_blast.add_argument('--blast-perc-identity', metavar='PERC',
+                             type=int, default=90,
+                             help="percent identity cutoff (default "
+                                  "%(default)s)")
+
+    args = parser.parse_args()
+
+    if args.taxonomy == "blast":
+        if args.blast_ref and not args.blast_ref_taxonomy:
+            parser.error("blast requires --blast-ref --blast-ref-taxonomy "
+                         "files")
+
+    in_basenames = [os.path.splitext(os.path.basename(in_filename))[0]
+                    for in_filename in args.input]
+    if len(set(in_basenames)) != len(in_basenames):
+        sys.stderr.write("ERROR: input files must have different names\n")
+        exit(1)
+
+    # create logger
+    logger = logging.getLogger('otu')
+    logger.setLevel(logging.DEBUG)
+    fh = logging.FileHandler(os.path.join(args.output_dir, 'otu.log'))
+    fh.setLevel(logging.DEBUG)
+    formatter = logging.Formatter("[%(levelname)s] %(asctime)s: %(message)s")
+    fh.setFormatter(formatter)
+    logger.addHandler(fh)
+
+    # build a merged fasta file
+    merged_fasta_filename = os.path.join(args.output_dir, "merged_TMP.fasta")
+    merge_seqs(args.input, merged_fasta_filename, in_fmt=args.format,
+               out_fmt="fasta")
+
+    # denovo clustering
+    clust_filename = os.path.join(args.output_dir, "clusters.txt")
+    rep_filename = os.path.join(args.output_dir, "representatives.fasta")
+    clustering_denovo(in_filename=merged_fasta_filename,
+                      clust_filename=clust_filename,
+                      rep_filename=rep_filename,
+                      format="fasta" ,
+                      similarity=args.similarity,
+                      minsize=args.minsize,
+                      remove_chimeras=args.remove_chimeras,
+                      derep_fast=args.derep_fast,
+                      derep_fast_len=args.derep_fast_len)
+
+    # build the OTU table
+    otu_table_filename = os.path.join(args.output_dir, "otu_table.txt")
+    build_otu_table(clust_filename=clust_filename,
+                    rep_filename=rep_filename,
+                    otu_table_filename=otu_table_filename)
+
+    # taxonomy
+    taxonomy_filename = os.path.join(args.output_dir, "taxonomy.txt")
+    if args.taxonomy == "blast":
+        taxonomy_blast(in_filename=rep_filename,
+                       ref_filename=args.blast_ref,
+                       ref_taxonomy_filename=args.blast_ref_taxonomy,
+                       out_filename=taxonomy_filename,
+                       task='blastn',
+                       num_threads=args.blast_num_threads,
+                       evalue=args.blast_e_value,
+                       perc_identity=args.blast_perc_identity)
+    else:  # rdp
+        taxonomy_rdp(in_filename=rep_filename,
+                     out_filename=taxonomy_filename,
+                     max_memory=args.rdp_max_memory,
+                     min_confidence=args.rdp_min_confidence)
+
+    # remove tmp files
+    os.remove(merged_fasta_filename)
+
+main()

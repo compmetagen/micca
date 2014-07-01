@@ -1,0 +1,179 @@
+#! /usr/bin/env python
+
+## This code is written by Davide Albanese, <davide.albanese@gmail.com>
+## Copyright (C) 2014 Davide Albanese
+## Copyright (C) 2014 Fondazione Edmund Mach
+
+## This program is free software: you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+
+## This program is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+
+## You should have received a copy of the GNU General Public License
+## along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+__version__ = "0.1"
+
+import argparse
+import csv
+import subprocess
+import os
+import os.path
+import re
+
+from Bio import SeqIO
+
+from otuclust import SI
+
+
+def detect_chimeras(in_filename):
+
+    basepath = os.path.splitext(in_filename)[0]
+    out_filename = basepath + ".uchimeout"
+
+    # run uchime
+    devnull = open(os.devnull, "w")
+    cmd = ["uchime", "--input", in_filename,  "--uchimeout", out_filename,
+           "--minh", "0.1", "--mindiv", "2.0"]
+    proc = subprocess.Popen(cmd, stdout=devnull, stderr=devnull)
+    _, _ = proc.communicate()
+    devnull.close()
+    if proc.returncode:
+        error_msg = "problems with uchime"
+        raise Exception(error_msg)
+
+    # load the details file
+    out_handler = open(out_filename, 'r')
+    out_reader = csv.reader(out_handler, delimiter='\t')
+    no_chim_seqs = [row[1].split()[0] for row in out_reader if row[-1] == 'N']
+    out_handler.close()
+
+    os.remove(out_filename)
+    return no_chim_seqs
+
+
+def main():
+    description = """otuclust - OTU clustering and chimera removal.
+"""
+
+    epilog = """
+OTUCLUST %s
+Author: Davide Albanese <davide.albanese@fmach.it>
+Fondazione Edmund Mach, 2014.
+""" % __version__
+
+    parser = argparse.ArgumentParser(
+        description=description,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        version=__version__, epilog=epilog)
+
+    parser.add_argument('input', help="input fastq/a file")
+    parser.add_argument('-f', '--format', choices=["fastq", "fasta"],
+                        default="fasta",
+                        help="input file format (default %(default)s)")
+    parser.add_argument('-s', '--similarity', metavar='SIMILARITY',
+                        type=float, default=0.97,
+                        help="similarity between cluster center "
+                             "and cluster sequences (default  %(default)s)")
+    parser.add_argument('-m', '--minsize', metavar='SIZE',
+                        type=int, default=2,
+                        help="minimum size for a cluster (e.g. 2 removes "
+                             "singletons) (default  %(default)s)")
+    parser.add_argument('-c', '--remove-chimeras', action="store_true",
+                        default=False, help="remove chimeric sequences "
+                                            "(recommended)")
+    parser.add_argument('-d', '--derep-fast', action="store_true",
+                        default=False,
+                        help="fastest (prefix based) but less accurate "
+                             "dereplication (recommended for dataset with "
+                             "200000+ seqs)")
+    parser.add_argument('-l', '--derep-fast-len', type=int, metavar='LEN',
+                        default=200,
+                        help="prefix length used in fast dereplication")
+    parser.add_argument('--out-clust', metavar='FILE',
+                        default="clust.txt",
+                        help="output text file containing the clusters "
+                             "(default %(default)s)")
+    parser.add_argument('--out-rep', metavar='FILE',
+                        default="rep.fasta",
+                        help="output fasta file containing the "
+                             "representative sequences (default %(default)s)")
+    args = parser.parse_args()
+
+
+    records = SeqIO.index(args.input, args.format)
+    queries = list(records.keys())
+
+    # dereplication
+    seqindex = SI()
+    for seqid in records:
+        seqindex.add(seqid, str(records[seqid].seq))
+    derep = []
+    while len(queries) > 0:
+        if args.derep_fast:
+            hits = seqindex.search_prefix(
+                str(records[queries[0]].seq[:args.derep_fast_len]))
+        else:
+            hits = seqindex.search(str(records[queries[0]].seq), similarity=1,
+                                   maxrejects=16)
+
+        if len(hits) > 1:
+            derep.append((queries[0], len(hits)))
+        for h in hits:
+            seqindex.remove(h)
+            queries.remove(h)
+
+    # sort by cluster abundance
+    derep = sorted(derep, key=lambda d: d[1], reverse=True)
+
+    # remove chimeras
+    if args.remove_chimeras:
+        basepath = os.path.splitext(args.out_rep)[0]
+        rep_tmp_filename = basepath + ".tmp"
+        rep_tmp_handle = open(rep_tmp_filename, "w")
+        for seqid, ab in derep:
+            record = records[seqid]
+            record.id = record.id + "/ab=%d/" % ab
+            SeqIO.write(record, rep_tmp_handle, 'fasta')
+        rep_tmp_handle.close()
+        queries = detect_chimeras(rep_tmp_filename)
+        queries = [re.sub('/ab=[0-9]+/', '', q) for q in queries]
+        os.remove(rep_tmp_filename)
+    else:
+        queries = [d[0] for d in derep]
+
+    # clustering
+    seqindex = SI()
+    for seqid in records:
+        seqindex.add(seqid, str(records[seqid].seq))
+
+    clust_handle = open(args.out_clust, "w")
+    clust_writer = csv.writer(clust_handle, delimiter='\t',
+                              lineterminator='\n')
+    rep_handle = open(args.out_rep, "w")
+    while len(queries) > 0:
+        record = records[queries[0]]
+        hits = seqindex.search(str(record.seq), similarity=args.similarity,
+                               maxrejects=32)
+        hits.remove(queries[0])
+        hits = [queries[0]] + hits
+        if len(hits) >= args.minsize:
+            clust_writer.writerow(hits)
+            SeqIO.write(record, rep_handle, 'fasta')
+
+        for h in hits:
+            seqindex.remove(h)
+            try:
+                queries.remove(h)
+            except ValueError:
+                pass
+
+    clust_handle.close()
+    rep_handle.close()
+
+main()

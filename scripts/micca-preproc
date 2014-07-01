@@ -1,0 +1,153 @@
+#! /usr/bin/env python
+
+## This code is written by Davide Albanese, <davide.albanese@gmail.com>
+## Copyright (C) 2013 Fondazione Edmund Mach
+## Copyright (C) 2013 Davide Albanese
+
+## This program is free software: you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+
+## This program is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+
+## You should have received a copy of the GNU General Public License
+## along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+import sys
+import os
+import argparse
+import multiprocessing
+import logging
+
+from micca.preproc import *
+from micca import argutils
+from micca import __version__
+
+
+def job(in_filename, args):
+    prefix = os.path.splitext(os.path.basename(in_filename))[0]
+    basepath = os.path.join(args.output_dir, prefix)
+    curr_in_filename = in_filename  # current input file
+
+    out_fwd_filename = basepath + "_FWD_TMP.fastq"
+    out_rev_filename = basepath + "_REV_TMP.fastq"
+    out_qual_filename = basepath + "_QUAL_TMP.fastq"
+
+    # forward primer
+    if args.primer_forward:
+        remove_fwd_primer(in_filename=curr_in_filename,
+                          out_filename=out_fwd_filename,
+                          primer=args.primer_forward,
+                          max_error_rate=args.primer_error_rate,
+                          min_overlap=args.primer_overlap)
+        curr_in_filename = out_fwd_filename
+
+    # reverse primer
+    if args.primer_reverse:
+        remove_rev_primer(in_filename=curr_in_filename,
+                          out_filename=out_rev_filename,
+                          primer=args.primer_reverse,
+                          max_error_rate=args.primer_error_rate,
+                          min_overlap=args.primer_overlap)
+        curr_in_filename = out_rev_filename
+
+    # quality trimming
+    quality_trimming(in_filename=curr_in_filename,
+                     out_filename=out_qual_filename,
+                     min_length=args.length_threshold,
+                     min_quality=args.quality_threshold)
+    curr_in_filename = out_qual_filename
+
+    # rename the current input file
+    os.rename(curr_in_filename, basepath + ".fastq")
+
+    # remove tmp files
+    for filename in [out_fwd_filename,
+                     out_rev_filename,
+                     out_qual_filename]:
+        try:
+            os.remove(filename)
+        except OSError:
+            pass
+
+
+def main():
+    description = """micca-preproc performs several preprocessing steps on 454/Illumina amplicon
+sequencing data:
+
+ - primer trimming both in the 5' and 3' ends of reads using
+   semi-global alignments
+ - quality trimming using sliding windows
+ - ending Ns trimming
+ - minimum length filtering
+"""
+
+    epilog = """Example:
+
+ $ micca-preproc *.fastq -f AGGATTAGATACCCTGGTA -r GTCGTCAGCTCGTGYYG -O 10
+
+micca v. %s.
+Author: Davide Albanese <davide.albanese@fmach.it>
+Fondazione Edmund Mach, 2014.
+""" % __version__
+
+    parser = argparse.ArgumentParser(
+        description=description,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        version=__version__, epilog=epilog)
+
+    parser.add_argument('input', nargs='+', type=argutils.rfile,
+                        help="input fastq file(s)")
+    parser.add_argument('-f', '--primer-forward', metavar='PRIMER',
+                        help="remove forward primer sequences and "
+                             "discard untrimmed reads")
+    parser.add_argument('-r', '--primer-reverse', metavar='PRIMER',
+                        help="remove reverse primer sequences")
+    parser.add_argument('-e', '--primer-error-rate', metavar='RATE',
+                        type=float, default=0.1,
+                        help="maximum allowed error rate (number of errors "
+                             "divided by the length of the region) (default "
+                             "%(default)s)")
+    parser.add_argument('-O', '--primer-overlap', metavar='LENGTH',
+                        type=int, default=10,
+                        help="minimum overlap length. If the overlap between "
+                             "the read and the primer is shorter than LENGTH, "
+                             "the read is not modified (default %(default)s)")
+    parser.add_argument('-q', '--quality-threshold', metavar='QUALITY',
+                        type=int, default=20,
+                        help="threshold for trimming based on average quality "
+                             "in a window (default %(default)s)")
+    parser.add_argument('-l', '--length-threshold', metavar='LENGTH',
+                        type=int, default=200,
+                        help="threshold to keep a read based on length after "
+                             "trimming (default %(default)s)")
+    parser.add_argument('-o', '--output-dir', metavar='DIR',
+                        default="preprocessed",
+                        help="output directory (default %(default)s)",
+                        type=argutils.wdir)
+    args = parser.parse_args()
+
+    in_basenames = [os.path.basename(in_filename) for in_filename in args.input]
+    if len(set(in_basenames)) != len(in_basenames):
+        sys.stderr.write("ERROR: input files must have different names\n")
+        exit(1)
+
+    # create logger
+    logger = logging.getLogger('preproc')
+    logger.setLevel(logging.DEBUG)
+    fh = logging.FileHandler(os.path.join(args.output_dir, 'preproc.log'))
+    fh.setLevel(logging.DEBUG)
+    formatter = logging.Formatter("[%(levelname)s] %(asctime)s: %(message)s")
+    fh.setFormatter(formatter)
+    logger.addHandler(fh)
+
+    # run jobs
+    for in_filename in args.input:
+       job(in_filename, args)
+
+main()

@@ -1,0 +1,123 @@
+#! /usr/bin/env python
+
+## This code is written by Davide Albanese, <davide.albanese@gmail.com>
+## Copyright (C) 2013 Fondazione Edmund Mach
+## Copyright (C) 2013 Davide Albanese
+
+## This program is free software: you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+
+## This program is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+
+## You should have received a copy of the GNU General Public License
+## along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+import sys
+import os
+import argparse
+import logging
+
+from micca.otu import *
+
+from micca.otu import *
+from micca import argutils
+from micca import __version__
+
+
+def main():
+    description = """micca-otu-ref builds the OTU table and performs the taxonomy assigment with the
+reference picking protocol. Reads are clustered against an external reference. 
+Reads which do not hit a sequence in the reference are excluded.
+"""
+
+    epilog = """Example:
+
+ $ micca-otu-ref sample*.fastq -s 0.97 --ref greengenes_2013_05/rep_set/97_otus.fasta \\
+   --ref-taxonomy greengenes_2013_05/taxonomy/97_otu_taxonomy.txt
+
+micca v. %s.
+Author: Davide Albanese <davide.albanese@fmach.it>
+Fondazione Edmund Mach, 2014.
+""" % __version__
+
+    parser = argparse.ArgumentParser(
+        description=description,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        version=__version__, epilog=epilog)
+
+    parser.add_argument('input', nargs='+', type=argutils.rfile,
+                        help="input fastq/a file(s)")
+    parser.add_argument('-f', '--format', choices=["fastq", "fasta"],
+                        default="fastq",
+                        help="input file format (default %(default)s)")
+    parser.add_argument('-s', '--similarity', metavar='SIMILARITY',
+                        type=float, default=0.97,
+                        help="similarity between cluster center "
+                             "and cluster sequences (default  %(default)s)")
+    parser.add_argument('--ref', metavar='FILE', required=True,
+                        type=argutils.rfile,
+                        help="reference sequences in fasta format")
+    parser.add_argument('--ref-taxonomy', metavar='FILE', required=True,
+                        type=argutils.rfile,
+                        help="tab-separated id-to-taxonomy file. "
+                             "First column contains the sequence identifiers,"
+                             "and the second column contains the taxonomy "
+                             "separated by semi-colons (e.g., "
+                             "Bacteria;Firmicutes;Clostridia)")
+    parser.add_argument('-o', '--output-dir', metavar='DIR', default=".",
+                        help="output directory (default %(default)s)",
+                        type=argutils.wdir, )
+
+    args = parser.parse_args()
+
+    in_basenames = [os.path.splitext(os.path.basename(in_filename))[0]
+                    for in_filename in args.input]
+    if len(set(in_basenames)) != len(in_basenames):
+        sys.stderr.write("ERROR: input files must have different names\n")
+        exit(1)
+
+    # create logger
+    logger = logging.getLogger('otu')
+    logger.setLevel(logging.DEBUG)
+    fh = logging.FileHandler(os.path.join(args.output_dir, 'otu.log'))
+    fh.setLevel(logging.DEBUG)
+    formatter = logging.Formatter("[%(levelname)s] %(asctime)s: %(message)s")
+    fh.setFormatter(formatter)
+    logger.addHandler(fh)
+
+    # build a merged fasta file
+    merged_fasta_filename = os.path.join(args.output_dir, "merged_TMP.fasta")
+    merge_seqs(args.input, merged_fasta_filename, in_fmt=args.format,
+               out_fmt="fasta")
+
+    # clustering ref
+    clust_filename = os.path.join(args.output_dir, "clusters.txt")
+    rep_filename = os.path.join(args.output_dir, "representatives.fasta")
+    clustering_ref(in_filename=merged_fasta_filename,
+                   ref_filename=args.ref,
+                   clust_filename=clust_filename,
+                   rep_filename=rep_filename,
+                   similarity=args.similarity)
+
+    # assign taxonomy
+    taxonomy_filename = os.path.join(args.output_dir, "taxonomy.txt")
+    taxonomy_ref(in_filename=rep_filename,
+                 ref_taxonomy_filename=args.ref_taxonomy,
+                 out_filename=taxonomy_filename)
+
+    # build the OTU table
+    otu_table_filename = os.path.join(args.output_dir, "otu_table.txt")
+    build_otu_table(clust_filename=clust_filename,
+                    rep_filename=rep_filename,
+                    otu_table_filename=otu_table_filename)
+
+    # remove tmp files
+    os.remove(merged_fasta_filename)
+
+main()
