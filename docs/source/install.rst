@@ -4,7 +4,6 @@ Install
 micca is composed by several executable Python scripts and wraps lots of external
 applications.
 
-
 Requirements
 ------------
 micca requires Python (http://www.python.org/) >= 2.7.
@@ -12,7 +11,7 @@ micca requires Python (http://www.python.org/) >= 2.7.
 External Applications
 ^^^^^^^^^^^^^^^^^^^^^
 * SICKLE (>=1.29)- A windowed adaptive trimming tool for FASTQ files using
-  quality. (http://github.com/najoshi/sickle)
+  quality. (http://github.com/najoshi/sickle/releases)
 * UCHIME - Chimeric sequences detection, public domain version
   (http://drive5.com/uchime/uchime_download.html)
 * DNACLUST - Tool for clustering millions of short DNA sequences
@@ -46,7 +45,7 @@ Python Modules
 * cutadapt (https://code.google.com/p/cutadapt/)
 * DendroPy (http://pythonhosted.org/DendroPy/)
 
-The easiest way to install the Python dependences is by using pip::
+The easiest way to install the Python dependencies is by using pip::
 
     $ pip install numpy scipy matplotlib pandas biopython cutadapt dendropy
 
@@ -62,8 +61,23 @@ Install micca
 
       $ sudo python setup.py install
 
-   If all the required software is installed, at the end of
-   installation you should see something like this::
+3. If you don't have root access, installing micca in a local
+   directory by specifying the ``--prefix`` argument. Then you need to
+   set ``PYTHONPATH``:
+
+   .. code-block:: sh
+
+      $ python setup.py install --prefix=/path/to/modules
+      $ export PYTHONPATH=$PYTHONPATH:/path/to/modules/lib/python{version}/site-packages
+
+4. Test the installation. From the command line run:
+
+   .. code-block:: sh
+
+      $ micca-test
+
+   If all the required software is installed, you should see something like
+   this::
 
       Checking for dependencies...
       DNACLUST... OK
@@ -83,11 +97,3 @@ Install micca
       pandas... OK
       RDP Classifier... OK
 
-3. If you don't have root access, installing micca in a local
-   directory by specifying the ``--prefix`` argument. Then you need to
-   set ``PYTHONPATH``:
-
-   .. code-block:: sh
-
-      $ python setup.py install --prefix=/path/to/modules
-      $ export PYTHONPATH=$PYTHONPATH:/path/to/modules/lib/python{version}/site-packages
