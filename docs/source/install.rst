@@ -11,7 +11,7 @@ micca requires Python (http://www.python.org/) >= 2.7.
 
 External Applications
 ^^^^^^^^^^^^^^^^^^^^^
-* SICKLE - A windowed adaptive trimming tool for FASTQ files using
+* SICKLE (>=1.29)- A windowed adaptive trimming tool for FASTQ files using
   quality. (http://github.com/najoshi/sickle)
 * UCHIME - Chimeric sequences detection, public domain version
   (http://drive5.com/uchime/uchime_download.html)
@@ -19,7 +19,7 @@ External Applications
   (http://dnaclust.sourceforge.net `Download Release 2 <http://sourceforge.net/projects/dnaclust/files/release_2/dnaclust_src.tar.gz/download>`_)
 * BLAST+ - The Basic Local Alignment Search Tool
   (`BLAST+ executables <http://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download>`_)
-* RDP Classifier (>= 2.6) - Naive Bayesian classifier for taxonomic
+* RDP Classifier (>=2.6) - Naive Bayesian classifier for taxonomic
   assignments
   (http://sourceforge.net/projects/rdp-classifier/). **After the
   installation set the environment variable ``RDPPATH`` by typing**::

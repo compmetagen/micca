@@ -90,6 +90,10 @@ Fondazione Edmund Mach, 2014.
     out_rev_filename = basepath + "_REV_TMP.fastq"
     out_qual_filename = basepath + "_QUAL_TMP.fastq"
 
+    # create logger
+    logger = logging.getLogger('preproc')
+    logger.setLevel(logging.DEBUG)
+
     # forward primer
     if args.primer_forward:
         remove_fwd_primer(in_filename=curr_in_filename,

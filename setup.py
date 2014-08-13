@@ -1,9 +1,6 @@
-import sys
-import glob
-
 from distutils.core import setup, Extension
 from distutils.util import *
-from distutils.spawn import find_executable
+
 
 import numpy
 
@@ -48,6 +45,7 @@ scripts = [
     "scripts/micca-sff2fastq",
     "scripts/micca-plot-rank",
     "scripts/micca-plot-abundance",
+    "scripts/micca-test",
     "otuclust/scripts/otuclust"
 ]
 
@@ -79,74 +77,3 @@ setup(name='micca',
       classifiers=classifiers,
       ext_modules=ext_modules
 )
-
-# Check dependencies
-
-HEADER = '\033[95m'
-OK = '\033[92m'
-WARNING = '\033[93m'
-FAIL = '\033[91m'
-ENDC = '\033[0m'
-
-def find_module(name, module):
-    sys.stdout.write("%s... " % name)
-    try:
-        __import__(module)
-    except ImportError, e:
-        sys.stdout.write("%snot installed%s\n" % (FAIL, ENDC))
-    else:
-        sys.stdout.write("%sOK%s\n" % (OK, ENDC))
-
-def find_exe(name, exe):
-    sys.stdout.write("%s... " % name)
-
-    if find_executable(exe):
-        sys.stdout.write("%sOK%s\n" % (OK, ENDC))
-    else:
-        sys.stdout.write("%snot installed%s\n" % (FAIL, ENDC))
-
-def find_rdp():
-    sys.stdout.write("RDP Classifier... ")
-    rdppath = os.getenv("RDPPATH")
-    if rdppath is None:
-        sys.stdout.write("%sRDPPATH environment variable is not set%s\n" \
-                         % (FAIL, ENDC))
-        return
-
-    rdpjar_list = glob.glob(os.path.join(rdppath, "rdp_classifier*.jar")) + \
-                  glob.glob(os.path.join(rdppath, "dist/classifier.jar"))
-    if not len(rdpjar_list):
-        sys.stdout.write("%sno rdp_classifier*.jar or dist/classifier*.jar "
-                         "found in RDPPATH%s\n" % (FAIL, ENDC))
-        return
-
-    sys.stdout.write("%sOK%s\n" % (OK, ENDC))
-    
-        
-exes = {
-    "SICKLE": "sickle",
-    "CUTADAPT": "cutadapt",
-    "UCHIME": "uchime",
-    "DNACLUST": "dnaclust",
-    "BLAST+": "blastn",
-    "PyNAST": "pynast",
-    "MUSCLE": "muscle",
-    "T-Coffee": "t_coffee",
-    "FastTree": "FastTree"
-    }
-
-modules = {
-    "NumPy": "numpy",
-    "SciPy": "scipy",
-    "matplotlib": "matplotlib",
-    "pandas": "pandas",
-    "Biopython":  "Bio",
-    "DendroPy": "dendropy"
-    }
-
-sys.stdout.write("\n%sChecking for dependencies...%s\n" % (HEADER, ENDC))
-for name, exe in exes.iteritems():
-    find_exe(name, exe)
-for name, module in modules.iteritems():
-    find_module(name, module)
-find_rdp()
