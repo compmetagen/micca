@@ -32,7 +32,9 @@ External Applications
 * PyNAST - NAST sequence aligner (http://biocore.github.io/pynast/)
 * MUSCLE - Multiple Sequence Alignment (http://www.drive5.com/muscle/)
 * T-Coffee - Simple MSA (http://tcoffee.crg.cat/apps/tcoffee)
-* FastTree - Approximately-maximum-likelihood phylogenetic trees
+* FastTree - Approximately-maximum-likelihood phylogenetic trees.
+  ** Download and install the binary or source from the website,
+  do not use the package manager of your OS (e.g. apt-get install fasttree)**
   (http://www.microbesonline.org/fasttree/)
 
 Python Modules
