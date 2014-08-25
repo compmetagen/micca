@@ -178,29 +178,22 @@ def taxonomy_blast(in_filename, ref_filename, ref_taxonomy_filename,
     os.remove(blast_out_filename)
 
 
-def taxonomy_rdp(in_filename, out_filename, max_memory=1000,
-                 min_confidence=0.80):
+def taxonomy_rdp(in_filename, out_filename, max_memory=2000,
+                 min_confidence=0.80, gene="16srrna"):
     """Assign taxonomy through RDP classifier/database. 
-    Only versions >=2.5 are supported.
-
-    java -XmxMAX_MEMORYm -jar rdp_classifier-X.Y.jar  -f fixrank -q IN_FILENAME 
-        -o RDP_OUT_FILENAME
+    Versions 2.6, 2.7 and 2.8 are supported.
     """
 
     def get_rdpjar():
         rdppath = os.getenv("RDPPATH")
         if rdppath is None:
             raise Exception("RDPPATH environment variable is not set")
-        rdpjar_list = glob.glob(os.path.join(rdppath, "rdp_classifier*.jar")) + \
-                      glob.glob(os.path.join(rdppath, "dist/classifier.jar"))
-        if not len(rdpjar_list):
-            raise Exception("no rdp_classifier*.jar or dist/classifier*.jar found "
-                            "in RDPPATH")
-        rdpjar = sorted(rdpjar_list)[-1]
+        rdpjar = os.path.join(rdppath, "dist/classifier.jar")
+        if not os.path.isfile(rdpjar):
+            raise Exception("no dist/classifier*.jar found in RDPPATH")
         return rdpjar
 
-
-    logger = logging.getLogger('otu.taxonomy_blast')
+    logger = logging.getLogger('otu.taxonomy_rdp')
     ta_cols = [2, 5, 8, 11, 14, 17]
     confidence_cols = [4, 7, 10, 13, 16, 19]
 
@@ -209,15 +202,15 @@ def taxonomy_rdp(in_filename, out_filename, max_memory=1000,
     try:
         rdpjar = get_rdpjar()
         logger.info("RDP jar file found in %s" % rdpjar)
-    except Exception(e):
+    except Exception, e:
         logger.error(e)
         raise Exception(e)
 
     # rdp classifier
     rdp_out_filename = basepath + "_RDP_OUT_TMP.txt"
     devnull = open(os.devnull, "w")
-    cmd = ["java", "-Xmx%dm" % max_memory, "-jar", rdpjar, "-f", "fixrank",
-           "-q", in_filename, "-o", rdp_out_filename]
+    cmd = ["java", "-Xmx%dm" % max_memory, "-jar", rdpjar, "-c", "0", "-f",
+           "fixrank", "-g", gene, "-o", rdp_out_filename, in_filename]
     logger.info(' '.join(cmd))
     proc = subprocess.Popen(cmd, stdout=devnull, stderr=subprocess.PIPE)
     _, out_stderr = proc.communicate()

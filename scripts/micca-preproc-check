@@ -21,6 +21,7 @@ from __future__ import division
 
 import os
 import argparse
+import logging
 
 import numpy as np
 import pandas as pd
@@ -146,7 +147,7 @@ Fondazione Edmund Mach, 2014.
     for i, quality in enumerate(pct_reads):
         plt.plot(pct_reads.index, pct_reads[quality], linewidth=2,
                  label="Quality thr. = %d" % quality, color=colors[i])
-    lgd = ax.legend(loc='center left', bbox_to_anchor=(1, 0.5), fontsize=10)
+    lgd = ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
     plt.xlabel("Length threshold")
     plt.ylabel("% reads passing filter")
     plt.xlim((length[0], length[-1]))
