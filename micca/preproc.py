@@ -42,7 +42,7 @@ def remove_fwd_primer(in_filename, out_filename, primer, max_error_rate=0.1,
     logger = logging.getLogger('preproc.remove_fwd_primer')
     out_handler = open(out_filename, 'w')
     
-    cmd = ["cutadapt"]
+    cmd = ["cutadapt", "-f",  "fastq"]
     for uprimer in utils.adna2udna(primer.upper()):
         cmd.extend(["-g", uprimer])
         # reverse complement
@@ -71,7 +71,7 @@ def remove_rev_primer(in_filename, out_filename, primer, max_error_rate=0.1,
     logger = logging.getLogger('preproc.remove_rev_primer')
     out_handler = open(out_filename, 'w')
 
-    cmd = ["cutadapt"]
+    cmd = ["cutadapt", "-f",  "fastq"]
     for uprimer in utils.adna2udna(primer.upper()):
         cmd.extend(["-a", uprimer])
         # reverse complement

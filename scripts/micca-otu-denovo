@@ -102,6 +102,12 @@ Fondazione Edmund Mach, 2014.
                            type=float, default=0.8,
                            help="minimum confidence value to assign taxonomy "
                                 "to a sequence (default %(default)s)")
+    group_rdp.add_argument('--rdp-gene', metavar='GENE', choices=["16srrna",
+                           "fungallsu", "fungalits_warcup", "fungalits_unite"],
+                           default="16srrna",
+                           help="16srrna, fungallsu, fungalits_warcup (RDP "
+                                "classifier v.2.8 only), fungalits_unite (RDP "
+                                "classifier v.2.8 only) (default %(default)s)")
 
     # Taxonomy assignment with BLAST
     group_blast = parser.add_argument_group("Taxonomy assignment with BLAST")
@@ -188,7 +194,8 @@ Fondazione Edmund Mach, 2014.
         taxonomy_rdp(in_filename=rep_filename,
                      out_filename=taxonomy_filename,
                      max_memory=args.rdp_max_memory,
-                     min_confidence=args.rdp_min_confidence)
+                     min_confidence=args.rdp_min_confidence,
+                     gene=args.rdp_gene)
 
     # remove tmp files
     os.remove(merged_fasta_filename)

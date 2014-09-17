@@ -182,6 +182,9 @@ def taxonomy_rdp(in_filename, out_filename, max_memory=2000,
                  min_confidence=0.80, gene="16srrna"):
     """Assign taxonomy through RDP classifier/database. 
     Versions 2.6, 2.7 and 2.8 are supported.
+    Gene options:
+    16srrna or fungallsu for 2.6, 2.7
+    16srrna, fungallsu, fungalits_warcup, fungalits_unite for 2.8
     """
 
     def get_rdpjar():
@@ -209,8 +212,9 @@ def taxonomy_rdp(in_filename, out_filename, max_memory=2000,
     # rdp classifier
     rdp_out_filename = basepath + "_RDP_OUT_TMP.txt"
     devnull = open(os.devnull, "w")
-    cmd = ["java", "-Xmx%dm" % max_memory, "-jar", rdpjar, "-c", "0", "-f",
-           "fixrank", "-g", gene, "-o", rdp_out_filename, in_filename]
+    cmd = ["java", "-Xmx%dm" % max_memory, "-jar", rdpjar, "classify", "-c",
+           "0", "-f", "fixrank", "-g", gene, "-o", rdp_out_filename,
+           in_filename]
     logger.info(' '.join(cmd))
     proc = subprocess.Popen(cmd, stdout=devnull, stderr=subprocess.PIPE)
     _, out_stderr = proc.communicate()

@@ -19,6 +19,7 @@
 
 import sys
 import os
+import glob
 
 import argparse
 from distutils.spawn import find_executable
@@ -57,10 +58,9 @@ def find_rdp():
                          % (FAIL, ENDC))
         return
 
-    rdpjar_list = glob.glob(os.path.join(rdppath, "rdp_classifier*.jar")) + \
-                  glob.glob(os.path.join(rdppath, "dist/classifier.jar"))
+    rdpjar_list = glob.glob(os.path.join(rdppath, "dist/classifier.jar"))
     if not len(rdpjar_list):
-        sys.stdout.write("%sno rdp_classifier*.jar or dist/classifier*.jar "
+        sys.stdout.write("%sno RDP classifier >=2.6 "
                          "found in RDPPATH%s\n" % (FAIL, ENDC))
         return
 

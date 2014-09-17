@@ -54,9 +54,10 @@ Fondazione Edmund Mach, 2014.
     parser.add_argument('input', type=argutils.rfile,
                         help="input fastq file(s)")
     parser.add_argument('output', type=argutils.wfile,
-                        help="output image file (.png, .pdf, .ps, .eps, .svg). "
-                             "The image type is autodetected from the file "
-                             "extension")
+                        help="output image filename.")
+    parser.add_argument('-F', '--format', default="png",
+                        help="output image formatfile (png, pdf, ps, eps, "
+                             "svg) (default %(default)s) ")
     parser.add_argument('-f', '--primer-forward', metavar='PRIMER',
                         help="remove forward primer sequences and "
                              "discard untrimmed reads")
@@ -93,7 +94,7 @@ Fondazione Edmund Mach, 2014.
 
     # create logger
     logger = logging.getLogger('preproc')
-    logger.setLevel(logging.DEBUG)
+    logger.addHandler(logging.NullHandler())
 
     # forward primer
     if args.primer_forward:
@@ -155,6 +156,7 @@ Fondazione Edmund Mach, 2014.
     ax.grid(True)
     ax.spines['right'].set_visible(False)
     ax.spines['top'].set_visible(False)
-    fig.savefig(args.output, bbox_extra_artists=(lgd,), bbox_inches='tight')
+    fig.savefig(args.output, bbox_extra_artists=(lgd,), bbox_inches='tight',
+                format=args.format)
 
 main()
