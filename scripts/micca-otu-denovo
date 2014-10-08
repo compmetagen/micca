@@ -60,6 +60,12 @@ Fondazione Edmund Mach, 2014.
 
     parser.add_argument('input', nargs='+', type=argutils.rfile,
                         help="input fastq/a file(s)")
+    parser.add_argument('-M', '--merged', action="store_true",
+                        default=False,
+                        help="the input file is a single fasta/q file "
+                             "where samples were merged and the "
+                             "sequences ids are in the form "
+                             "'SAMPLENAME||SEQID'")
     parser.add_argument('-f', '--format', choices=["fastq", "fasta"],
                         default="fastq",
                         help="input file format (default %(default)s)")
@@ -140,6 +146,10 @@ Fondazione Edmund Mach, 2014.
             parser.error("blast requires --blast-ref --blast-ref-taxonomy "
                          "files")
 
+    if args.merged and len(args.input) > 1:
+        parser.error("--merged option requires a single input fasta/fastq "
+                     "file with sequence ids in the form 'SAMPLENAME||SEQID'")
+
     in_basenames = [os.path.splitext(os.path.basename(in_filename))[0]
                     for in_filename in args.input]
     if len(set(in_basenames)) != len(in_basenames):
@@ -156,9 +166,13 @@ Fondazione Edmund Mach, 2014.
     logger.addHandler(fh)
 
     # build a merged fasta file
-    merged_fasta_filename = os.path.join(args.output_dir, "merged_TMP.fasta")
-    merge_seqs(args.input, merged_fasta_filename, in_fmt=args.format,
-               out_fmt="fasta")
+    if args.merged:
+        merged_fasta_filename = args.input[0]
+    else:
+        merged_fasta_filename = os.path.join(args.output_dir, "merged_TMP.fasta")
+        merge_seqs(args.input, merged_fasta_filename, in_fmt=args.format,
+                   out_fmt=args.format)
+
 
     # denovo clustering
     clust_filename = os.path.join(args.output_dir, "clusters.txt")
@@ -166,7 +180,7 @@ Fondazione Edmund Mach, 2014.
     clustering_denovo(in_filename=merged_fasta_filename,
                       clust_filename=clust_filename,
                       rep_filename=rep_filename,
-                      format="fasta" ,
+                      format=args.format,
                       similarity=args.similarity,
                       minsize=args.minsize,
                       remove_chimeras=args.remove_chimeras,
@@ -198,6 +212,7 @@ Fondazione Edmund Mach, 2014.
                      gene=args.rdp_gene)
 
     # remove tmp files
-    os.remove(merged_fasta_filename)
+    if not args.merged:
+        os.remove(merged_fasta_filename)
 
 main()

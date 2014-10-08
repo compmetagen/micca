@@ -34,13 +34,20 @@ logger = logging.getLogger('otu')
 
 
 def clustering_ref(in_filename, ref_filename, clust_filename, rep_filename,
-                   similarity=0.97):
+                   format='fasta', similarity=0.97):
     """
     """
 
     logger = logging.getLogger('otu.clustering_ref')
-
     basepath = os.path.splitext(clust_filename)[0]
+
+    if format == 'fastq':
+        in_filename_fasta = basepath + "_FASTA_TMP.txt"
+        SeqIO.convert(in_filename, "fastq", in_filename_fasta, "fasta")
+    else:
+        in_filename_fasta = in_filename
+
+
     clust_tmp_filename = basepath + "_CLUST_TMP.txt"
 
     # run dnaclust
@@ -78,6 +85,8 @@ def clustering_ref(in_filename, ref_filename, clust_filename, rep_filename,
     rep_handle.close()
 
     os.remove(clust_tmp_filename)
+    if format == 'fastq':
+        os.remove(in_filename_fasta)
 
 
 def clustering_denovo(in_filename, clust_filename, rep_filename,
