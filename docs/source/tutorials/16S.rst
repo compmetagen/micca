@@ -59,7 +59,7 @@ The length threshold 200 and quality threshold 16 values (black point)
 are selected as a compromise between quality filtering and minimum
 reads length.
 
-Using the choosed parameters, run the following command on all the
+Using the chosen parameters, run the following command on all the
 samples:
 
 .. code-block:: sh
@@ -122,19 +122,19 @@ following:
 **representatives.fasta**
     a FASTA file containing the representative sequence for each OTU::
     
-        >sample1||F4HTPAO07H4B1Q
-	GTCCACGCCGTAAACGGTGGATGCTGGATGTGGGGCCCGTTCCACGGGTTCCGTGTCGGA
-	GCTAACGCGTTAAGCATCCCGCCTGGGGAGTACGGCCGCAAGGCTAAAACTCAAAGAAAT
-	TGACGGGGCCCGCACAAGCGGCGGAGCATGCGGATTAATTCGATGCAACGCGAAGAACCT
-	TACCTGGGCTTGACATGTTCCCGACGGTCGTAGAGATACGGCTTCCCTTCGGGGCGGGTT
-	CACAGGTGGTGCATGGTC
-	>sample3||F4HTPAO05FO0LC
-	GTCCACGCCGTAAACGATGAATACTAGGTGTTGGGAAGCATTGCTTCTCGGTGCCGTCGC
-	AAACGCAGTAAGTATTCCACCTGGGGAGTACGTTCGCAAGAATGAAACTCAAAGGAATTG
-	ACGGGGACCCGCACAAGCGGTGGAGCATGTGGTTTAATTCGAAGCAACGCGAAGAACCTT
-	ACCAAGTCTTGACATCCTTCTGACCGGTACTTAACCGTACCTTCTCTTCGGAGCAGGAGT
-	GACAGGTGGTGCATGGTT
-	...
+    >sample1||F4HTPAO07H4B1Q
+    GTCCACGCCGTAAACGGTGGATGCTGGATGTGGGGCCCGTTCCACGGGTTCCGTGTCGGA
+    GCTAACGCGTTAAGCATCCCGCCTGGGGAGTACGGCCGCAAGGCTAAAACTCAAAGAAAT
+    TGACGGGGCCCGCACAAGCGGCGGAGCATGCGGATTAATTCGATGCAACGCGAAGAACCT
+    TACCTGGGCTTGACATGTTCCCGACGGTCGTAGAGATACGGCTTCCCTTCGGGGCGGGTT
+    CACAGGTGGTGCATGGTC
+    >sample3||F4HTPAO05FO0LC
+    GTCCACGCCGTAAACGATGAATACTAGGTGTTGGGAAGCATTGCTTCTCGGTGCCGTCGC
+    AAACGCAGTAAGTATTCCACCTGGGGAGTACGTTCGCAAGAATGAAACTCAAAGGAATTG
+    ACGGGGACCCGCACAAGCGGTGGAGCATGTGGTTTAATTCGAAGCAACGCGAAGAACCTT
+    ACCAAGTCTTGACATCCTTCTGACCGGTACTTAACCGTACCTTCTCTTCGGAGCAGGAGT
+    GACAGGTGGTGCATGGTT
+    ...
 
 **taxonomy.txt**
     a two-columns, tab-delimited file containing the taxonomy assigned
@@ -174,7 +174,7 @@ The command will be:
 
     micca-otu-denovo preprocessed/*.fastq -c -t blast -o otu_rdp \
         --blast-ref greengenes_2013_05/rep_set/97_otus.fasta \
-	--blast-ref-taxonomy greengenes_2013_05/taxonomy/97_otu_taxonomy.txt
+	    --blast-ref-taxonomy greengenes_2013_05/taxonomy/97_otu_taxonomy.txt
 
 
 Building the phylogenetic tree
@@ -216,4 +216,4 @@ You can perform a midpoint rooting of the tree by
 
 .. [DeFilippo2010] De Filippo et al. Impact of diet in shaping gut microbiota revealed by
                    a comparative study in children from Europe and rural Africa. Proceedings of the
-		   National Academy of Sciences, 2010.
+                   National Academy of Sciences, 2010.

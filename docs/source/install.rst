@@ -98,4 +98,3 @@ Install micca
       NumPy... OK
       pandas... OK
       RDP Classifier... OK
-

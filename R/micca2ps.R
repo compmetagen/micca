@@ -2,8 +2,7 @@ library(phyloseq)
 
 import_micca = function(otufilename=NULL, taxonomyfilename=NULL,
                         samplefilename=NULL, treefilename=NULL) {
-    rank = c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus",
-        "Species")
+    rank = c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species")
     argumentlist = list()
     if (!is.null(otufilename)) {
         otu_frame = read.csv(otufilename, sep="\t", header=T, row.names=1,

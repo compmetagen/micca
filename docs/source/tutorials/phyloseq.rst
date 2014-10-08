@@ -27,4 +27,4 @@ Now, you can import ``micca`` outputs defined in :doc:`16S`:
     source("micca2ps.R")
     ps = import_micca(otufilename="otu_rdp/otu_table.txt",
                       taxonomyfilename="otu_rdp/taxonomy.txt", 
-    		      treefilename="phylo_pynast/tree_rooted.tre")
+    		          treefilename="phylo_pynast/tree_rooted.tre")
