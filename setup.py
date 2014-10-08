@@ -46,6 +46,7 @@ scripts = [
     "scripts/micca-plot-rank",
     "scripts/micca-plot-abundance",
     "scripts/micca-test",
+    "scripts/micca-merge",
     "otuclust/scripts/otuclust"
 ]
 
