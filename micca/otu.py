@@ -42,7 +42,7 @@ def clustering_ref(in_filename, ref_filename, clust_filename, rep_filename,
     basepath = os.path.splitext(clust_filename)[0]
 
     if format == 'fastq':
-        in_filename_fasta = basepath + "_FASTA_TMP.txt"
+        in_filename_fasta = basepath + "_FASTA_TMP.fasta"
         SeqIO.convert(in_filename, "fastq", in_filename_fasta, "fasta")
     else:
         in_filename_fasta = in_filename
@@ -52,7 +52,7 @@ def clustering_ref(in_filename, ref_filename, clust_filename, rep_filename,
 
     # run dnaclust
     clust_tmp_handler = open(clust_tmp_filename, 'w')
-    cmd = ["dnaclust", in_filename, "-s", str(similarity), "--recruit-only",
+    cmd = ["dnaclust", in_filename_fasta, "-s", str(similarity), "--recruit-only",
            "-l", "--predetermined-cluster-centers", ref_filename]
     logger.info(' '.join(cmd))
     proc = subprocess.Popen(cmd, stdout=clust_tmp_handler,
