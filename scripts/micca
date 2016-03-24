@@ -1,0 +1,111 @@
+#! /usr/bin/env python
+
+##    Copyright 2016 Davide Albanese <davide.albanese@gmail.com>
+##    Copyright 2016 Fondazione Edmund Mach (FEM)
+
+##    This file is part of micca.
+##
+##    micca is free software: you can redistribute it and/or modify
+##    it under the terms of the GNU General Public License as published by
+##    the Free Software Foundation, either version 3 of the License, or
+##    (at your option) any later version.
+##
+##    micca is distributed in the hope that it will be useful,
+##    but WITHOUT ANY WARRANTY; without even the implied warranty of
+##    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+##    GNU General Public License for more details.
+
+##    You should have received a copy of the GNU General Public License
+##    along with micca.  If not, see <http://www.gnu.org/licenses/>.
+
+
+import argparse
+import sys
+import importlib
+import textwrap
+
+from micca import __version__
+
+
+COMMANDS = [
+    "convert",
+    "mergepairs",
+    "merge",
+    "split",
+    "trim",
+    "stats",
+    "filterstats",
+    "filter",
+    "otu",
+    "classify",
+    "msa",
+    "tree",
+    "root",
+    "tobiom",
+    "tablestats",
+    "tablerare",
+    "tabletotax",
+    "tablebar"]
+
+
+def main():
+
+    usage = "micca [--version] [--help] <command> [<args>]"
+
+    description = textwrap.dedent('''\
+        micca v.{}
+        
+        micca (MICrobial Community Analysis) is a software pipeline for the
+        processing of amplicon sequencing data, from raw sequences to OTU
+        tables, taxonomy classification and phylogenetic tree inference.
+        
+        Commands:
+        
+        convert       Convert between sequence file formats
+        mergepairs    Merge paired-end reads
+        merge         Merge several sequence files
+        split         Demultiplex sequences and merge samples
+        trim          Trims primers
+        stats         Report sequences stats
+        filterstats   Report sequences stats relative to quality filtering
+        filter        Filter sequences according to the expected error rate %%
+        otu           Assign similar sequences to OTUs (OTUs)
+        classify      Assign taxonomy
+        msa           Multiple sequence alignment (MSA)
+        tree          Infer phylogenetic trees from alignments
+        root          Reroot phylogenetic trees
+        tobiom        Convert micca output files into the BIOM format
+        tablestats    Report OTU table summaries
+        tablerare     Rarefy OTU tables
+        tabletotax    Build tables for each taxonomic level
+        tablebar      Build abundance bar plot from tables
+        
+        Run 'micca <command> --help' for more information on a specific command.
+
+        For more information, visit <http://micca.org/>.
+    '''.format(__version__))
+    
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        usage=usage,
+        description=description,
+        version=__version__)
+
+    parser.add_argument('command', help='micca command')
+        
+    if len(sys.argv) == 1:
+        parser.print_help()
+        exit(2)
+        
+    args = parser.parse_args(sys.argv[1:2])
+
+    if args.command in COMMANDS:
+        cmdmod = importlib.import_module("micca.cmds.{}".format(args.command))
+        cmdmod.main(sys.argv[2:])
+    else:
+        parser.error("Unrecognized command {}".format(args.command))
+
+        
+if __name__ == '__main__':
+    main()
+

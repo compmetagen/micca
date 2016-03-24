@@ -1,11 +1,9 @@
-include *.txt
+global-exclude .DS_Store *.pyc
+graft thirdparty
+graft micca/thirdparty_bin
+include ez_setup.py
 include *.rst
-include *.sh
-recursive-include otuclust *.c *.h *.pyc
-recursive-include examples *
-include docs/Makefile
-include docs/make.bat
-include docs/source/*.py
-include docs/source/*.txt
-include docs/source/images/
-include R/*
+include doc/Makefile
+include doc/make.bat
+recursive-include doc/source *
+
