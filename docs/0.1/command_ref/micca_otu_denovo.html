@@ -1,0 +1,257 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>micca-otu-denovo &mdash; micca 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="micca 0.1 documentation" href="../index.html" />
+    <link rel="up" title="Command Reference" href="../command_ref.html" />
+    <link rel="next" title="micca-otu-ref" href="micca_otu_ref.html" />
+    <link rel="prev" title="micca-midpoint-root" href="micca_midpoint_root.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="micca_otu_ref.html" title="micca-otu-ref"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="micca_midpoint_root.html" title="micca-midpoint-root"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">micca 0.1 documentation</a> &raquo;</li>
+          <li><a href="../command_ref.html" accesskey="U">Command Reference</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="micca-otu-denovo">
+<h1><tt class="docutils literal"><span class="pre">micca-otu-denovo</span></tt><a class="headerlink" href="#micca-otu-denovo" title="Permalink to this headline">¶</a></h1>
+<p>Performs the OTU clustering the taxonomy assigment. Reads are
+clustered without any external reference. The output directory will contain
+the following:</p>
+<dl class="docutils">
+<dt><strong>clusters.txt</strong></dt>
+<dd><p class="first">a tab-delimited file where each row contains the sequence
+identifiers assigned to the cluster. The first id corresponds to a
+representative sequence. Sequence identifiers are coded as
+<tt class="docutils literal"><span class="pre">SAMPLE_NAME||SEQ_ID</span></tt>:</p>
+<div class="last highlight-python"><pre>sample1||F4HTPAO07H4B1Q sample1||F4HTPAO07ILHKH sample1||F4HTPAO07H8VJE  ...
+sample3||F4HTPAO05FO0LC sample2||F4HTPAO02BVI74 sample3||F4HTPAO05FQCOF ...
+...</pre>
+</div>
+</dd>
+<dt><strong>otu_table.txt</strong></dt>
+<dd><p class="first">a tab-delimited file containing the number of times an OTU is
+found in each sample. The first column contains the representative
+sequence id:</p>
+<div class="last highlight-python"><pre>OTU                     sample1 sample2 sample3
+sample1||F4HTPAO07H4B1Q 12      5       4
+sample3||F4HTPAO05FO0LC 2       6       6
+...</pre>
+</div>
+</dd>
+<dt><strong>representatives.fasta</strong></dt>
+<dd><p class="first">a FASTA file containing the representative sequence for each OTU:</p>
+<div class="last highlight-python"><pre>&gt;sample1||F4HTPAO07H4B1Q
+GTCCACGCCGTAAACGGTGGATGCTGGATGTGGGGCCCGTTCCACGGGTTCCGTGTCGGA
+GCTAACGCGTTAAGCATCCCGCCTGGGGAGTACGGCCGCAAGGCTAAAACTCAAAGAAAT
+TGACGGGGCCCGCACAAGCGGCGGAGCATGCGGATTAATTCGATGCAACGCGAAGAACCT
+TACCTGGGCTTGACATGTTCCCGACGGTCGTAGAGATACGGCTTCCCTTCGGGGCGGGTT
+CACAGGTGGTGCATGGTC
+&gt;sample3||F4HTPAO05FO0LC
+GTCCACGCCGTAAACGATGAATACTAGGTGTTGGGAAGCATTGCTTCTCGGTGCCGTCGC
+AAACGCAGTAAGTATTCCACCTGGGGAGTACGTTCGCAAGAATGAAACTCAAAGGAATTG
+ACGGGGACCCGCACAAGCGGTGGAGCATGTGGTTTAATTCGAAGCAACGCGAAGAACCTT
+ACCAAGTCTTGACATCCTTCTGACCGGTACTTAACCGTACCTTCTCTTCGGAGCAGGAGT
+GACAGGTGGTGCATGGTT
+...</pre>
+</div>
+</dd>
+<dt><strong>taxonomy.txt</strong></dt>
+<dd><p class="first">a two-columns, tab-delimited file containing the taxonomy assigned
+to each OTU:</p>
+<div class="last highlight-python"><pre>sample1||F4HTPAO07H4B1Q Bacteria;Actinobacteria;Actinobact...
+sample3||F4HTPAO05FO0LC Bacteria;Firmicutes;Clostridia;Clost...
+...</pre>
+</div>
+</dd>
+<dt><strong>otu.log</strong></dt>
+<dd>the log file.</dd>
+</dl>
+<div class="highlight-text"><div class="highlight"><pre>$ micca-otu-denovo --help
+usage: micca-otu-denovo [-h] [-v] [-M] [-f {fastq,fasta}] [-s SIMILARITY]
+                        [-m SIZE] [-c] [-d] [-l DEREP_FAST_LEN]
+                        [-t {rdp,blast}] [-o DIR] [--rdp-max-memory MB]
+                        [--rdp-min-confidence CONFIDENCE] [--rdp-gene GENE]
+                        [--blast-ref FILE] [--blast-ref-taxonomy FILE]
+                        [--blast-num-threads NUM] [--blast-e-value VALUE]
+                        [--blast-perc-identity PERC]
+                        input [input ...]
+
+micca-otu-denovo performs the OTU clustering the taxonomy assigment. Reads are
+clustered without any external reference. The output directory will contain
+the following:
+ 
+clusters.txt - a tab-delimited file where each row contains the sequence 
+               identifiers assigned to the cluster
+otu_table.txt - a tab-delimited file containing the number of times an OTU 
+                is found in each sample
+representatives.fasta - a FASTA file containing the representative sequence
+                        for each OTU
+taxonomy.txt - a two-columns, tab-delimited file containing the taxonomy
+               assigned to each OTU
+otu.log - the log file
+
+positional arguments:
+  input                 input fastq/a file(s)
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -v, --version         show program&#39;s version number and exit
+  -M, --merged          the input file is a single fasta/q file where samples
+                        were merged and the sequences ids are in the form
+                        &#39;SAMPLENAME||SEQID&#39;
+  -f {fastq,fasta}, --format {fastq,fasta}
+                        input file format (default fastq)
+  -s SIMILARITY, --similarity SIMILARITY
+                        similarity between cluster center and cluster
+                        sequences (default 0.97)
+  -m SIZE, --minsize SIZE
+                        minimum size for a cluster (e.g. 2 removes singletons)
+                        (default 2)
+  -c, --remove-chimeras
+                        remove chimeric sequences (recommended)
+  -d, --derep-fast      fastest (prefix based) but less accurate dereplication
+                        (recommended for dataset with 200000+ seqs)
+  -l DEREP_FAST_LEN, --derep-fast-len DEREP_FAST_LEN
+                        prefix length used in fast dereplication (default 200)
+  -t {rdp,blast}, --taxonomy {rdp,blast}
+                        protocol for taxonomy assignment(default rdp)
+  -o DIR, --output-dir DIR
+                        output directory (default .)
+
+Taxonomy assignment with RDP Classifier/Database:
+  --rdp-max-memory MB   maximum memory size for the java virtual machine in MB
+                        (default 1000)
+  --rdp-min-confidence CONFIDENCE
+                        minimum confidence value to assign taxonomy to a
+                        sequence (default 0.8)
+  --rdp-gene GENE       16srrna, fungallsu, fungalits_warcup (RDP classifier
+                        v.2.8 only), fungalits_unite (RDP classifier v.2.8
+                        only) (default 16srrna)
+
+Taxonomy assignment with BLAST:
+  --blast-ref FILE      reference sequences in fasta format
+  --blast-ref-taxonomy FILE
+                        tab-separated id-to-taxonomy file. First column
+                        contains the sequence identifiers, and the second
+                        column contains the taxonomy separated by semi-colons
+                        (e.g., Bacteria;Firmicutes;Clostridia)
+  --blast-num-threads NUM
+                        number of threads to use in blast search (default 1)
+  --blast-e-value VALUE
+                        maximum e-value to record an assignment (default
+                        1e-29)
+  --blast-perc-identity PERC
+                        percent identity cutoff (default 90)
+
+Example:
+
+ $ micca-otu-denovo sample1.fastq sample2.fastq sample3.fastq -s 0.95 \
+   --rdp-max-memory=2000
+
+micca v. 0.1.
+Author: Davide Albanese &lt;davide.albanese@fmach.it&gt;
+Fondazione Edmund Mach, 2014.
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/micca_logo.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="micca_midpoint_root.html"
+                        title="previous chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">micca-midpoint-root</span></tt></a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="micca_otu_ref.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">micca-otu-ref</span></tt></a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/command_ref/micca_otu_denovo.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="micca_otu_ref.html" title="micca-otu-ref"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="micca_midpoint_root.html" title="micca-midpoint-root"
+             >previous</a> |</li>
+        <li><a href="../index.html">micca 0.1 documentation</a> &raquo;</li>
+          <li><a href="../command_ref.html" >Command Reference</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Davide Albanese, Paolo Fontana, Claudio Donati.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

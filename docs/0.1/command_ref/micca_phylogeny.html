@@ -1,0 +1,175 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>micca-phylogeny &mdash; micca 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="micca 0.1 documentation" href="../index.html" />
+    <link rel="up" title="Command Reference" href="../command_ref.html" />
+    <link rel="next" title="micca-plot-abundance" href="micca_plot_abundance.html" />
+    <link rel="prev" title="micca-otu-ref" href="micca_otu_ref.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="micca_plot_abundance.html" title="micca-plot-abundance"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="micca_otu_ref.html" title="micca-otu-ref"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">micca 0.1 documentation</a> &raquo;</li>
+          <li><a href="../command_ref.html" accesskey="U">Command Reference</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="micca-phylogeny">
+<h1><tt class="docutils literal"><span class="pre">micca-phylogeny</span></tt><a class="headerlink" href="#micca-phylogeny" title="Permalink to this headline">¶</a></h1>
+<p>performs a multiple (denovo o template) alignment and builds the
+phylogenetic tree.</p>
+<div class="highlight-text"><div class="highlight"><pre>$ micca-phylogeny --help
+usage: micca-phylogeny [-h] [-v] [-a {denovo_muscle,denovo_tcoffe,template}]
+                       [-f] [-m {jc,gtr}] [-t {newick,phyloxml,nexus}]
+                       [-o DIR] [--muscle-fast] [--tcoffe-num-threads NUM]
+                       [--template-file FILE] [--template-min-perc PERC]
+                       [--template-min-len LEN]
+                       input
+
+micca-phylogeny performs a multiple (denovo o template) alignment and builds the
+phylogenetic tree.
+
+positional arguments:
+  input                 input fasta file
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -v, --version         show program&#39;s version number and exit
+  -a {denovo_muscle,denovo_tcoffe,template}, --alignment {denovo_muscle,denovo_tcoffe,template}
+                        multiple alignment method (default denovo_muscle)
+  -f, --tree-fast       speed up the neighbor joining phase and reduce memory
+                        usage (recommended for &gt;50,000 sequences)
+  -m {jc,gtr}, --tree-model {jc,gtr}
+                        tree model: Jukes-Cantor (&#39;jc&#39;) or generalized time-
+                        reversible (&#39;gtr&#39;) (default jc)
+  -t {newick,phyloxml,nexus}, --tree-format {newick,phyloxml,nexus}
+                        tree format (default newick)
+  -o DIR, --output-dir DIR
+                        output directory (default .)
+
+Muscle alignment:
+  --muscle-fast         a good compromise between speed and accuracy
+
+T-Coffe alignment:
+  --tcoffe-num-threads NUM
+                        number of threads to use in T-Coffe (default 1)
+
+Template alignment:
+  --template-file FILE  template fasta file
+  --template-min-perc PERC
+                        minimum percent sequence identity to consider a
+                        sequence a match (default 75)
+  --template-min-len LEN
+                        minimum sequence length to include in alignment
+                        (default 100)
+
+Example:
+
+ $ micca-phylogeny input.fasta -a template --template-file template.fasta \
+   -o phylo
+
+micca v. 0.1.
+Author: Davide Albanese &lt;davide.albanese@fmach.it&gt;
+Fondazione Edmund Mach, 2014.
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/micca_logo.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="micca_otu_ref.html"
+                        title="previous chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">micca-otu-ref</span></tt></a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="micca_plot_abundance.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">micca-plot-abundance</span></tt></a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/command_ref/micca_phylogeny.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="micca_plot_abundance.html" title="micca-plot-abundance"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="micca_otu_ref.html" title="micca-otu-ref"
+             >previous</a> |</li>
+        <li><a href="../index.html">micca 0.1 documentation</a> &raquo;</li>
+          <li><a href="../command_ref.html" >Command Reference</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Davide Albanese, Paolo Fontana, Claudio Donati.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
