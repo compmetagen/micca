@@ -54,13 +54,13 @@ def main():
 
     description = textwrap.dedent('''\
         micca v.{}
-        
+
         micca (MICrobial Community Analysis) is a software pipeline for the
         processing of amplicon sequencing data, from raw sequences to OTU
         tables, taxonomy classification and phylogenetic tree inference.
-        
+
         Commands:
-        
+
         convert       Convert between sequence file formats
         mergepairs    Merge paired-end reads
         merge         Merge several sequence files
@@ -79,12 +79,12 @@ def main():
         tablerare     Rarefy OTU tables
         tabletotax    Build tables for each taxonomic level
         tablebar      Build abundance bar plot from tables
-        
+
         Run 'micca <command> --help' for more information on a specific command.
 
         For more information, visit <http://micca.org/>.
     '''.format(__version__))
-    
+
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawDescriptionHelpFormatter,
         usage=usage,
@@ -92,11 +92,11 @@ def main():
 
     parser.add_argument('--version', action='version', version=__version__)
     parser.add_argument('command', help='micca command')
-        
+
     if len(sys.argv) == 1:
         parser.print_help()
         exit(2)
-        
+
     args = parser.parse_args(sys.argv[1:2])
 
     if args.command in COMMANDS:
@@ -105,7 +105,6 @@ def main():
     else:
         parser.error("Unrecognized command {}".format(args.command))
 
-        
+
 if __name__ == '__main__':
     main()
-
