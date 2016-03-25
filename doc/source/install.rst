@@ -4,59 +4,56 @@ Download and install
 Prerequisites
 -------------
 
-micca requires `Python <https://www.python.org/>`_ >=2.7, <3.0, `NumPy
-<http://scipy.org/>`_ and the `SciPy <http://scipy.org/>`_ modules to
-be installed in your system.
+micca requires `Python <https://www.python.org/>`_ >=2.7, `NumPy
+<http://scipy.org/>`_ (>= 1.8.0) and the software required in order to
+install `SciPy <http://scipy.org/>`_ (>= 0.13.0) through pip.
 
+On Ubuntu Linux >=12.04
+^^^^^^^^^^^^^^^^^^^^^^^
 
-On Linux
-^^^^^^^^
-
-In Linux, we suggest install Python, NumPy and SciPy through the
-package manager. In Ubuntu Linux you can use `apt-get install`:
+In Linux, we suggest install NumPy and requirements for SciPy through
+the package manager. In Ubuntu Linux you can use `apt-get install`:
 
 .. code-block:: sh
 
-   apt-get install build-essential python-dev python-pip python-numpy python-scipy
-
+   sudo apt-get install python-numpy
+   sudo apt-get install gcc gfortran python-dev libblas-dev liblapack-dev cython 
 
 On OS X
 ^^^^^^^
 
 In OS X, we recommend to install Python from `Homebrew <http://brew.sh/>`_:
 
-   #. Install `Xcode <https://developer.apple.com/xcode/>`_
-   #. Install `Homebrew <http://brew.sh/>`_
-   #. Install Python >=2.7, <3.0 and gfortran
+   #. Install `Xcode <https://developer.apple.com/xcode/>`_;
+   #. Install `Homebrew <http://brew.sh/>`_;
+   #. Install Python and gfortran:
       
       .. code-block:: sh
       
-         brew install python
-         brew install gfortran
+         sudo brew install python
+         sudo brew install gfortran
 
-Install NumPy and SciPy:
+Install NumPy:
    
       .. code-block:: sh
          
-	 pip install numpy
-   	 pip install scipy
+	 sudo pip install numpy
 
 
 Install micca using pip
 -----------------------
 
-The easiest way to install micca is to using pip, from the tarball
-(https://github.com/compmetagen/micca/releases):
+The easiest way to install micca is to using pip, from PYPI:
 
 .. code-block:: sh
 
-   pip install micca-X.Y.Z.tar.gz
+   sudo pip install micca
    
-or from PYPI:
+or from the tarball (https://github.com/compmetagen/micca/releases):
 
 .. code-block:: sh
 
-   pip install micca
+   sudo pip install micca-X.Y.Z.tar.gz
 
 
 Install micca from source
@@ -77,7 +74,7 @@ The easiest way to install these packages is to  is using pip:
 
 .. code-block:: sh
  
-   pip install 'pandas >=0.17.0, <0.18.0' 'matplotlib >=1.3.0' 'biopython >= 1.50' 'cutadapt >=1.9' 'biom-format >=1.3.1'
+   sudo pip install 'pandas >=0.17.0, <0.18.0' 'matplotlib >=1.3.0' 'biopython >= 1.50' 'cutadapt >=1.9' 'biom-format >=1.3.1'
 
 Download the latest version from
 https://github.com/compmetagen/micca/releases and complete the
@@ -86,7 +83,8 @@ installation:
 .. code-block:: sh
     
    tar -zxvf micca-X.Y.Z.tar.gz
-   python setup.py install
+   python setup.py build
+   sudo python setup.py install
 
 If you don’t have root access, install micca in a local directory by
 specifying the ``--prefix`` argument. Then you need to set

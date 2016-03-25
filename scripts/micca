@@ -88,9 +88,9 @@ def main():
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawDescriptionHelpFormatter,
         usage=usage,
-        description=description,
-        version=__version__)
+        description=description)
 
+    parser.add_argument('--version', action='version', version=__version__)
     parser.add_argument('command', help='micca command')
         
     if len(sys.argv) == 1:
