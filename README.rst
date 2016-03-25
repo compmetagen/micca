@@ -30,7 +30,7 @@ Key features
 * fast (multithread) and and memory efficient implementation of the
   **NAST** multiple sequence alignment (MSA);
 * filter low quality  sequences according to the maximum allowed
-  **expected error (EE) rate** %%;
+  **expected error (EE) rate** %;
 * **simple, easy to use**.
 
 
