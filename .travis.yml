@@ -1,12 +1,16 @@
 language: python
+
 python:
 - '2.7'
 - '3.3'
+
 before_install:
 - sudo apt-get -qq update
 - sudo apt-get install python-numpy
-- sudo apt-get install python-scipy
+# required for SciPy through pip
+- sudo apt-get install gcc gfortran python-dev libblas-dev liblapack-dev cython
 - pip install 'setuptools >=14.0'
+
 install:
 - pip install .
 script: micca -h
