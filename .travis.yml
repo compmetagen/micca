@@ -1,0 +1,17 @@
+language: python
+python:
+- '2.7'
+before_install:
+- sudo apt-get -qq update
+- sudo apt-get install python-numpy
+- sudo apt-get install python-scipy
+install:
+- pip install .
+script: micca -h
+deploy:
+  provider: pypi
+  user: davidealbanese
+  password:
+    secure: em37Owz1AJdQLKX4haxhQlwAHUI37ZHkZSXjgdtJo9WlBF7KwEXXwFhU2TolYH7JOTj2aau1WHavzORa5FNU9TbpP72BVYKlf46ilFWmbKywmLaSC0U37aR4aCmTPtAipy8QWIEFsldAFzqS0t7uqJGjhMeZqd+rCHgD0afxAHk2TAut7qt4Cc1kL1dThIS1jporTG8kUnEEnhbG6HQLlZ1ND1AW/OAlSt7UAU3LSpWNyG1b0NjJ3Ja8SQQtRe4cb9XAZVHuGJU/MpkQwQF5Y9ggbW4v43WpIQEKym8M02nAxNKIWgqVNjjYAol3uNdhij1EkKwQgd8/p7U9BXx+SCIdilEFh5U7m7nT54xIgDA1w9zfHqzEhs3oMV6dR5BdLV2cHfvo9EHd1qVFeb+Z3jZPP49DQOEOPYPYWtBIjUVMo7/hkSW/raMPuW4syQ8TkOqFHxa5i+bhLjCZoPLn52yW1heZNCGEmW7NZpu9wQLv+67l0/HpngUcG9AJ9yCLaW9KNNTJcBUk+sUYm5x9a5rszDo4CDOlL5jAv1dsYi52vagKx0aqYw0meeWXJBJQJmjZlfHZNbhLVoXImD9SWpqM1fOxM3ikt+fPlwJuhz/by6aCzlYTYxmNxkl9nE6EZd5mgyRVFgSO7VVAcje0KukNshU3+hehF+YQJhjsudI=
+  on:
+    tags: true
