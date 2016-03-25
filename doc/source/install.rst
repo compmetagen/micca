@@ -30,14 +30,15 @@ In OS X, we recommend to install Python from `Homebrew <http://brew.sh/>`_:
       
       .. code-block:: sh
       
-         sudo brew install python
-         sudo brew install gfortran
+         brew update
+         brew install python
+         brew install gfortran
 
 Install NumPy:
    
       .. code-block:: sh
          
-	 sudo pip install numpy
+	 pip install numpy
 
 
 Install micca using pip
@@ -100,7 +101,9 @@ specifying the ``--prefix`` argument. Then you need to set
    In order to export the variable permanently add the command
    at the bottom of your ``.bashrc`` file.
 
-Now you can test the installation:
+
+Testing the installation
+------------------------
 
 .. code-block:: sh
 
