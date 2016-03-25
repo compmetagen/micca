@@ -1,6 +1,9 @@
 micca - MICrobial Community Analysis
 ====================================
 
+.. image:: https://travis-ci.org/compmetagen/micca.svg?branch=master
+    :target: https://travis-ci.org/compmetagen/micca
+
 micca (MICrobial Community Analysis) is a software pipeline for the
 processing of amplicon sequencing data, **from raw sequences** to
 **OTU tables**, **taxonomy classification** and **phylogenetic tree**
