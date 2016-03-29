@@ -42,12 +42,12 @@ _OTUSCHIM_FN = "otuschim.fasta"
 
 def _rename_seqids(input_fn, otuids_fn, prefix=""):
     output_dir = os.path.dirname(input_fn)
-    
+
     tmp_fn = micca.ioutils.make_tempfile(output_dir)
     input_handle = open(input_fn, "rb")
     otuids_handle = open(otuids_fn, "wb")
     tmp_handle = open(tmp_fn, "wb")
-    
+
     for i, (title, seq) in enumerate(SimpleFastaParser(input_handle)):
         origid = title.split()[0]
         newid = "{}{:d}".format(prefix, i+1)
@@ -57,7 +57,7 @@ def _rename_seqids(input_fn, otuids_fn, prefix=""):
     tmp_handle.close()
     input_handle.close()
     otuids_handle.close()
-    
+
     os.rename(tmp_fn, input_fn)
 
 
@@ -68,7 +68,7 @@ def _hits_to_otutable(hits_fn, otuids_fn, otutable_fn):
         otuids = [(row[1], row[0]) for row in otuids_reader]
     ordered_otuids = [otuid[1] for otuid in otuids]
     otuids_dict = dict(otuids)
-    
+
     otutable_dict = {}
     with open(hits_fn, 'rb') as hits_handle:
         hits_reader = csv.reader(hits_handle, delimiter='\t')
@@ -82,7 +82,7 @@ def _hits_to_otutable(hits_fn, otuids_fn, otutable_fn):
             otuid = otuids_dict[row[1]]
             sample.setdefault(otuid, 0)
             sample[otuid] += 1
-            
+
     otutable = pd.DataFrame.from_dict(otutable_dict)
     otutable.fillna(0, inplace=True)
     otutable = otutable.astype(int)
@@ -93,7 +93,7 @@ def _hits_to_otutable(hits_fn, otuids_fn, otutable_fn):
 def _denovo_greedy(input_fn, otus_fn, otuids_fn, hits_fn, otuschim_fn,
                    otutable_fn=None, ident=0.97, threads=1, rmchim=False,
                    greedy="dgc", minsize=1):
-    
+
     if greedy == "dgc":
         maxaccepts = 1
         sizeorder=False
@@ -104,7 +104,7 @@ def _denovo_greedy(input_fn, otus_fn, otuids_fn, hits_fn, otuschim_fn,
         raise ValueError("greedy parameter must be 'dgc' or 'agc'")
 
     output_dir = os.path.dirname(otus_fn)
-    
+
     # dereplication
     derep_fn = micca.ioutils.make_tempfile(output_dir)
     try:
@@ -116,7 +116,7 @@ def _denovo_greedy(input_fn, otus_fn, otuids_fn, hits_fn, otuschim_fn,
     if os.stat(derep_fn).st_size == 0:
         os.remove(derep_fn)
         return
-    
+
     # sort by size and filter by minimum size
     derep_sort_fn = micca.ioutils.make_tempfile(output_dir)
     try:
@@ -130,7 +130,7 @@ def _denovo_greedy(input_fn, otus_fn, otuids_fn, hits_fn, otuschim_fn,
     if os.stat(derep_sort_fn).st_size == 0:
         os.remove(derep_sort_fn)
         return
-        
+
     # greedy clustering
     otus_temp_fn = micca.ioutils.make_tempfile(output_dir)
     try:
@@ -185,17 +185,17 @@ def _denovo_greedy(input_fn, otus_fn, otuids_fn, hits_fn, otuschim_fn,
             dbmatched_fn=otus_fn)
     finally:
         os.remove(otus_nochim_fn)
-    
+
     _rename_seqids(otus_fn, otuids_fn, prefix="DENOVO")
-    
+
     if otutable_fn is not None:
         _hits_to_otutable(hits_fn, otuids_fn, otutable_fn)
-    
-    
+
+
 def _closed_ref(input_fn, ref_fn, otus_fn, otuids_fn, hits_fn,
                 notmatched_fn=None, otutable_fn=None, ident=0.97, threads=1,
-                mincov=0.75):
-    
+                mincov=0.75, strand="both"):
+
     micca.tp.vsearch.usearch_global(
         input_fn=input_fn,
         db_fn=ref_fn,
@@ -205,16 +205,17 @@ def _closed_ref(input_fn, ref_fn, otus_fn, otuids_fn, hits_fn,
         userfields="query+target+id",
         query_cov=mincov,
         dbmatched_fn=otus_fn,
-        notmatched_fn=notmatched_fn)
+        notmatched_fn=notmatched_fn,
+        strand=strand)
 
     _rename_seqids(otus_fn, otuids_fn, prefix="REF")
     if otutable_fn is not None:
         _hits_to_otutable(hits_fn, otuids_fn, otutable_fn)
 
-        
+
 def denovo_greedy(input_fn, output_dir, ident=0.97, threads=1, rmchim=False,
                   greedy="dgc", minsize=2):
-    
+
     if not os.path.isdir(output_dir):
         raise ValueError("directory {} does not exist".format(output_dir))
 
@@ -223,7 +224,7 @@ def denovo_greedy(input_fn, output_dir, ident=0.97, threads=1, rmchim=False,
     hits_fn = os.path.join(output_dir, _HITS_FN)
     otuschim_fn = os.path.join(output_dir, _OTUSCHIM_FN)
     otutable_fn = os.path.join(output_dir, _OTUTABLE_FN)
-    
+
     _denovo_greedy(
         input_fn=input_fn,
         otus_fn=otus_fn,
@@ -231,15 +232,15 @@ def denovo_greedy(input_fn, output_dir, ident=0.97, threads=1, rmchim=False,
         hits_fn=hits_fn,
         otuschim_fn=otuschim_fn,
         otutable_fn=otutable_fn,
-        ident=ident, 
-        threads=threads, 
+        ident=ident,
+        threads=threads,
         rmchim=rmchim,
         greedy=greedy,
         minsize=minsize)
 
-    
+
 def closed_ref(input_fn, ref_fn, output_dir, ident=0.97, threads=1,
-               mincov=0.75):
+               mincov=0.75, strand="both"):
 
     if not os.path.isdir(output_dir):
         raise ValueError("directory {} does not exist".format(output_dir))
@@ -258,15 +259,16 @@ def closed_ref(input_fn, ref_fn, output_dir, ident=0.97, threads=1,
         otutable_fn=otutable_fn,
         ident=ident,
         threads=threads,
-        mincov=mincov)
-    
-    
+        mincov=mincov,
+        strand=strand)
+
+
 def open_ref(input_fn, ref_fn, output_dir, ident=0.97, threads=1, mincov=0.75,
-             rmchim=False, greedy="dgc", minsize=1):
-    
+             rmchim=False, greedy="dgc", minsize=1, strand="both"):
+
     if not os.path.isdir(output_dir):
         raise ValueError("directory {} does not exist".format(output_dir))
-    
+
     otus_fn = os.path.join(output_dir, _OTUS_FN)
     otuids_fn = os.path.join(output_dir, _OTUIDS_FN)
     hits_fn = os.path.join(output_dir, _HITS_FN)
@@ -285,7 +287,8 @@ def open_ref(input_fn, ref_fn, output_dir, ident=0.97, threads=1, mincov=0.75,
             otutable_fn=None,
             ident=ident,
             threads=threads,
-            mincov=mincov)
+            mincov=mincov,
+            strand=strand)
     except:
         os.remove(notmatched_fn)
         raise
@@ -303,8 +306,8 @@ def open_ref(input_fn, ref_fn, output_dir, ident=0.97, threads=1, mincov=0.75,
                 hits_fn=denovo_hits_fn,
                 otuschim_fn=otuschim_fn,
                 otutable_fn=None,
-                ident=ident, 
-                threads=threads, 
+                ident=ident,
+                threads=threads,
                 rmchim=rmchim,
                 greedy=greedy,
                 minsize=minsize)
@@ -313,11 +316,11 @@ def open_ref(input_fn, ref_fn, output_dir, ident=0.97, threads=1, mincov=0.75,
             os.remove(denovo_otuids_fn)
             os.remove(denovo_hits_fn)
             raise
-        
+
         with open(otus_fn,'a') as otus_handle:
             with open(denovo_otus_fn,'r') as denovo_otus_handle:
                 otus_handle.write(denovo_otus_handle.read())
-            
+
         with open(otuids_fn,'a') as otuids_handle:
             with open(denovo_otuids_fn,'r') as denovo_otuids_handle:
                 otuids_handle.write(denovo_otuids_handle.read())
@@ -329,7 +332,7 @@ def open_ref(input_fn, ref_fn, output_dir, ident=0.97, threads=1, mincov=0.75,
         os.remove(denovo_otus_fn)
         os.remove(denovo_otuids_fn)
         os.remove(denovo_hits_fn)
-        
+
     # END if os.stat(notmatched_fn).st_size != 0:
 
     os.remove(notmatched_fn)

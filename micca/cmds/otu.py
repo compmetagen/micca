@@ -27,10 +27,10 @@ import textwrap
 from micca import argutils
 import micca.api
 
-   
+
 def main(argv):
     prog = "micca otu"
-    
+
     description = textwrap.dedent('''\
         micca otu assigns similar sequences (marker genes such as 16S rRNA and
         the fungal ITS region) to operational taxonomic units (OTUs).
@@ -48,7 +48,7 @@ def main(argv):
           1. predict sequence abundances of each sequence by dereplication,
              order by abundance and discard sequences with abundance value
              smaller than --minsize parameter;
-       
+
           2. greedy clustering. Sequences are considered in order of
              decreasing abundance. Distance (DGC) and abundance-based (AGC)
              strategies are supported, see doi: 10.1186/s40168-015-0081-x
@@ -59,7 +59,7 @@ def main(argv):
              (parameter '--rmchim') performing a de novo chimera detection;
 
           4. map sequences to the representatives.
-   
+
         * closed-reference clustering (closed_ref): sequences are clustered
           against an external reference database and reads that could not be
           matched are discarded.
@@ -72,11 +72,11 @@ def main(argv):
 
         * otutable.txt: OTU x sample, TAB-separated OTU table file,
           containing the number of times an OTU is found in each sample.
-          
+
         * otus.fasta: FASTA file containing the representative sequences (OTUs);
 
         * otuids.txt: OTU ids to original sequence ids (tab-delimited text file)
-  
+
         * hits.txt: three-columns, TAB-separated file:
 
           1. matching sequence
@@ -116,25 +116,25 @@ def main(argv):
     group = parser.add_argument_group("arguments")
 
     group.add_argument('-i', '--input', metavar="FILE", required=True,
-                        help="input fasta file (required).")
+                       help="input fasta file (required).")
     group.add_argument('-o', '--output', metavar='DIR', default=".",
-                        help="output directory (default %(default)s).",
-                        type=argutils.outputdir)
+                       help="output directory (default %(default)s).",
+                       type=argutils.outputdir)
     group.add_argument('-r', '--ref', metavar="FILE",
-                        help="reference sequences in fasta format, required "
-                        "for 'closed_ref' and 'open_ref' clustering methods.")
+                       help="reference sequences in fasta format, required "
+                       "for 'closed_ref' and 'open_ref' clustering methods.")
     group.add_argument('-m', '--method', default="denovo_greedy",
-                        choices=["denovo_greedy", "closed_ref", "open_ref"],
-                        help="clustering method (default %(default)s)")
+                       choices=["denovo_greedy", "closed_ref", "open_ref"],
+                       help="clustering method (default %(default)s)")
     group.add_argument('-d', '--id', default=0.97, type=float,
-                        help="sequence identity threshold (0.0 to 1.0, "
-                        "default %(default)s).")
+                       help="sequence identity threshold (0.0 to 1.0, "
+                       "default %(default)s).")
     group.add_argument('-n', '--mincov', default=0.75, type=float,
-                        help="reject sequence if the fraction of alignment "
-                        "to the reference sequence is lower than MINCOV. "
-                        "This parameter prevents low-coverage alignments at "
-                        "the end of the sequences (for 'closed_ref' and "
-                        "'open_ref' clustering methods, default %(default)s).")
+                       help="reject sequence if the fraction of alignment "
+                       "to the reference sequence is lower than MINCOV. "
+                       "This parameter prevents low-coverage alignments at "
+                       "the end of the sequences (for 'closed_ref' and "
+                       "'open_ref' clustering methods, default %(default)s).")
     group.add_argument('-t', '--threads', default=1, type=int,
                         help="number of threads to use (1 to 256, default "
                         "%(default)s).")
@@ -146,14 +146,19 @@ def main(argv):
                         "abundance-based (AGC) (for 'denovo_greedy' and "
                         "'open_ref' clustering methods) (default %(default)s).")
     group.add_argument('-s', '--minsize', default=2, type=int,
-                       help="discard sequences with an abundance value "
-                       "smaller than MINSIZE after dereplication (>=1, "
-                       "default %(default)s). Recommended value is 2, i.e. "
-                       "discard singletons (for 'denovo_greedy' and "
-                       "'open_ref' clustering methods).")
+                        help="discard sequences with an abundance value "
+                        "smaller than MINSIZE after dereplication (>=1, "
+                        "default %(default)s). Recommended value is 2, i.e. "
+                        "discard singletons (for 'denovo_greedy' and "
+                        "'open_ref' clustering methods).")
+    group.add_argument('-a', '--strand', default="both",
+                        choices=["both", "plus"],
+                        help="search both strands or the plus strand only "
+                        "(for 'closed_ref' and 'open_ref' clustering methods, "
+                        "default %(default)s).")
     args = parser.parse_args(argv)
 
-    
+
     if (args.method in ['closed_ref', 'open_ref']) and (args.ref is None):
         parser.error("%s OTU picking method requires reference sequences "
                      "(--ref)" % args.method)
@@ -162,13 +167,13 @@ def main(argv):
         if args.method == "denovo_greedy":
             micca.api.otu.denovo_greedy(
                 input_fn=args.input,
-                output_dir=args.output, 
+                output_dir=args.output,
                 ident=args.id,
                 threads=args.threads,
                 rmchim=args.rmchim,
                 greedy=args.greedy,
                 minsize=args.minsize)
-            
+
         elif args.method == "closed_ref":
             micca.api.otu.closed_ref(
                 input_fn=args.input,
@@ -176,8 +181,9 @@ def main(argv):
                 output_dir=args.output,
                 ident=args.id,
                 threads=args.threads,
-                mincov=args.mincov)
-            
+                mincov=args.mincov,
+                strand=args.strand)
+
         else:
             micca.api.otu.open_ref(
                 input_fn=args.input,
@@ -188,7 +194,8 @@ def main(argv):
                 mincov=args.mincov,
                 rmchim=args.rmchim,
                 greedy=args.greedy,
-                minsize=args.minsize)
+                minsize=args.minsize,
+                strand=args.strand)
     except Exception as err:
         sys.stderr.write("Error: {}\n".format(err))
         sys.exit(1)
