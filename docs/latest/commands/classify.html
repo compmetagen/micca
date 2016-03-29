@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>classify &mdash; micca 1.0.0 documentation</title>
+  <title>classify &mdash; micca 1.1.0 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="micca 1.0.0 documentation" href="../index.html"/>
+    <link rel="top" title="micca 1.1.0 documentation" href="../index.html"/>
         <link rel="next" title="convert" href="convert.html"/>
         <link rel="prev" title="CHANGES" href="../changes.html"/> 
 
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                1.0.0
+                1.1.0
               </div>
             
           
@@ -173,7 +173,8 @@ usage: micca classify [-h] -i FILE -o FILE [-m {cons,rdp,otuid}] [-r FILE]
                       [-x FILE] [--cons-id CONS_ID]
                       [--cons-maxhits CONS_MAXHITS]
                       [--cons-minfrac CONS_MINFRAC]
-                      [--cons-mincov CONS_MINCOV] [--cons-threads THREADS]
+                      [--cons-mincov CONS_MINCOV] [--cons-strand {both,plus}]
+                      [--cons-threads THREADS]
                       [--rdp-gene {16srrna,fungallsu,fungalits_warcup,fungalits_unite}]
                       [--rdp-maxmem GB] [--rdp-minconf RDP_MINCONF]
 
@@ -215,12 +216,12 @@ and provides three methods for classification:
   REF1[TAB]1110191
   REF2[TAB]1104777
   REF3[TAB]1078527
-  ...   
+  ...
 
 The input reference taxonomy file (--ref-tax) should be a
-tab-delimited file where rows are either in the form: 
+tab-delimited file where rows are either in the form:
 
-1. SEQID[TAB]k__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__;g__; 
+1. SEQID[TAB]k__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__;g__;
 2. SEQID[TAB]Bacteria;Firmicutes;Clostridia;Clostridiales;;;
 3. SEQID[TAB]Bacteria;Firmicutes;Clostridia;Clostridiales
 
@@ -264,6 +265,9 @@ VSEARCH-based consensus classifierspecific options:
                         reference sequence is lower than MINCOV. This
                         parameter prevents low-coverage alignments at the end
                         of the sequences (default 0.75).
+  --cons-strand {both,plus}
+                        search both strands or the plus strand only (default
+                        both).
   --cons-threads THREADS
                         number of threads to use (1 to 256, default 1).
 
@@ -340,7 +344,7 @@ OTU ID matching after the closed reference OTU picking protocol:
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.0.0',
+            VERSION:'1.1.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

@@ -8,7 +8,7 @@
 body {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 100%;
-    color: #000000;
+    color: #2e3436;
     margin: 0;
     padding: 0;
     line-height: 135%;
@@ -29,7 +29,7 @@ a:hover {
 }
 
 a.toc-backref {
-    color: #000000;
+    color: #2e3436;
 }
 
 p {
@@ -39,7 +39,7 @@ p {
 h1, h2, h3, h4, h5, h6 {
     margin-top: 1em;
     margin-bottom: 0.5em;
-    color: #000000;
+    color: #2e3436;
     line-height: 135%;
 }
 
@@ -77,7 +77,7 @@ div.bodywrapper {
 }
 
 footer#pagefooter, footer#pagefooter a {
-    color: #000000;
+    color: #2e3436;
 }
 
 
@@ -94,7 +94,7 @@ footer#pagefooter a {
 /* header styles */
 
 body > header h1 a, body > header h1 a:visited {
-    color: #000000;
+    color: #2e3436;
 }
 
 a.headerlink {
@@ -188,7 +188,7 @@ div.sphinxsidebar {
 }
 
 div.sphinxsidebar h3 a {
-    color: #000000;
+    color: #2e3436;
 }
 
 div.sphinxsidebar p.topless {

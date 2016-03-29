@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>otu &mdash; micca 1.0.0 documentation</title>
+  <title>otu &mdash; micca 1.1.0 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="micca 1.0.0 documentation" href="../index.html"/>
+    <link rel="top" title="micca 1.1.0 documentation" href="../index.html"/>
         <link rel="next" title="root" href="root.html"/>
         <link rel="prev" title="msa" href="msa.html"/> 
 
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                1.0.0
+                1.1.0
               </div>
             
           
@@ -172,6 +172,7 @@
 usage: micca otu [-h] -i FILE [-o DIR] [-r FILE]
                  [-m {denovo_greedy,closed_ref,open_ref}] [-d ID] [-n MINCOV]
                  [-t THREADS] [-c] [-g {dgc,agc}] [-s MINSIZE]
+                 [-a {both,plus}]
 
 micca otu assigns similar sequences (marker genes such as 16S rRNA and
 the fungal ITS region) to operational taxonomic units (OTUs).
@@ -263,6 +264,10 @@ arguments:
                         MINSIZE after dereplication (&gt;=1, default 2).
                         Recommended value is 2, i.e. discard singletons (for
                         &#39;denovo_greedy&#39; and &#39;open_ref&#39; clustering methods).
+  -a {both,plus}, --strand {both,plus}
+                        search both strands or the plus strand only (for
+                        &#39;closed_ref&#39; and &#39;open_ref&#39; clustering methods,
+                        default both).
 
 Examples
 
@@ -322,7 +327,7 @@ and using 8 threads:
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.0.0',
+            VERSION:'1.1.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
