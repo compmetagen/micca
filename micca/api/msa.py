@@ -37,9 +37,9 @@ class UnalignableError(Exception):
 
 
 def _nast_core(template, template_aln, candidate_aln):
-    
+
     # re-introduce template spacing in candidate and identify
-    # template-extending insertions 
+    # template-extending insertions
     i, j, c = 0, 0, 0
     candidate_re = []
     insertions = []
@@ -61,7 +61,7 @@ def _nast_core(template, template_aln, candidate_aln):
         if (i == len(template)) or (j == len(template_aln)):
             break
         c+=1
-        
+
     for k in range(i, len(template)):
         candidate_re.append('-')
 
@@ -101,7 +101,7 @@ def _nast_core(template, template_aln, candidate_aln):
                                    "candidate sequence")
 
     candidate_nast = "".join([b for b in candidate_re if b != "!"])
-    
+
     return candidate_nast
 
 
@@ -129,20 +129,20 @@ def _msa_remove_gaps(input_fn, output_fn):
 
     input_handle = open(input_fn, "rb")
     output_handle = open(output_fn, "wb")
-    
+
     for title, seq in SimpleFastaParser(input_handle):
         seq = seq.replace('.', '-')
         output_handle.write(">{}\n{}\n".format(title, seq.replace('-', '')))
 
     input_handle.close()
     output_handle.close()
-    
+
 
 def _aln_to_seqs(aln, query, target):
     """Re-contruct query and target alignments from the VSEARCH alignment
     string.
     """
-    
+
     query_aln, target_aln = [], []
     i, j = 0, 0
     for a in aln:
@@ -161,15 +161,15 @@ def _aln_to_seqs(aln, query, target):
             j+=1
         else:
             raise ValueError("alignment string, query and target do not match")
-        
+
     return "".join(query_aln), "".join(target_aln)
 
-   
+
 def nast(input_fn, template_fn, output_fn, notaligned_fn=None, ident=0.75,
-         threads=1, mincov=0.75):
+         threads=1, mincov=0.75, strand="both"):
 
     output_dir = os.path.dirname(output_fn)
-    
+
     # get the number of columns in template file
     ncols = _msa_count_columns(template_fn)
 
@@ -190,13 +190,14 @@ def nast(input_fn, template_fn, output_fn, notaligned_fn=None, ident=0.75,
             query_cov=mincov,
             maxaccepts=8,
             maxrejects=32,
-            userfields="query+target+id+aln",
-            top_hits_only=True)
+            userfields="query+target+id+aln+qstrand",
+            top_hits_only=True,
+            strand=strand)
     except:
         os.remove(template_wg_temp_fn)
         os.remove(hits_temp_fn)
         raise
-        
+
     # indexing
     input_records = SeqIO.index(input_fn, "fasta")
     template_records = SeqIO.index(template_fn, "fasta")
@@ -212,10 +213,10 @@ def nast(input_fn, template_fn, output_fn, notaligned_fn=None, ident=0.75,
 
     # set MSA coverage to zero
     msa_cov = np.zeros(ncols, dtype=np.int)
-    
+
     prev_candidate_id = None
-    for candidate_id, template_id, _, aln in hits_temp_reader:
-        
+    for candidate_id, template_id, _, aln, qstrand in hits_temp_reader:
+
         # get only the first candidate in the top hits
         if candidate_id != prev_candidate_id:
 
@@ -227,17 +228,20 @@ def nast(input_fn, template_fn, output_fn, notaligned_fn=None, ident=0.75,
             template_wg = str(template_wg_temp_records[template_id].seq.upper())
 
             # get the candidate
-            candidate = str(input_records[candidate_id].seq.upper())
+            candidate_seq = input_records[candidate_id].seq.upper()
+            if qstrand == '-':
+                candidate_seq = candidate_seq.reverse_complement()
+            candidate = str(candidate_seq)
 
             # re-contruct query and target alignments
             candidate_aln, template_aln = _aln_to_seqs(
                 aln, candidate, template_wg)
-            
+
             try:
                 candidate_msa = _nast_core(template, template_aln, candidate_aln)
             except UnalignableError:
                 if notaligned_fn is not None:
-                    # append the candidate sequence to the notaligned file if 
+                    # append the candidate sequence to the notaligned file if
                     # unalignable
                     notaligned_handle = open(notaligned_fn, 'ab')
                     candidate_out = ">{}\n{}\n".format(candidate_id, candidate)
@@ -264,7 +268,7 @@ def nast(input_fn, template_fn, output_fn, notaligned_fn=None, ident=0.75,
         output_handle.write(">{}\n{}\n".format(title, seqout))
     output_temp_handle.close()
     output_handle.close()
-    
+
     os.remove(template_wg_temp_fn)
     os.remove(hits_temp_fn)
     os.remove(output_temp_fn)

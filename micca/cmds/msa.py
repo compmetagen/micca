@@ -26,17 +26,17 @@ import textwrap
 
 import micca.api
 
-    
+
 def main(argv):
     prog = "micca msa"
-    
+
     description = textwrap.dedent('''\
         micca msa performs a multiple sequence alignment (MSA) on the input
         file in FASTA format. micca msa provides two approaches for MSA:
-    
+
         * MUSCLE (doi: 10.1093/nar/gkh340). It is one of the most widely-used
           multiple sequence alignment software;
- 
+
         * Nearest Alignment Space Termination (NAST) (doi:
           10.1093/nar/gkl244). MICCA provides a very fast and memory
           efficient reimplementation of the NAST algorithm. The algorithm is
@@ -49,7 +49,7 @@ def main(argv):
 
     epilog = textwrap.dedent('''\
         Examples
-    
+
         De novo MSA using MUSCLE:
 
             micca msa -i input.fasta -o msa.fasta
@@ -59,7 +59,7 @@ def main(argv):
         identity threshold of 75%:
 
             micca msa -i input.fasta -o msa.fasta -m nast --nast-threads 4 \\
-            --nast-template greengenes_2013_05/rep_set_aligned/97_otus.fasta   
+            --nast-template greengenes_2013_05/rep_set_aligned/97_otus.fasta
         ''')
 
     parser = argparse.ArgumentParser(
@@ -69,7 +69,7 @@ def main(argv):
         epilog=epilog)
 
     group = parser.add_argument_group("arguments")
-    
+
     group.add_argument('-i', '--input', metavar="FILE", required=True,
                         help="input FASTA file (required).")
     group.add_argument('-o', '--output', metavar='FILE', required=True,
@@ -78,14 +78,14 @@ def main(argv):
                         choices=["muscle", "nast"],
                         help="multiple sequence alignment method (default "
                         "%(default)s).")
-   
+
     # MUSCLE options
     group_muscle = parser.add_argument_group("MUSCLE specific options")
-    group_muscle.add_argument('--muscle-maxiters', type=int, default=16, 
+    group_muscle.add_argument('--muscle-maxiters', type=int, default=16,
                               help="maximum number of MUSCLE iterations. Set "
                               "to 2 for a good compromise between speed and "
                               "accuracy (>=1 default %(default)s).")
-    
+
     # NAST options
     group_nast = parser.add_argument_group("NAST specific options")
     group_nast.add_argument('--nast-template', metavar='FILE',
@@ -103,11 +103,15 @@ def main(argv):
                             "to the template sequence is lower than MINCOV. "
                             "This parameter prevents low-coverage alignments at "
                             "the end of the sequences (default %(default)s).")
+    group_nast.add_argument('--nast-strand', default="both",
+                            choices=["both", "plus"],
+                            help="search both strands or the plus strand only "
+                            "(default %(default)s).")
     group_nast.add_argument('--nast-notaligned', metavar="FILE",
                             help="write not aligned sequences in FASTA format.")
     args = parser.parse_args(argv)
 
-    
+
     if (args.method == "nast") and (not args.nast_template):
         parser.error("NAST alignment method requires a template file "
                      "(--nast-template)")
