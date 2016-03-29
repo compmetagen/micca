@@ -1,5 +1,5 @@
 import os
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"
 
 THIRDPARTY_BIN_PATH = os.path.join(os.path.dirname(__file__), "thirdparty_bin")
