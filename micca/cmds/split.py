@@ -29,7 +29,7 @@ import micca.api
 
 def main(argv):
     prog = "micca split"
-    
+
     description = textwrap.dedent('''\
         micca split assign the multiplexed reads to samples based on their 5'
         nucleotide barcode (demultiplexing) provided by the FASTA file
@@ -37,9 +37,9 @@ def main(argv):
         sample information (e.g. >SEQID;sample=SAMPLENAME) appended to the
         sequence identifier. Barcode and the sequence preceding it is removed
         by default, e.g.:
-        
+
         Barcode file:        Input file:
-        
+
         >SAMPLE1             >SEQ1
         TCAGTCAG             TCAGTCAGGCCACGGCTAACTAC...
         ...                  ...
@@ -68,14 +68,14 @@ def main(argv):
         epilog=epilog)
 
     group = parser.add_argument_group("arguments")
-    
+
     group.add_argument('-i', '--input', metavar="FILE", required=True,
-                       help="input FASTQ/FASTA file(s) (required).")
+                       help="input FASTQ/FASTA file (required).")
     group.add_argument('-o', '--output', metavar="FILE", required=True,
                        help="output FASTQ/FASTA file (required).")
     group.add_argument('-b', '--barcode', metavar="FILE", required=True,
                        help="barcode file in FASTA format (required).")
-    group.add_argument('-n', '--notmatched', metavar="FILE", 
+    group.add_argument('-n', '--notmatched', metavar="FILE",
                        help="write reads in which no barcode was found.")
     group.add_argument('-c', '--counts', metavar="FILE",
                        help="write barcode counts in a tab-delimited file.")
