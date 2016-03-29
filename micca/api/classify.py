@@ -39,10 +39,10 @@ __all__ = ["cons", "rdp", "otuid"]
 
 
 def cons(input_fn, ref_fn, ref_tax_fn, output_fn, ident=0.90,
-         maxhits=3, minfrac=0.5, threads=1, mincov=0.75):
+         maxhits=3, minfrac=0.5, threads=1, mincov=0.75, strand="both"):
     """Consensus classifier.
     """
-    
+
     def get_tax(seqids, tax_dict):
         tax = []
         for seqid in seqids:
@@ -51,7 +51,7 @@ def cons(input_fn, ref_fn, ref_tax_fn, output_fn, ident=0.90,
             else:
                 pass
         return tax
-    
+
     def get_cons_tax(tax, minfrac):
         cons_tax = []
         for rank in izip_longest(*tax, fillvalue=""):
@@ -66,16 +66,16 @@ def cons(input_fn, ref_fn, ref_tax_fn, output_fn, ident=0.90,
         if len(cons_tax) == 0:
             cons_tax = ["Unclassified"]
         return cons_tax
-        
+
     output_dir = os.path.dirname(output_fn)
 
     tax_dict = micca.tax.read(ref_tax_fn)
-    
+
     hits_temp_fn = micca.ioutils.make_tempfile(output_dir)
     try:
         micca.tp.vsearch.usearch_global(
             input_fn=input_fn,
-            db_fn=ref_fn, 
+            db_fn=ref_fn,
             userout_fn=hits_temp_fn,
             ident=ident,
             threads=threads,
@@ -84,11 +84,12 @@ def cons(input_fn, ref_fn, ref_tax_fn, output_fn, ident=0.90,
             maxrejects=32,
             userfields="query+target+id",
             output_no_hits=True,
-            top_hits_only=False)
+            top_hits_only=False,
+            strand=strand)
     except:
         os.remove(hits_temp_fn)
-        raise   
-        
+        raise
+
     with open(hits_temp_fn, 'rb') as hits_temp_handle:
         with open(output_fn, 'wb') as output_handle:
             hits_temp_reader = csv.reader(hits_temp_handle, delimiter='\t')
@@ -96,7 +97,7 @@ def cons(input_fn, ref_fn, ref_tax_fn, output_fn, ident=0.90,
                 output_handle, delimiter='\t',lineterminator='\n')
             prev, target, _ = hits_temp_reader.next()
             hits = [target]
-            
+
             for row in hits_temp_reader:
                 if row[0] != prev:
                     tax = get_tax(hits, tax_dict)
@@ -106,13 +107,13 @@ def cons(input_fn, ref_fn, ref_tax_fn, output_fn, ident=0.90,
                 else:
                     hits.append(row[1])
                 prev = row[0]
-                
+
             tax = get_tax(hits, tax_dict)
             cons_tax = get_cons_tax(tax, minfrac)
             output_writer.writerow([prev, ";".join(cons_tax)])
 
     os.remove(hits_temp_fn)
-    
+
 
 def rdp(input_fn, output_fn, gene="16srrna", maxmem=2, minconf=0.8):
     """RDP classifier.
@@ -125,21 +126,21 @@ def rdp(input_fn, output_fn, gene="16srrna", maxmem=2, minconf=0.8):
         micca.tp.rdp.classify(input_fn, rdp_temp_fn, gene=gene, maxmem=maxmem)
     except:
         os.remove(rdp_temp_fn)
-        raise   
-        
+        raise
+
     queryids = [record.id for record in SeqIO.parse(input_fn, "fasta")]
 
     rdp_temp_dict = dict()
     with open(rdp_temp_fn, 'rb') as rdp_temp_handle:
         rdp_temp_reader = csv.reader(rdp_temp_handle, delimiter='\t')
-        
+
         for row in rdp_temp_reader:
             rdp_temp_dict[row[0]] = row[1:]
-  
+
     with open(output_fn, 'wb') as output_handle:
         output_writer = csv.writer(
             output_handle, delimiter='\t', lineterminator='\n')
-        
+
         for queryid in queryids:
             try:
                 row = rdp_temp_dict[queryid]
@@ -157,25 +158,25 @@ def rdp(input_fn, output_fn, gene="16srrna", maxmem=2, minconf=0.8):
 
             if len(tax) == 0:
                 tax = ["Unclassified"]
-                
+
             output_writer.writerow([queryid, ";".join(tax)])
- 
+
     os.remove(rdp_temp_fn)
 
-    
+
 def otuid(input_fn, ref_tax_fn, output_fn):
     """OTU ID classifier.
     """
-    
+
     tax_dict = micca.tax.read(ref_tax_fn)
-    
+
     input_handle = open(input_fn, 'rb')
     input_reader = csv.reader(input_handle, delimiter='\t')
-    
+
     output_handle = open(output_fn, 'wb')
     output_writer = csv.writer(
         output_handle, delimiter='\t', lineterminator='\n')
-    
+
     for row in input_reader:
         try:
             tax = tax_dict[row[1]]
@@ -184,6 +185,6 @@ def otuid(input_fn, ref_tax_fn, output_fn):
         else:
             tax_str = ";".join(tax)
         output_writer.writerow([row[0], tax_str])
-        
+
     input_handle.close()
     output_handle.close()

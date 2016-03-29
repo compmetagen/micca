@@ -27,7 +27,7 @@ import textwrap
 
 import micca.api
 
-    
+
 def main(argv):
     prog = "micca classify"
 
@@ -59,7 +59,7 @@ def main(argv):
 
           For more information about the RDP classifier go to
           http://rdp.cme.msu.edu/classifier/classifier.jsp
-    
+
         * OTU ID classifier (otuid): simply perform a sequence ID matching
           with the reference taxonomy file. Recommended strategy when the
           closed reference clustering (--method closedref in micca-otu) was
@@ -70,12 +70,12 @@ def main(argv):
           REF1[TAB]1110191
           REF2[TAB]1104777
           REF3[TAB]1078527
-          ...   
+          ...
 
         The input reference taxonomy file (--ref-tax) should be a
-        tab-delimited file where rows are either in the form: 
+        tab-delimited file where rows are either in the form:
 
-        1. SEQID[TAB]k__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__;g__; 
+        1. SEQID[TAB]k__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__;g__;
         2. SEQID[TAB]Bacteria;Firmicutes;Clostridia;Clostridiales;;;
         3. SEQID[TAB]Bacteria;Firmicutes;Clostridia;Clostridiales
 
@@ -107,9 +107,9 @@ def main(argv):
             -o tax.txt
 
         OTU ID matching after the closed reference OTU picking protocol:
-        
+
             micca classify -m otuid -i otuids.txt -o tax.txt \\
-            --ref-tax greengenes_2013_05/taxonomy/97_otu_taxonomy.txt           
+            --ref-tax greengenes_2013_05/taxonomy/97_otu_taxonomy.txt
     ''')
 
     parser = argparse.ArgumentParser(
@@ -119,7 +119,7 @@ def main(argv):
         epilog=epilog)
 
     group = parser.add_argument_group("arguments")
-    
+
     group.add_argument('-i', '--input', metavar="FILE", required=True,
                        help="input FASTA file (for 'cons' and 'rdp') or a "
                        "tab-delimited OTU ids file (for 'otuid') (required).")
@@ -154,6 +154,10 @@ def main(argv):
                             "to the reference sequence is lower than MINCOV. "
                             "This parameter prevents low-coverage alignments at "
                             "the end of the sequences (default %(default)s).")
+    group_cons.add_argument('--cons-strand', default="both",
+                            choices=["both", "plus"],
+                            help="search both strands or the plus strand only "
+                            "(default %(default)s).")
     group_cons.add_argument('--cons-threads', metavar='THREADS', default=1,
                             type=int,
                             help="number of threads to use (1 to 256, default "
@@ -163,7 +167,7 @@ def main(argv):
     group_rdp = parser.add_argument_group("RDP Classifier/Database specific "
                                           "options")
     group_rdp.add_argument('--rdp-gene', default="16srrna",
-                           choices=["16srrna", "fungallsu", "fungalits_warcup", 
+                           choices=["16srrna", "fungallsu", "fungalits_warcup",
                                     "fungalits_unite"],
                            help="marker gene/region")
     group_rdp.add_argument('--rdp-maxmem', metavar='GB', default=2, type=int,
@@ -173,11 +177,11 @@ def main(argv):
                            help="minimum confidence value to assign taxonomy "
                                 "to a sequence (default %(default)s)")
     args = parser.parse_args(argv)
-     
-    
+
+
     if (args.method == "cons") and (args.ref is None):
         parser.error("cons classifier requires a reference file (--ref)")
-        
+
     if (args.method in ["cons", "otuid"]) and (args.ref_tax is None):
         parser.error("{0} classifier requires a reference taxonomy file "
                      "(--ref-tax)".format(args.method))
@@ -185,16 +189,17 @@ def main(argv):
     try:
         if args.method == "cons":
             micca.api.classify.cons(
-                input_fn=args.input, 
-                ref_fn=args.ref, 
-                ref_tax_fn=args.ref_tax, 
-                output_fn=args.output, 
-                ident=args.cons_id, 
+                input_fn=args.input,
+                ref_fn=args.ref,
+                ref_tax_fn=args.ref_tax,
+                output_fn=args.output,
+                ident=args.cons_id,
                 maxhits=args.cons_maxhits,
                 minfrac=args.cons_minfrac,
                 threads=args.cons_threads,
-                mincov=args.cons_mincov)
-            
+                mincov=args.cons_mincov,
+                strand=args.cons_strand)
+
         elif args.method == "rdp":
             micca.api.classify.rdp(
                 input_fn=args.input,
@@ -202,10 +207,10 @@ def main(argv):
                 gene=args.rdp_gene,
                 maxmem=args.rdp_maxmem,
                 minconf=args.rdp_minconf)
-            
+
         else:
             micca.api.classify.otuid(
-                input_fn=args.input, 
+                input_fn=args.input,
                 ref_tax_fn=args.ref_tax,
                 output_fn=args.output)
     except Exception as err:
