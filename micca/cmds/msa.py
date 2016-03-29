@@ -125,7 +125,8 @@ def main(argv):
                 notaligned_fn=args.nast_notaligned,
                 ident=args.nast_id,
                 threads=args.nast_threads,
-                mincov=args.nast_mincov)
+                mincov=args.nast_mincov,
+                strand=args.nast_strand)
         else:
             micca.api.msa.muscle(
                 input_fn=args.input,
