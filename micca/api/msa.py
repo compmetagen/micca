@@ -165,8 +165,8 @@ def _aln_to_seqs(aln, query, target):
     return "".join(query_aln), "".join(target_aln)
 
 
-def nast(input_fn, template_fn, output_fn, notaligned_fn=None, ident=0.75,
-         threads=1, mincov=0.75, strand="both"):
+def nast(input_fn, template_fn, output_fn, notaligned_fn=None, hits_fn=None,
+         ident=0.75, threads=1, mincov=0.75, strand="both"):
 
     output_dir = os.path.dirname(output_fn)
 
@@ -207,6 +207,10 @@ def nast(input_fn, template_fn, output_fn, notaligned_fn=None, ident=0.75,
     output_temp_fn = micca.ioutils.make_tempfile(output_dir)
     output_temp_handle = open(output_temp_fn, "wb")
 
+    # set up hits_out file
+    hits_out_fn = micca.ioutils.make_tempfile(output_dir)
+    hits_out_handle = open(hits_out_fn, "wb")
+
     # set up hits reader
     hits_temp_handle = open(hits_temp_fn, 'rb')
     hits_temp_reader = csv.reader(hits_temp_handle, delimiter='\t')
@@ -215,7 +219,7 @@ def nast(input_fn, template_fn, output_fn, notaligned_fn=None, ident=0.75,
     msa_cov = np.zeros(ncols, dtype=np.int)
 
     prev_candidate_id = None
-    for candidate_id, template_id, _, aln, qstrand in hits_temp_reader:
+    for candidate_id, template_id, idp, aln, qstrand in hits_temp_reader:
 
         # get only the first candidate in the top hits
         if candidate_id != prev_candidate_id:
@@ -254,11 +258,17 @@ def nast(input_fn, template_fn, output_fn, notaligned_fn=None, ident=0.75,
                 # write the candidate sequence to the output temp file
                 candidate_out = ">{}\n{}\n".format(candidate_id, candidate_msa)
                 output_temp_handle.write(candidate_out)
+
+                # write the hit to the hits file
+                hit = "{}\t{}\t{}\n".format(candidate_id, template_id, idp)
+                hits_out_handle.write(hit)
+
             finally:
                 prev_candidate_id = candidate_id
 
     hits_temp_handle.close()
     output_temp_handle.close()
+    hits_out_handle.close()
 
     # remove columns which are gaps in every sequence
     output_temp_handle = open(output_temp_fn, "rb")
@@ -268,6 +278,11 @@ def nast(input_fn, template_fn, output_fn, notaligned_fn=None, ident=0.75,
         output_handle.write(">{}\n{}\n".format(title, seqout))
     output_temp_handle.close()
     output_handle.close()
+
+    if hits_fn is None:
+        os.remove(hits_out_fn)
+    else:
+        os.rename(hits_out_fn, hits_fn)
 
     os.remove(template_wg_temp_fn)
     os.remove(hits_temp_fn)

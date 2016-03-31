@@ -109,6 +109,10 @@ def main(argv):
                             "(default %(default)s).")
     group_nast.add_argument('--nast-notaligned', metavar="FILE",
                             help="write not aligned sequences in FASTA format.")
+    group_nast.add_argument('--nast-hits', metavar="FILE",
+                            help="write hits on a TAB delimited file with the "
+                            "query sequence id, the template sequence id and "
+                            "the identity.")
     args = parser.parse_args(argv)
 
 
@@ -123,6 +127,7 @@ def main(argv):
                 template_fn=args.nast_template,
                 output_fn=args.output,
                 notaligned_fn=args.nast_notaligned,
+                hits_fn=args.nast_hits,
                 ident=args.nast_id,
                 threads=args.nast_threads,
                 mincov=args.nast_mincov,
