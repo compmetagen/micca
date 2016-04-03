@@ -1,9 +1,8 @@
-global-exclude .DS_Store *.pyc
 graft thirdparty
 graft micca/thirdparty_bin
-include ez_setup.py
+recursive-include doc/source *
 include *.rst
 include doc/Makefile
 include doc/make.bat
-recursive-include doc/source *
-
+# excludes must be at the end
+global-exclude .DS_Store *.pyc

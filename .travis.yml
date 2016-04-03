@@ -4,12 +4,18 @@ python:
 - '2.7'
 - '3.3'
 - '3.4'
+- '3.5'
 
 before_install:
+# Ubuntu 12.04 does not provide recent versions of numpy, scipy, matplotlib and
+# pandas, so we will install them with pip
 - sudo apt-get -qq update
+- sudo apt-get install build-essential
 - sudo apt-get install python-numpy
-# required for SciPy through pip
+# scipy requirements
 - sudo apt-get install gcc gfortran python-dev libblas-dev liblapack-dev cython
+# matplotlib additional requirements
+- sudo apt-get install libpng-dev libfreetype6-dev
 - pip install 'setuptools >=14.0'
 
 install: pip install .
