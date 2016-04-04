@@ -8,11 +8,11 @@ micca requires `Python <https://www.python.org/>`_ >=2.7, `NumPy
 <http://scipy.org/>`_ (>= 1.8.0) and the software required in order to
 install `SciPy <http://scipy.org/>`_ (>= 0.13.0) through pip.
 
-On Ubuntu Linux >= 12.04
-^^^^^^^^^^^^^^^^^^^^^^^^
+On Ubuntu >= 12.04 and Debian Linux
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-In Ubuntu Linux >= 12.04, we suggest install NumPy and the requirements for
-SciPy and matplotlib through the package manager:
+We suggest install NumPy and the requirements for SciPy and matplotlib through
+the package manager:
 
 .. code-block:: sh
 
@@ -137,9 +137,11 @@ can be used in the :doc:`/commands/classify` command (option
 
 .. warning::
 
-   Only RDP Classifier version >2.8 is supported.
+   Only RDP Classifier version >2.8 is supported. Install the standard Java or
+   Java compatible runtime (``sudo apt-get install default-jre`` in
+   Ubuntu/Debian or go to the `Oracle Java homepage <www.java.com>`_ for OS X)
 
-Download and unzip the file (RDP cladssifier v2.11 2015-09-14):
+Download and unzip the file (RDP classifier 2.11 2015-09-14):
 
 .. code-block:: sh
 
