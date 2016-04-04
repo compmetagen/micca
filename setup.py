@@ -122,8 +122,6 @@ setup(
     author_email='davide.albanese@fmach.it',
     maintainer='Davide Albanese',
     maintainer_email='davide.albanese@fmach.it',
-    # setup_requires must be repeated in install_requires
-    setup_requires=['numpy >= 1.8.0'],
     install_requires=[
         'numpy >= 1.8.0',
         'scipy >=0.14.0',
