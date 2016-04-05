@@ -1,6 +1,12 @@
 CHANGES
 =======
 
+Version 1.2.1
+-------------
+* Dockerfile added;
+* Documentation improved.
+
+
 Version 1.2.0
 -------------
 * Hits output file option added to micca.api.msa.nast() (hits_fn
