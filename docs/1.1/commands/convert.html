@@ -1,0 +1,324 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>convert &mdash; micca 1.1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="micca 1.1.0 documentation" href="../index.html"/>
+        <link rel="next" title="filter" href="filter.html"/>
+        <link rel="prev" title="classify" href="classify.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> micca
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Download and install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../run.html">Run micca in 6 steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../databases.html">Supported databases</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../singleend.html">Single-end sequencing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pairedend.html">Paired-end sequencing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../phyloseq.html">Import and analyze the data into R and phyloseq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../table.html">Compute basic OTU table statistics, rarefy and summarize OTU tables by taxa using micca</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../picrust.html">Picking OTUs for use in PICRUSt</a></li>
+</ul>
+<p class="caption"><span class="caption-text">In Depth</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../filtering.html">Quality filtering strategy in micca</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../otu.html">OTU picking in micca</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formats.html">Supported file formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">CHANGES</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Command reference</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="classify.html">classify</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">convert</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filter.html">filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filterstats.html">filterstats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="merge.html">merge</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mergepairs.html">mergepairs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="msa.html">msa</a></li>
+<li class="toctree-l1"><a class="reference internal" href="otu.html">otu</a></li>
+<li class="toctree-l1"><a class="reference internal" href="root.html">root</a></li>
+<li class="toctree-l1"><a class="reference internal" href="split.html">split</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stats.html">stats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tablebar.html">tablebar</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tablerare.html">tablerare</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tablestats.html">tablestats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tabletotax.html">tabletotax</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tobiom.html">tobiom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tree.html">tree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="trim.html">trim</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">micca</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>convert</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/commands/convert.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="convert">
+<h1>convert<a class="headerlink" href="#convert" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-text"><div class="highlight"><pre>$ micca convert --help
+usage: micca convert [-h] -i FILE -o FILE [-q FILE] [-d DEFAULTQ]
+                     [-f INPUT_FORMAT] [-F OUTPUT_FORMAT]
+
+       micca convert converts between sequence file formats. See
+       http://biopython.org/wiki/SeqIO#File_Formats for a comprehnsive list
+       of the supported file formats.
+
+       Supported input formats:
+        * abi
+* abi-trim
+* ace
+* embl
+* embl-cds
+* fasta
+* fasta-qual
+* fastq
+* fastq-illumina
+* fastq-sanger
+* fastq-solexa
+* gb
+* genbank
+* genbank-cds
+* ig
+* imgt
+* pdb-atom
+* pdb-seqres
+* phd
+* pir
+* qual
+* seqxml
+* sff
+* sff-trim
+* swiss
+* tab
+* uniprot-xml
+
+       Supported output formats:
+        * embl
+* fasta
+* fastq
+* fastq-illumina
+* fastq-sanger
+* fastq-solexa
+* gb
+* genbank
+* imgt
+* phd
+* qual
+* seqxml
+* sff
+* tab
+
+optional arguments:
+  -h, --help            show this help message and exit
+
+arguments:
+  -i FILE, --input FILE
+                        input sequence file (required).
+  -o FILE, --output FILE
+                        output sequence file (required).
+  -q FILE, --qual FILE  input quality file (required for &#39;fasta-qual&#39; input
+                        format.
+  -d DEFAULTQ, --defaultq DEFAULTQ
+                        default phred quality score for format-without-quality
+                        to format-with-quality conversion (default 40).
+  -f INPUT_FORMAT, --input-format INPUT_FORMAT
+                        input file format (default fastq).
+  -F OUTPUT_FORMAT, --output-format OUTPUT_FORMAT
+                        input file format (default fasta).
+
+Examples
+
+Convert FASTA+QUAL files into a FASTQ (Sanger/Illumina 1.8+) file:
+
+    micca convert -i input.fasta -q input.qual -o output.fastq \
+    -f fasta-qual -F fastq
+
+Convert a SFF file into a FASTQ (Sanger/Illumina 1.8+) file:
+
+    micca convert -i input.sff -o output.fastq -f sff -F fastq
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="filter.html" class="btn btn-neutral float-right" title="filter" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="classify.html" class="btn btn-neutral" title="classify" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, micca development team.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
