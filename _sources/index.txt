@@ -51,4 +51,6 @@ cited** if they are used:
 Old documentation
 -----------------
 
+* `Version 1.1 <http://micca.org/docs/1.1>`_
+* `Version 1.0 <http://micca.org/docs/1.0>`_
 * `Version 0.1 <http://micca.org/docs/0.1>`_
