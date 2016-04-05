@@ -4,10 +4,6 @@ Download and install
 Prerequisites
 -------------
 
-micca requires `Python <https://www.python.org/>`_ >=2.7, `NumPy
-<http://scipy.org/>`_ (>= 1.8.0) and the software required in order to
-install `SciPy <http://scipy.org/>`_ (>= 0.13.0) through pip.
-
 On Ubuntu >= 12.04 and Debian Linux
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -78,8 +74,8 @@ Install micca from source
 -------------------------
 
 In order to install micca from sources (with the standard procedure
-``python setup.py install``), in addition to Python (>=2.7, <3.0), NumPy
-(>= 1.8.0) and SciPy (>= 0.13.0), the following Python packages must be
+``python setup.py install``), in addition to Python (>=2.7), NumPy
+(>=1.8.0) and SciPy (>=0.13.0), the following Python packages must be
 installed:
 
    * Pandas >=0.17.0
