@@ -1,6 +1,7 @@
 graft thirdparty
 graft micca/thirdparty_bin
 recursive-include doc/source *
+recursive-include docker/*
 include *.rst
 include doc/Makefile
 include doc/make.bat
