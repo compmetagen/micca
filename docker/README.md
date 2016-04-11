@@ -10,8 +10,7 @@ The RDP Classifier is included.
 
 ## Available Tags/Versions
 
-- latest (default): micca 1.2.2 (aliased to 1.2.2)
-- 1.2.2: micca 1.2.2, (RDP Classifier 2.11 included)
+- latest: GitHub snapshot
 
 ## Quickstart
 
