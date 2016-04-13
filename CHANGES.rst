@@ -1,6 +1,12 @@
 CHANGES
 =======
 
+Version 1.2.2
+-------------
+* Fix: now micca can generate plots with matplotlib when DISPLAY environment
+  variable is undefined;
+* Minor: MANIFEST.in, Dockerfile updated.
+
 Version 1.2.1
 -------------
 * Dockerfile added;
