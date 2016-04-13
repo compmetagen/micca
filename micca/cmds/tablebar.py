@@ -24,16 +24,19 @@ import sys
 import argparse
 import textwrap
 
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+
 import micca.api
 
-import matplotlib.pyplot as plt
-    
+
 def main(argv):
 
     PLOT_OUTPUT_FMTS = plt.gcf().canvas.get_supported_filetypes()
-    
+
     prog = "micca tablebar"
-    
+
     description = textwrap.dedent('''\
         micca tablebar generates a relative abundance bar plot from
         OTU or taxa tables. The table must be an OTU/taxon x sample,
@@ -43,7 +46,7 @@ def main(argv):
     epilog = textwrap.dedent('''\
         Example
 
-            micca tablebar -i otutable.txt -o otutable_plot.png       
+            micca tablebar -i otutable.txt -o otutable_plot.png
     ''')
 
     parser = argparse.ArgumentParser(
@@ -65,7 +68,7 @@ def main(argv):
                        help="plot the top N abundant taxa (default "
                        "%(default)s).")
     group.add_argument('--xticklabelsize', type=float, metavar="SIZE",
-                       default=8, 
+                       default=8,
                        help="x tick label size (default %(default)s).")
     group.add_argument('-f', '--format', default="png",
                        choices=PLOT_OUTPUT_FMTS,

@@ -21,6 +21,8 @@ from __future__ import division
 import os
 import os.path
 
+import matplotlib
+matplotlib.use('Agg')
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -32,11 +34,11 @@ def _stats(input_fn, topn=None, maxeerates=[0.25, 0.5, 0.75, 1, 1.25, 1.5],
            maxns=None):
 
     fastq_ascii = 33
-    
+
     nseqs = 0
     eerate_minlen = np.array([], dtype=np.int, order='C')
     eerate_trunclen = np.array([], dtype=np.int, order='C')
-    
+
     with open(input_fn, "rb") as input_handle:
         for title, seq, qualstr in FastqGeneralIterator(input_handle):
             seqlen = len(seq)
@@ -47,7 +49,7 @@ def _stats(input_fn, topn=None, maxeerates=[0.25, 0.5, 0.75, 1, 1.25, 1.5],
             if seqlen > eerate_minlen.shape[0]:
                 eerate_minlen.resize((seqlen, len(maxeerates)))
                 eerate_trunclen.resize((seqlen, len(maxeerates)))
-                
+
             seq = seq.upper()
             qualint = np.fromstring(qualstr, dtype=np.int8)
             qual = qualint - fastq_ascii
@@ -72,35 +74,35 @@ def _stats(input_fn, topn=None, maxeerates=[0.25, 0.5, 0.75, 1, 1.25, 1.5],
 
     if nseqs == 0:
         raise EOFError("no valid sequences in input file")
-    
+
     lengths = pd.DataFrame({"L": np.arange(1, eerate_minlen.shape[0]+1)})
 
     eeratee_minlen_pct = pd.DataFrame(
         (eerate_minlen / nseqs) * 100, columns=maxeerates)
     minlen = pd.concat((lengths, eeratee_minlen_pct), axis=1)
-    
+
     eeratee_trunclen_pct = pd.DataFrame(
         (eerate_trunclen / nseqs) * 100, columns=maxeerates)
     trunclen = pd.concat((lengths, eeratee_trunclen_pct), axis=1)
-    
+
     return minlen, trunclen
 
-    
+
 def _plot(minlen, trunclen, output_fn):
 
     cmap = plt.cm.Paired
     colors = [cmap(i) for i in np.linspace(0, 1, minlen.shape[1])]
-        
+
     fig = plt.figure(figsize=(10, 8))
 
     # minlen
     ax1 = plt.subplot(211)
     ax1.set_title("Min. length filtering (--minlen L)", fontsize=10)
-    
+
     for i, maxeerate in enumerate(minlen.columns[1:]):
         plt.plot(minlen["L"], minlen[maxeerate], linewidth=2,
                  label="%.2f%%" % maxeerate, color=colors[i])
-        
+
     plt.ylabel("# of reads %")
     plt.xlim(minlen["L"].min(), minlen["L"].max())
     plt.ylim((0, 100))
@@ -110,11 +112,11 @@ def _plot(minlen, trunclen, output_fn):
     ax2 = plt.subplot(212, sharex=ax1)
     ax2.set_title("Min. length filtering + truncation (--minlen L --trunc)",
                   fontsize=10)
-    
+
     for i, maxeerate in enumerate(trunclen.columns[1:]):
         plt.plot(trunclen["L"], trunclen[maxeerate], linewidth=2,
                  label="%.2f%%" % maxeerate, color=colors[i])
-        
+
     plt.xlabel("L")
     plt.ylabel("# of reads %")
     plt.xlim(trunclen["L"].min(), trunclen["L"].max())
@@ -125,20 +127,20 @@ def _plot(minlen, trunclen, output_fn):
     lgd = ax1.legend(loc="center left", title="Max EE rate % (--maxeerate)",
                      bbox_to_anchor=(1, 0.5))
     plt.setp(lgd.get_title(), fontsize=10)
-    
+
     fig.savefig(output_fn, bbox_inches='tight', dpi=300)
 
 
-def filterstats(input_fn, output_dir, topn=None, 
+def filterstats(input_fn, output_dir, topn=None,
                 maxeerates=[0.25, 0.5, 0.75, 1, 1.25, 1.5], maxns=None):
 
     if not os.path.isdir(output_dir):
         raise ValueError("directory {} does not exist".format(output_dir))
-    
+
     minlen_fn = os.path.join(output_dir, "filterstats_minlen.txt")
     trunclen_fn = os.path.join(output_dir, "filterstats_trunclen.txt")
     plot_fn = os.path.join(output_dir, "filterstats_plot.png")
-    
+
     minlen, trunclen = _stats(
         input_fn=input_fn,
         topn=topn,
@@ -148,14 +150,14 @@ def filterstats(input_fn, output_dir, topn=None,
     minlen.to_csv(minlen_fn, sep="\t", float_format="%.3f", index=False)
     trunclen.to_csv(trunclen_fn, sep="\t", float_format="%.3f", index=False)
 
-    # custom rc. svg.fonttype": "none" corrects the conversion of text in PDF 
+    # custom rc. svg.fonttype": "none" corrects the conversion of text in PDF
     # and SVG files
     rc = {
-        "xtick.labelsize": 8, 
+        "xtick.labelsize": 8,
         "ytick.labelsize": 8,
         "axes.labelsize": 10,
         "legend.fontsize": 10,
-        "svg.fonttype": "none"} 
+        "svg.fonttype": "none"}
 
-    with plt.rc_context(rc=rc): 
+    with plt.rc_context(rc=rc):
         _plot(minlen, trunclen, plot_fn)

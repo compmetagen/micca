@@ -22,6 +22,8 @@ import os
 import os.path
 import itertools
 
+import matplotlib
+matplotlib.use('Agg')
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -59,14 +61,14 @@ def bar(input_fn, output_fn, raw=False, topn=12, xticklabelsize=8, fmt="png"):
     iterhatches = itertools.cycle(hatches)
     iteredgecolors = itertools.cycle(edgecolors)
 
-    # custom rc. "svg.fonttype: none" corrects the conversion of text in PDF 
+    # custom rc. "svg.fonttype: none" corrects the conversion of text in PDF
     # and SVG files
-    rc = {"svg.fonttype": "none"} 
+    rc = {"svg.fonttype": "none"}
 
-    with plt.rc_context(rc=rc): 
-    
+    with plt.rc_context(rc=rc):
+
         fig = plt.figure(1)
-        
+
         ax = plt.subplot(111)
         bars, bottom  = [], 0
         for i in range(topn):
@@ -77,7 +79,7 @@ def bar(input_fn, output_fn, raw=False, topn=12, xticklabelsize=8, fmt="png"):
 
             bars.append(bar)
             bottom = table.iloc[0:i+1].sum(axis=0)
-            
+
         lgd = ax.legend(bars, list(table.index), loc='center left',
                         frameon=False, bbox_to_anchor=(1, 0.5),
                         fontsize=8)
@@ -85,18 +87,18 @@ def bar(input_fn, output_fn, raw=False, topn=12, xticklabelsize=8, fmt="png"):
         ax.set_xticks(np.arange(table.shape[1])+0.5)
         ax.set_xticklabels(list(table.columns), rotation=90,
                            horizontalalignment='center', size=xticklabelsize)
-    
+
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
         ax.spines['bottom'].set_visible(False)
         ax.yaxis.set_ticks_position('left')
         ax.xaxis.set_ticks_position('bottom')
-        
+
         plt.xlabel("Sample")
         plt.ylabel("Abundance")
         plt.xlim((0.0, table.shape[1]))
         plt.ylim((0.0, 1.0))
-        
+
         fig.savefig(output_fn, bbox_extra_artists=(lgd,), dpi=300,
                     bbox_inches='tight', format=fmt)
 
@@ -135,7 +137,7 @@ def totax(input_fn, tax_fn, output_dir):
         taxtable_fn = os.path.join(output_dir, "taxtable{:d}.txt".format(i+1))
         micca.table.write(taxtable_fn, taxtable)
 
-        
+
 def stats(input_fn, output_dir, step=100, replace=False, seed=0):
 
     if not os.path.isdir(output_dir):
@@ -145,7 +147,7 @@ def stats(input_fn, output_dir, step=100, replace=False, seed=0):
     otu_summ_fn = os.path.join(output_dir, "tablestats_otusumm.txt")
     rarecurve_fn = os.path.join(output_dir, "tablestats_rarecurve.txt")
     rarecurve_plot_fn = os.path.join(output_dir, "tablestats_rarecurve_plot.png")
-    
+
     table = micca.table.read(input_fn)
 
     # sample summary
@@ -172,19 +174,18 @@ def stats(input_fn, output_dir, step=100, replace=False, seed=0):
                                       seed=seed)
     rarecurve.to_csv(rarecurve_fn, sep='\t', float_format="%.0f", na_rep="NA")
 
-    # custom rc. "svg.fonttype: none" corrects the conversion of text in PDF 
+    # custom rc. "svg.fonttype: none" corrects the conversion of text in PDF
     # and SVG files
     rc = {
-        "xtick.labelsize": 8, 
+        "xtick.labelsize": 8,
         "ytick.labelsize": 8,
         "axes.labelsize": 10,
         "legend.fontsize": 10,
         "svg.fonttype": "none"}
-    
+
     with plt.rc_context(rc=rc):
         fig = plt.figure(figsize=(10, 6))
         plt.plot(rarecurve.index, rarecurve.as_matrix(), color="k")
         plt.xlabel("Depth")
         plt.ylabel("#OTUs")
         fig.savefig(rarecurve_plot_fn, dpi=300, bbox_inches='tight', format="png")
-        

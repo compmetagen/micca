@@ -21,6 +21,9 @@ from __future__ import division
 import os
 import os.path
 
+import matplotlib
+matplotlib.use('Agg')
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -31,16 +34,16 @@ from Bio.SeqIO.QualityIO import FastqGeneralIterator
 def _stats(input_fn, topn=None):
 
     fastq_ascii=33
-    
+
     nseqs, nbases = 0, 0
     len_count = np.array([], dtype=np.int, order='C')
     qual_count = np.zeros(128, dtype=np.int, order='C')
     qual_sum = np.array([], dtype=np.int, order='C')
     eerate_sum = np.array([], dtype=np.float, order='C')
-        
+
     with open(input_fn, "rb") as input_handle:
         for title, seq, qualstr in FastqGeneralIterator(input_handle):
-            
+
             seqlen = len(seq)
             if (seqlen < 1):
                 continue
@@ -60,25 +63,25 @@ def _stats(input_fn, topn=None):
 
             # probability of error
             pe = 10**(-qual / 10.)
-            
+
             # expected error
             ee = np.cumsum(pe)
-            
+
             # expected error rate %
-            eerate = (ee / np.arange(1, seqlen+1)) * 100 
-            
+            eerate = (ee / np.arange(1, seqlen+1)) * 100
+
             len_count[seqlen-1] += 1
             qual_count += np.bincount(qualint, minlength=128)
 
             qual_sum[:seqlen] += qual
             eerate_sum[:seqlen] += eerate
-                        
+
             if (topn == nseqs):
                 break
 
     if nseqs == 0:
         raise EOFError("no valid sequences in input file")
-    
+
     # length distribution
     len_min, len_max = np.flatnonzero(len_count)[[0,-1]] + 1
     len_trim_range = np.arange(len_min, len_max+1)
@@ -93,7 +96,7 @@ def _stats(input_fn, topn=None):
         "NPct": len_trim_pct,
         "NPctCum":len_trim_pct_cum},
         columns=["L", "N", "NCum", "NPct", "NPctCum"])
-    
+
     # quality distribution
     qual_min, qual_max = np.flatnonzero(qual_count)[[0,-1]] - fastq_ascii
     qual_trim_range = np.arange(qual_min, qual_max+1)
@@ -106,9 +109,9 @@ def _stats(input_fn, topn=None):
         "N": qual_trim,
         "NCum": qual_trim_cum,
         "NPct": qual_trim_pct,
-        "NPctCum":qual_trim_pct_cum}, 
+        "NPctCum":qual_trim_pct_cum},
         columns=["Q", "N", "NCum", "NPct", "NPctCum"])
-    
+
     # quality summary
     len_range = np.arange(1, len_count.shape[0]+1)
     len_count_cum = len_count[::-1].cumsum()[::-1]
@@ -120,69 +123,69 @@ def _stats(input_fn, topn=None):
         "L": len_range,
         "NPctCum": len_count_pct_cum,
         "QAv": qual_av,
-        "EERatePctAv": eerate_av}, 
+        "EERatePctAv": eerate_av},
         columns=["L", "NPctCum", "QAv", "EERatePctAv"])
-    
+
     return len_dist, qual_dist, qual_summ
 
 
 def _plot_len_dist(values, output_fn):
     fig = plt.figure(figsize=(10, 8))
-    
+
     ax1 = plt.subplot(311)
     plt.bar(values["L"]-0.5, values["N"], width=1, log=False,
             linewidth=0.5, color="white")
     ax1.yaxis.set_major_formatter(mtick.FormatStrFormatter('%.1e'))
     plt.ylabel("# of reads")
     ax1.grid(True)
-    
+
     ax2 = plt.subplot(312, sharex=ax1)
     plt.bar(values["L"]-0.5, values["NPct"], width=1, log=False,
             linewidth=0.5, color="white")
     plt.ylabel("# of reads %")
     ax2.grid(True)
-    
+
     ax3 = plt.subplot(313, sharex=ax1)
     plt.plot(values["L"], values["NPctCum"], linewidth=1, color='black')
     plt.ylabel("# of reads % (cumulative)")
     ax3.grid(True)
-    
+
     plt.xlabel("Read length")
     plt.xlim(values["L"].min()-0.5, values["L"].max()+0.5)
 
     fig.savefig(output_fn, bbox_inches='tight', dpi=300, format='png')
 
-    
+
 def _plot_qual_dist(values, output_fn):
     fig = plt.figure(figsize=(10, 8))
-    
+
     ax1 = plt.subplot(311)
     plt.bar(values["Q"]-0.5, values["N"], width=1, log=False,
             linewidth=0.5, color="white")
     ax1.yaxis.set_major_formatter(mtick.FormatStrFormatter('%.1e'))
     plt.ylabel("# of bases")
     ax1.grid(True)
-    
+
     ax2 = plt.subplot(312, sharex=ax1)
     plt.bar(values["Q"]-0.5, values["NPct"], width=1, log=False,
             linewidth=0.5, color="white")
     plt.ylabel("# of bases %")
     ax2.grid(True)
-    
+
     ax3 = plt.subplot(313, sharex=ax1)
     plt.plot(values["Q"], values["NPctCum"], linewidth=1, color='black')
     plt.ylabel("# of bases % (cumulative)")
     ax3.grid(True)
-    
+
     plt.xlabel("Q score")
     plt.xlim(values["Q"].min()-0.5, values["Q"].max()+0.5)
 
-    fig.savefig(output_fn, bbox_inches='tight', dpi=300, format='png')  
+    fig.savefig(output_fn, bbox_inches='tight', dpi=300, format='png')
 
-    
+
 def _plot_qual_summ(values, output_fn):
     fig = plt.figure(figsize=(10, 8))
-    
+
     ax1 = plt.subplot(311)
     plt.plot(values["L"], values["NPctCum"], linewidth=1, color='black')
     plt.ylabel("# of reads % (cumulative)")
@@ -212,27 +215,27 @@ def stats(input_fn, output_dir, topn=None):
     len_dist_fn = os.path.join(output_dir, "stats_lendist.txt")
     qual_dist_fn = os.path.join(output_dir, "stats_qualdist.txt")
     qual_summ_fn = os.path.join(output_dir, "stats_qualsumm.txt")
-    
+
     len_dist_plot_fn = os.path.join(output_dir, "stats_lendist_plot.png")
     qual_dist_plot_fn = os.path.join(output_dir, "stats_qualdist_plot.png")
     qual_summ_plot_fn = os.path.join(output_dir, "stats_qualsumm_plot.png")
-    
+
     len_dist, qual_dist, qual_summ = _stats(input_fn=input_fn, topn=topn)
-    
+
     len_dist.to_csv(len_dist_fn, sep="\t", float_format="%.3f", index=False)
     qual_dist.to_csv(qual_dist_fn, sep="\t", float_format="%.3f", index=False)
     qual_summ.to_csv(qual_summ_fn, sep="\t", float_format="%.3f", index=False)
 
-    # custom rc. "svg.fonttype: none" corrects the conversion of text in PDF 
+    # custom rc. "svg.fonttype: none" corrects the conversion of text in PDF
     # and SVG files
     rc = {
-        "xtick.labelsize": 8, 
+        "xtick.labelsize": 8,
         "ytick.labelsize": 8,
         "axes.labelsize": 10,
         "legend.fontsize": 10,
-        "svg.fonttype": "none"} 
+        "svg.fonttype": "none"}
 
-    with plt.rc_context(rc=rc): 
+    with plt.rc_context(rc=rc):
         _plot_len_dist(len_dist, len_dist_plot_fn)
         _plot_qual_dist(qual_dist, qual_dist_plot_fn)
         _plot_qual_summ(qual_summ, qual_summ_plot_fn)
