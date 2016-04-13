@@ -27,8 +27,7 @@ _classifiers = [
     'Topic :: Scientific/Engineering :: Bio-Informatics',
     'Environment :: Console',
     'Operating System :: MacOS :: MacOS X',
-    'Operating System :: POSIX :: Linux',
-    'Intended Audience :: Science/Research']
+    'Operating System :: POSIX :: Linux']
 
 def _print_status(msg):
     sys.stdout.write(msg+'\n')
@@ -85,6 +84,18 @@ def _build_fasttree():
     os.chdir(cwd)
     shutil.copy(os.path.join(_THIRDPARTY_TEMP, "fasttree"), THIRDPARTY_BIN_PATH)
 
+def _build_swarm():
+    _print_status("Building swarm...")
+    cwd = os.getcwd()
+    tar_fn = glob.glob(os.path.join(_THIRDPARTY_SRC, "swarm*.tar.gz"))[0]
+    _untar(tar_fn, _THIRDPARTY_TEMP)
+    tar_dir = glob.glob(os.path.join(_THIRDPARTY_TEMP, "swarm*/src/"))[0]
+    os.chdir(tar_dir)
+    _system_call(["make"])
+    os.chmod("swarm", os.stat("swarm").st_mode | stat.S_IEXEC)
+    os.chdir(cwd)
+    shutil.copy(os.path.join(tar_dir, "swarm"), THIRDPARTY_BIN_PATH)
+
 class _sdist(sdist):
     """ Make sure third-party binaries will be removed before running sdist.
     """
@@ -93,6 +104,7 @@ class _sdist(sdist):
             os.remove(os.path.join(THIRDPARTY_BIN_PATH, "vsearch"))
             os.remove(os.path.join(THIRDPARTY_BIN_PATH, "muscle"))
             os.remove(os.path.join(THIRDPARTY_BIN_PATH, "fasttree"))
+            os.remove(os.path.join(THIRDPARTY_BIN_PATH, "swarm"))
         except OSError:
             pass
 
@@ -107,6 +119,7 @@ if all([cmd not in sys.argv for cmd in ['sdist', 'egg_info', 'register']]):
     _build_vsearch()
     _build_muscle()
     _build_fasttree()
+    _build_swarm()
 
     shutil.rmtree(_THIRDPARTY_TEMP)
 
