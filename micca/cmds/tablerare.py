@@ -1,5 +1,3 @@
-#! /usr/bin/env python
-
 ##    Copyright 2015-2016 Davide Albanese <davide.albanese@gmail.com>
 ##    Copyright 2015-2016 Fondazione Edmund Mach (FEM)
 
@@ -26,10 +24,10 @@ import textwrap
 
 import micca.api
 
-    
+
 def main(argv):
     prog = "micca tablerare"
-    
+
     description = textwrap.dedent('''\
         Rarefy an OTU table by subsampling, with or without
         replacement. Samples that have fewer counts then the depth are
@@ -39,7 +37,7 @@ def main(argv):
 
     epilog = textwrap.dedent('''\
         Examples
-        
+
         Rarefy an OTU table at a depth of 1000 sequences/sample:
 
             micca tablerare -i otutable.txt -o otutable_rare.txt -d 1000
@@ -52,7 +50,7 @@ def main(argv):
         epilog=epilog)
 
     group = parser.add_argument_group("arguments")
-    
+
     group.add_argument('-i', '--input', metavar="FILE", required=True,
                        help="input OTU table file (required).")
     group.add_argument('-o', '--output', metavar="FILE", required=True,
@@ -76,4 +74,3 @@ def main(argv):
     except Exception as err:
         sys.stderr.write("Error: {}\n".format(err))
         sys.exit(1)
-    

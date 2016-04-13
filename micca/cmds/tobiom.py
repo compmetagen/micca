@@ -1,5 +1,3 @@
-#! /usr/bin/env python
-
 ##    Copyright 2016 Davide Albanese <davide.albanese@gmail.com>
 ##    Copyright 2016 Fondazione Edmund Mach (FEM)
 
@@ -26,17 +24,17 @@ import textwrap
 
 import micca.api
 
-  
+
 def main(argv):
     prog = "micca tobiom"
-    
+
     description = textwrap.dedent('''\
         micca tobiom converts the micca OTU table into BIOM Version
         1.0 (JSON) format. Optionally, taxonomy and/or sample
         information can be added.  When you convert on
         (closed-reference) OTU table for PICRUSt, replace OTU IDs with
         the original sequence IDs use the option -u/--otuids.
-        ''') 
+        ''')
 
     epilog = textwrap.dedent('''\
         Example
@@ -51,7 +49,7 @@ def main(argv):
         epilog=epilog)
 
     group = parser.add_argument_group("arguments")
-    
+
     group.add_argument('-i', '--input', metavar="FILE", required=True,
                        help="input OTU table file (required).")
     group.add_argument('-o', '--output', metavar='FILE', required=True,
@@ -62,7 +60,7 @@ def main(argv):
                        help="add sample information from a sample data file.")
     group.add_argument('-u', '--otuids', metavar="FILE",
                        help="replace OTU IDs with the original sequence IDs. "
-                       "Useful when the closed-reference OTU picking protocol " 
+                       "Useful when the closed-reference OTU picking protocol "
                        "was performed for PICRUSt")
     args = parser.parse_args(argv)
 

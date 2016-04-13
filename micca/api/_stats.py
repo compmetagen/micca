@@ -1,5 +1,5 @@
-##    Copyright 2015 Davide Albanese <davide.albanese@gmail.com>
-##    Copyright 2015 Fondazione Edmund Mach (FEM)
+##    Copyright 2015-2016 Davide Albanese <davide.albanese@gmail.com>
+##    Copyright 2015-2016 Fondazione Edmund Mach (FEM)
 
 ##    This file is part of micca.
 ##

@@ -1,5 +1,3 @@
-#! /usr/bin/env python
-
 ##    Copyright 2015-2016 Davide Albanese <davide.albanese@gmail.com>
 ##    Copyright 2015-2016 Fondazione Edmund Mach (FEM)
 

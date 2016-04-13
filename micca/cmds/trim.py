@@ -1,5 +1,3 @@
-#! /usr/bin/env python
-
 ##    Copyright 2015 Davide Albanese <davide.albanese@gmail.com>
 ##    Copyright 2015 Fondazione Edmund Mach (FEM)
 
@@ -26,10 +24,10 @@ import textwrap
 
 import micca.api
 
-    
+
 def main(argv):
     prog = "micca trim"
-    
+
     description = textwrap.dedent('''\
         micca trim trims forward and reverse primers from a FASTQ/FASTA file
         using Cutadapt (doi: 10.14806/ej.17.1.200) internally. Primer and the
@@ -72,7 +70,7 @@ def main(argv):
         epilog=epilog)
 
     group = parser.add_argument_group("arguments")
-    
+
     group.add_argument('-i', '--input', metavar="FILE", required=True,
                        help="input FASTQ or FASTA file (required).")
     group.add_argument('-o', '--output', metavar="FILE", required=True,
@@ -106,7 +104,7 @@ def main(argv):
 
     try:
         micca.api.trim(
-            input_fn=args.input, 
+            input_fn=args.input,
             output_fn=args.output,
             forward=args.forward,
             reverse=args.reverse,

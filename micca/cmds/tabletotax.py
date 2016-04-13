@@ -1,5 +1,3 @@
-#! /usr/bin/env python
-
 ##    Copyright 2015-2016 Davide Albanese <davide.albanese@gmail.com>
 ##    Copyright 2015-2016 Fondazione Edmund Mach (FEM)
 
@@ -26,11 +24,11 @@ import textwrap
 
 import micca.api
 from micca import argutils
-    
-    
+
+
 def main(argv):
     prog = "micca tabletotax"
-    
+
     description = textwrap.dedent('''\
         Given an OTU table and a taxonomy file, micca tabletotax
         creates in the output directory a table for each taxonomic
@@ -42,8 +40,8 @@ def main(argv):
         file (see 'micca otu'). The taxonomy file must be a
         tab-delimited file where where rows are either in the form
         (see 'micca classify'):
-        
-        1. SEQID[TAB]k__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__;g__; 
+
+        1. SEQID[TAB]k__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__;g__;
         2. SEQID[TAB]Bacteria;Firmicutes;Clostridia;Clostridiales;;;
         3. SEQID[TAB]Bacteria;Firmicutes;Clostridia;Clostridiales
     ''')
@@ -73,10 +71,9 @@ def main(argv):
 
     try:
         micca.api.table.totax(
-            input_fn=args.input, 
+            input_fn=args.input,
             tax_fn=args.tax,
             output_dir=args.output)
     except Exception as err:
         sys.stderr.write("Error: {}\n".format(err))
         sys.exit(1)
-

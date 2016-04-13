@@ -1,5 +1,3 @@
-#! /usr/bin/env python
-
 ##    Copyright 2015-2016 Davide Albanese <davide.albanese@gmail.com>
 ##    Copyright 2015-2016 Fondazione Edmund Mach (FEM)
 
@@ -30,10 +28,10 @@ import micca.api
 
 def main(argv):
     prog = "micca filterstats"
-    
+
     description = textwrap.dedent('''\
-        micca filterstats reports the fraction of reads that would pass for each 
-        specified maximum expected error (EE) rate %% and the maximum number of 
+        micca filterstats reports the fraction of reads that would pass for each
+        specified maximum expected error (EE) rate %% and the maximum number of
         allowed Ns after:
 
         * discarding sequences that are shorter than the specified length
@@ -43,7 +41,7 @@ def main(argv):
         * discarding sequences that are shorter than the specified length AND
           truncating sequences that are longer (suggested for Illumina and 454
           unpaired reads);
-     
+
         Parameters for the 'micca filter' command should be chosen for each
         sequencing run using this tool.
 
@@ -61,7 +59,7 @@ def main(argv):
 
         Compute filter statistics on the top 10000 sequences, predicting
         the fraction of reads that would pass for each maximum EE error
-        rate (default values): 
+        rate (default values):
 
             micca filterstats -i input.fastq -o stats -t 10000
     ''')
@@ -73,7 +71,7 @@ def main(argv):
         epilog=epilog)
 
     group = parser.add_argument_group("arguments")
-    
+
     group.add_argument('-i', '--input', metavar="FILE", required=True,
                        help="input FASTQ file, Sanger/Illumina 1.8+ format "
                        "(phred+33) (required).")
@@ -88,10 +86,10 @@ def main(argv):
                        help="max expected error rates (%%). (default "
                        "%(default)s)")
     group.add_argument('-n', '--maxns', type=int,
-                       help="max number of Ns. (disabled by default).") 
+                       help="max number of Ns. (disabled by default).")
     args = parser.parse_args(argv)
 
-    
+
     try:
         micca.api.filterstats(
             input_fn=args.input,

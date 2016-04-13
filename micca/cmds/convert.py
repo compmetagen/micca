@@ -1,5 +1,3 @@
-#! /usr/bin/env python
-
 ##    Copyright 2015-2016 Davide Albanese <davide.albanese@gmail.com>
 ##    Copyright 2015-2016 Fondazione Edmund Mach (FEM)
 
@@ -29,7 +27,7 @@ import micca.api
 
 def main(argv):
     prog = "micca convert"
-    
+
     description = textwrap.dedent('''\
         micca convert converts between sequence file formats. See
         http://biopython.org/wiki/SeqIO#File_Formats for a comprehnsive list
@@ -42,20 +40,20 @@ def main(argv):
         {}
 
     '''.format(
-        "\n".join([" * {}".format(fmt) for fmt in micca.api.CONVERT_INPUT_FMTS]), 
+        "\n".join([" * {}".format(fmt) for fmt in micca.api.CONVERT_INPUT_FMTS]),
         "\n".join([" * {}".format(fmt) for fmt in micca.api.CONVERT_OUTPUT_FMTS])))
 
     epilog = textwrap.dedent('''\
         Examples
-        
+
         Convert FASTA+QUAL files into a FASTQ (Sanger/Illumina 1.8+) file:
 
             micca convert -i input.fasta -q input.qual -o output.fastq \\
             -f fasta-qual -F fastq
 
         Convert a SFF file into a FASTQ (Sanger/Illumina 1.8+) file:
-    
-            micca convert -i input.sff -o output.fastq -f sff -F fastq 
+
+            micca convert -i input.sff -o output.fastq -f sff -F fastq
     ''')
 
 
@@ -66,7 +64,7 @@ def main(argv):
         epilog=epilog)
 
     group = parser.add_argument_group("arguments")
-    
+
     group.add_argument('-i', '--input', metavar="FILE", required=True,
                        help="input sequence file (required).")
     group.add_argument('-o', '--output', metavar="FILE", required=True,

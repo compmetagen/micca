@@ -1,5 +1,3 @@
-#! /usr/bin/env python
-
 ##    Copyright 2016 Davide Albanese <davide.albanese@gmail.com>
 ##    Copyright 2016 Fondazione Edmund Mach (FEM)
 
@@ -26,12 +24,12 @@ import textwrap
 
 import micca.api
 
-    
+
 def main(argv):
     prog = "micca tree"
-    
+
     description = textwrap.dedent('''\
-        micca tree infers phylogenetic trees from alignments. It provides two 
+        micca tree infers phylogenetic trees from alignments. It provides two
         methods:
 
         * FastTree (doi: 10.1371/journal.pone.0009490);
@@ -44,7 +42,7 @@ def main(argv):
         Tree inference using FastTree and the generalized time-reversible
         (GTR)+CAT model:
 
-            micca tree -i input.fasta -o tree.tree --fasttree-gtr        
+            micca tree -i input.fasta -o tree.tree --fasttree-gtr
     ''')
 
     parser = argparse.ArgumentParser(
@@ -54,7 +52,7 @@ def main(argv):
         epilog=epilog)
 
     group = parser.add_argument_group("arguments")
-    
+
     group.add_argument('-i', '--input', metavar="FILE", required=True,
                        help="input FASTA file (required).")
     group.add_argument('-o', '--output', metavar='FILE', required=True,
@@ -75,7 +73,7 @@ def main(argv):
                                 help="speed up the neighbor joining phase and "
                                 "reduce memory usage recommended for >50,000 "
                                 "sequences) (default %(default)s).")
-    
+
     # MUSCLE options
     group_muscle = parser.add_argument_group("MUSCLE specific options")
     group_muscle.add_argument('--muscle-cluster', default="upgmb",
@@ -83,7 +81,7 @@ def main(argv):
                               help="clustering algorithm (default %(default)s).")
     args = parser.parse_args(argv)
 
-    
+
     try:
         if args.method == "fasttree":
             micca.api.tree.fasttree(
@@ -99,5 +97,3 @@ def main(argv):
     except Exception as err:
         sys.stderr.write("Error: {}\n".format(err))
         sys.exit(1)
-        
-        

@@ -1,5 +1,3 @@
-#! /usr/bin/env python
-
 ##    Copyright 2015 Davide Albanese <davide.albanese@gmail.com>
 ##    Copyright 2015 Fondazione Edmund Mach (FEM)
 
@@ -26,7 +24,7 @@ import textwrap
 
 import micca.api
 
-    
+
 def main(argv):
     prog = "micca filter"
 
@@ -60,7 +58,7 @@ def main(argv):
         pass the filter at different minimum lengths with or without
         truncation, given a maximum allowed expected error rate %% and maximum
         allowed number of Ns.
-        
+
         micca-filter is based on VSEARCH (https://github.com/torognes/vsearch).
     ''')
 
@@ -80,7 +78,7 @@ def main(argv):
         epilog=epilog)
 
     group = parser.add_argument_group("arguments")
-    
+
     group.add_argument('-i', '--input', metavar="FILE", required=True,
                        help="input FASTQ file, Sanger/Illumina 1.8+ format "
                        "(phred+33) (required).")
@@ -107,7 +105,7 @@ def main(argv):
                        help="file format (default %(default)s).")
     args = parser.parse_args(argv)
 
-    
+
     try:
         micca.api.filter(
             input_fn=args.input,

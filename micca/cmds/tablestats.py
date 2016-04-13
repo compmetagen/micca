@@ -1,5 +1,3 @@
-#! /usr/bin/env python
-
 ##    Copyright 2015-2016 Davide Albanese <davide.albanese@gmail.com>
 ##    Copyright 2015-2016 Fondazione Edmund Mach (FEM)
 
@@ -30,7 +28,7 @@ import micca.api
 
 def main(argv):
     prog = "micca tablestats"
-    
+
     description = textwrap.dedent('''\
         micca tablestats reports a sample summary, an OTU summary and
         the rarefaction curves for the input OTU table. The
@@ -49,7 +47,7 @@ def main(argv):
     epilog = textwrap.dedent('''\
         Examples
 
-        Compute OTU table statistics on otutable.txt: 
+        Compute OTU table statistics on otutable.txt:
 
             micca tablestats -i otutable.txt -o tablestats
     ''')
@@ -61,7 +59,7 @@ def main(argv):
         epilog=epilog)
 
     group = parser.add_argument_group("arguments")
-    
+
     group.add_argument('-i', '--input', metavar="FILE", required=True,
                        help="input FASTQ file, Sanger/Illumina 1.8+ format "
                        "(phred+33) (required).")
@@ -78,14 +76,14 @@ def main(argv):
                        "%(default)s).")
     args = parser.parse_args(argv)
 
-    
+
     try:
         micca.api.table.stats(
             input_fn=args.input,
             output_dir=args.output,
             step=args.step,
             replace=args.replace,
-            seed=args.seed)        
+            seed=args.seed)
     except Exception as err:
         sys.stderr.write("Error: {}\n".format(err))
         sys.exit(1)
