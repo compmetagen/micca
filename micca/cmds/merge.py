@@ -1,5 +1,3 @@
-#! /usr/bin/env python
-
 ##    Copyright 2015 Davide Albanese <davide.albanese@gmail.com>
 ##    Copyright 2015 Fondazione Edmund Mach (FEM)
 
@@ -29,7 +27,7 @@ import micca.api
 
 def main(argv):
     prog = "micca merge"
-    
+
     description = textwrap.dedent('''\
         micca merge merges several FASTQ or FASTA files in a single file.
         Different samples will be merged in a single file and sample names
@@ -56,7 +54,7 @@ def main(argv):
         epilog=epilog)
 
     group = parser.add_argument_group("arguments")
-    
+
     group.add_argument('-i', '--input', nargs='+', metavar="FILE",
                        required=True,
                        help="input FASTQ/FASTA file(s) (required).")
@@ -71,7 +69,7 @@ def main(argv):
                        help="file format (default %(default)s).")
     args = parser.parse_args(argv)
 
-    
+
     try:
         micca.api.merge(
             input_fns=args.input,

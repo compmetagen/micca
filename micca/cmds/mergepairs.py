@@ -1,5 +1,3 @@
-#! /usr/bin/env python
-
 ##    Copyright 2015 Davide Albanese <davide.albanese@gmail.com>
 ##    Copyright 2015 Fondazione Edmund Mach (FEM)
 
@@ -30,11 +28,11 @@ import micca.api
 
 def _stdoutwarn(message, category, filename, lineno, file=None, line=None):
     sys.stdout.write(str(message))
-        
-    
+
+
 def main(argv):
     prog = "micca mergepairs"
-    
+
     description = textwrap.dedent('''\
         micca mergepairs merges paired-end sequence reads into one sequence.
 
@@ -48,7 +46,7 @@ def main(argv):
         2. the reverse file name will be constructed by replacing the string
            '_R1' in the forward file name with '_R2' (typical in Illumina
            file names, see options -p/--pattern and -e/--repl);
-        
+
         3. after the merging of the paired reads, different samples will be
            merged in a single file and sample names will be appended to the
            sequence identifier (e.g. >SEQID;sample=SAMPLENAME), as in 'micca
@@ -72,7 +70,7 @@ def main(argv):
             micca mergepairs -i reads1.fastq -r reads2.fastq -o merged.fastq \\
             -l 50 -d 3
 
-        Merge several illumina paired reads (typically named *_R1*.fastq and 
+        Merge several illumina paired reads (typically named *_R1*.fastq and
         *_R2*.fastq):
 
             micca mergepairs -i *_R1*.fastq -o merged.fastq --notmerged-fwd \\
@@ -86,7 +84,7 @@ def main(argv):
         epilog=epilog)
 
     group = parser.add_argument_group("arguments")
-    
+
     group.add_argument('-i', '--input', nargs='+', metavar="FILE",
                        required=True,
                        help="forward FASTQ file(s), Sanger/Illumina 1.8+ format "
@@ -122,7 +120,7 @@ def main(argv):
                        help="write not merged reverse reads.")
     args = parser.parse_args(argv)
 
-    
+
     warnings.showwarning = _stdoutwarn
 
     try:
@@ -140,4 +138,3 @@ def main(argv):
     except Exception as err:
         sys.stderr.write("Error: {}\n".format(err))
         sys.exit(1)
-        

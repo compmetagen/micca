@@ -1,5 +1,3 @@
-#! /usr/bin/env python
-
 ##    Copyright 2016 Davide Albanese <davide.albanese@gmail.com>
 ##    Copyright 2016 Fondazione Edmund Mach (FEM)
 
@@ -27,7 +25,7 @@ import micca.api
 
 def main(argv):
     prog = "micca root"
-    
+
     description = textwrap.dedent('''\
         micca root reroot the input tree:
 
@@ -57,7 +55,7 @@ def main(argv):
         epilog=epilog)
 
     group = parser.add_argument_group("arguments")
-    
+
     group.add_argument('-i', '--input', metavar="FILE", required=True,
                        help="input FASTA file (required).")
     group.add_argument('-o', '--output', metavar='FILE', required=True,
@@ -70,7 +68,7 @@ def main(argv):
                        "for the outgroup method).")
     args = parser.parse_args(argv)
 
-    
+
     if (args.method == "outgroup") and (args.targets is None):
         parser.error("outgroup method requires a list of taxa (-t/--taxa)")
 

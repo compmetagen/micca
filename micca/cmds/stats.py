@@ -1,5 +1,3 @@
-#! /usr/bin/env python
-
 ##    Copyright 2015 Davide Albanese <davide.albanese@gmail.com>
 ##    Copyright 2015 Fondazione Edmund Mach (FEM)
 
@@ -26,33 +24,33 @@ import textwrap
 
 import micca.api
 from micca import argutils
-    
+
 def main(argv):
     prog = "micca stats"
-    
+
     description = textwrap.dedent('''\
         micca stats reports statistics on reads in a FASTQ file. micca stats
         returns in the output directory 3 tab-delimited text files:
-        
+
         * stats_lendist.txt: length distribution;
         * stats_qualdist.txt: Q score distribution;
-        * stats_qualsumm.txt: quality summary. For each read position, the 
+        * stats_qualsumm.txt: quality summary. For each read position, the
           following statistics are reported:
           - L: read position;
           - NPctCum: percent of reads with at least L bases;
           - QAv: average Q score at position L;
           - EERatePctAv: average expected error (EE) rate %.
-     
+
         Moreover, micca stats returns the respective plots in PNG format,
-        stats_lendist_plot.png, stats_qualdist_plot.png, and 
+        stats_lendist_plot.png, stats_qualdist_plot.png, and
         stats_qualsumm_plot.png.
     ''')
 
     epilog = textwrap.dedent('''\
         Examples
-    
+
         Compute statistics on the top 10000 sequences of input.fastq:
-        
+
             micca stats -i input.fastq -o stats -n 10000
     ''')
 
@@ -63,7 +61,7 @@ def main(argv):
         epilog=epilog)
 
     group = parser.add_argument_group("arguments")
-    
+
     group.add_argument('-i', '--input', metavar="FILE", required=True,
                        help="input FASTQ file, Sanger/Illumina 1.8+ format "
                        "(phred+33) (required).")
@@ -74,8 +72,8 @@ def main(argv):
                        help="perform statistics only on the first TOPN "
                        "sequences (disabled by default).")
     args = parser.parse_args(argv)
-   
-    
+
+
     try:
         micca.api.stats(
             input_fn=args.input,
