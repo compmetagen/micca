@@ -34,10 +34,12 @@ def sortbysize(input_fn, output_fn, minsize=1, xsize=False):
     _vsearch_cmd(params)
 
 
-def derep_fulllength(input_fn, output_fn, sizein=False, sizeout=False,
-                     xsize=False):
+def derep_fulllength(input_fn, output_fn, uc_fn=None, sizein=False,
+                     sizeout=False, xsize=False):
 
     params = ["--derep_fulllength", input_fn, "--output", output_fn]
+    if uc_fn is not None:
+        params.extend(["--uc", uc_fn])
     if sizein:
         params.append("--sizein")
     if sizeout:

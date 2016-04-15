@@ -22,6 +22,7 @@ import os
 import os.path
 import csv
 import re
+import sqlite3
 
 import pandas as pd
 from Bio.SeqIO.FastaIO import SimpleFastaParser
@@ -31,6 +32,7 @@ from Bio import SeqIO
 import micca.ioutils
 import micca.tp
 
+__all__ = ["denovo_greedy", "denovo_swarm", "open_ref", "closed_ref", ]
 
 
 _OTUTABLE_FN = "otutable.txt"
@@ -88,6 +90,29 @@ def _hits_to_otutable(hits_fn, otuids_fn, otutable_fn):
     otutable = otutable.astype(int)
     otutable = otutable.loc[ordered_otuids]
     otutable.to_csv(otutable_fn, sep='\t', index_label="OTU")
+
+
+def _uc_to_sqlite(uc_fn, sqlite_fn):
+    con = sqlite3.connect(sqlite_fn)
+    cur = con.cursor()
+    cur.execute('CREATE TABLE hits (query text, target text, ident real)')
+    with open(uc_fn, 'rb') as uc_handle:
+        uc_reader = csv.reader(uc_handle, delimiter='\t')
+        for row in uc_reader:
+            rtype, ident, query, target = row[0], row[3], row[8], row[9]
+            if rtype == 'H':
+                pass
+            elif rtype == 'C':
+                target = query
+            else:
+                continue
+            cur.execute('INSERT INTO hits VALUES (?, ?, ?)',
+                        (query, target, ident))
+
+    cur.execute('CREATE INDEX idx_target ON hits (target)')
+    con.commit()
+    cur.close()
+    con.close()
 
 
 def _denovo_greedy(input_fn, otus_fn, otuids_fn, hits_fn, otuschim_fn,
@@ -317,16 +342,16 @@ def open_ref(input_fn, ref_fn, output_dir, ident=0.97, threads=1, mincov=0.75,
             os.remove(denovo_hits_fn)
             raise
 
-        with open(otus_fn,'a') as otus_handle:
-            with open(denovo_otus_fn,'r') as denovo_otus_handle:
+        with open(otus_fn, 'a') as otus_handle:
+            with open(denovo_otus_fn, 'r') as denovo_otus_handle:
                 otus_handle.write(denovo_otus_handle.read())
 
-        with open(otuids_fn,'a') as otuids_handle:
-            with open(denovo_otuids_fn,'r') as denovo_otuids_handle:
+        with open(otuids_fn, 'a') as otuids_handle:
+            with open(denovo_otuids_fn, 'r') as denovo_otuids_handle:
                 otuids_handle.write(denovo_otuids_handle.read())
 
-        with open(hits_fn,'a') as hits_handle:
-            with open(denovo_hits_fn,'r') as denovo_hits_handle:
+        with open(hits_fn, 'a') as hits_handle:
+            with open(denovo_hits_fn, 'r') as denovo_hits_handle:
                 hits_handle.write(denovo_hits_handle.read())
 
         os.remove(denovo_otus_fn)
@@ -337,4 +362,141 @@ def open_ref(input_fn, ref_fn, output_dir, ident=0.97, threads=1, mincov=0.75,
 
     os.remove(notmatched_fn)
 
+    _hits_to_otutable(hits_fn, otuids_fn, otutable_fn)
+
+
+def denovo_swarm(input_fn, output_dir, differences=1, fastidious=True,
+                 threads=1, rmchim=False, minsize=1):
+
+    def strip_size(s):
+        return re.sub(r'(^|;)size=([0-9]+)(;|$)', '', s)
+
+    if not os.path.isdir(output_dir):
+        raise ValueError("directory {} does not exist".format(output_dir))
+
+    otus_fn = os.path.join(output_dir, _OTUS_FN)
+    otuids_fn = os.path.join(output_dir, _OTUIDS_FN)
+    hits_fn = os.path.join(output_dir, _HITS_FN)
+    otuschim_fn = os.path.join(output_dir, _OTUSCHIM_FN)
+    otutable_fn = os.path.join(output_dir, _OTUTABLE_FN)
+
+    # dereplication
+    derep_fn = micca.ioutils.make_tempfile(output_dir)
+    derep_uc_fn = micca.ioutils.make_tempfile(output_dir)
+    try:
+        micca.tp.vsearch.derep_fulllength(input_fn, derep_fn, derep_uc_fn,
+                                          sizeout=True)
+    except:
+        os.remove(derep_fn)
+        os.remove(derep_uc_fn)
+        raise
+
+    if os.stat(derep_fn).st_size == 0:
+        os.remove(derep_fn)
+        os.remove(derep_uc_fn)
+        return
+
+    # store the uc file in a sqlite3 database
+    derep_sqlite_fn = micca.ioutils.make_tempfile(output_dir)
+    _uc_to_sqlite(derep_uc_fn, derep_sqlite_fn)
+    os.remove(derep_uc_fn)
+
+    # sort by size and filter by minimum size
+    derep_sort_fn = micca.ioutils.make_tempfile(output_dir)
+    try:
+        micca.tp.vsearch.sortbysize(derep_fn, derep_sort_fn, minsize=minsize)
+    except:
+        os.remove(derep_sort_fn)
+        os.remove(derep_sqlite_fn)
+        raise
+    finally:
+        os.remove(derep_fn)
+
+    if os.stat(derep_sort_fn).st_size == 0:
+        os.remove(derep_sort_fn)
+        os.remove(derep_sqlite_fn)
+        return
+
+    # swarm clustering
+    otus_temp_fn = micca.ioutils.make_tempfile(output_dir)
+    swarms_temp_fn = micca.ioutils.make_tempfile(output_dir)
+    try:
+        micca.tp.swarm(
+            input_fn=derep_sort_fn,
+            output_fn=swarms_temp_fn,
+            seeds_fn=otus_temp_fn,
+            differences=differences,
+            fastidious=fastidious,
+            threads=threads,
+            usearch_abundance=True)
+    except:
+        os.remove(swarms_temp_fn)
+        os.remove(otus_temp_fn)
+        os.remove(derep_sqlite_fn)
+        raise
+    finally:
+        os.remove(derep_sort_fn)
+
+    # remove chimeras from the OTUs representatives
+    # (see https://github.com/torognes/swarm/wiki/Frequently-Asked-Questions)
+    if rmchim:
+        otus_nochim_fn = micca.ioutils.make_tempfile(output_dir)
+        try:
+            micca.tp.vsearch.uchime_denovo(
+                input_fn=otus_temp_fn,
+                chimeras_fn=otuschim_fn,
+                nonchimeras_fn=otus_nochim_fn)
+        except:
+            os.remove(otus_nochim_fn)
+            os.remove(derep_sqlite_fn)
+            raise
+        finally:
+            os.remove(otus_temp_fn)
+
+        if os.stat(otus_nochim_fn).st_size == 0:
+            os.remove(otus_nochim_fn)
+            os.remove(derep_sqlite_fn)
+            return
+    else:
+        otus_nochim_fn = otus_temp_fn
+
+    # write the OTUs file and store the OTU ids
+    otuids = []
+    otus_nochim_handle = open(otus_nochim_fn, "rb")
+    otus_handle = open(otus_fn, "wb")
+    for i, (title, seq) in enumerate(SimpleFastaParser(otus_nochim_handle)):
+        otuid = strip_size(title.split()[0])
+        otuids.append(otuid)
+        otus_handle.write(">{}\n{}\n".format(otuid, seq.upper()))
+
+    otus_nochim_handle.close()
+    otus_handle.close()
+    os.remove(otus_nochim_fn)
+
+    # write the hits file
+    swarms_temp_handle = open(swarms_temp_fn, 'rb')
+    swarms_temp_reader = csv.reader(swarms_temp_handle, delimiter=' ')
+    hits_handle = open(hits_fn, 'wb')
+    hits_writer = csv.writer(hits_handle, delimiter='\t', lineterminator='\n')
+    con = sqlite3.connect(derep_sqlite_fn)
+    cur = con.cursor()
+    for otu in swarms_temp_reader:
+        otuid = strip_size(otu[0])
+        if otuid in otuids:
+            for derep in otu:
+                derep = strip_size(derep)
+                cur.execute('SELECT query FROM hits WHERE target=?', (derep, ))
+                amplicons = [elem[0] for elem in cur.fetchall()]
+                for amplicon in amplicons:
+                    hits_writer.writerow([amplicon, otuid, '*'])
+
+    cur.close()
+    con.close()
+    hits_handle.close()
+    swarms_temp_handle.close()
+
+    os.remove(swarms_temp_fn)
+    os.remove(derep_sqlite_fn)
+
+    _rename_seqids(otus_fn, otuids_fn, prefix="DENOVO")
     _hits_to_otutable(hits_fn, otuids_fn, otutable_fn)

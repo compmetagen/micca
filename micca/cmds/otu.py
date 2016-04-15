@@ -32,31 +32,30 @@ def main(argv):
     description = textwrap.dedent('''\
         micca otu assigns similar sequences (marker genes such as 16S rRNA and
         the fungal ITS region) to operational taxonomic units (OTUs).
+
         Trimming the sequences to a fixed position before clustering is
         *strongly recommended* when they cover partial amplicons or if quality
         deteriorates towards the end (common when you have long amplicons and
         single-end sequencing).
+
+        Removing ambiguous nucleotides 'N' (with the option --maxns 0 in micca
+        filter) is mandatory if you use the de novo swarm clustering method.
 
         micca otu provides the following protocols:
 
         * de novo greedy clustering (denovo_greedy): sequences are clustered
           without relying on an external reference database, using an
           approach similar to the UPARSE pipeline (doi: 10.1038/nmeth.2604):
+          i) predict sequence abundances of each sequence by dereplication; ii)
+          greedy clustering; iii) remove chimeric sequences (de novo, optional)
+          from the representatives; iv) map sequences to the representatives.
 
-          1. predict sequence abundances of each sequence by dereplication,
-             order by abundance and discard sequences with abundance value
-             smaller than --minsize parameter;
-
-          2. greedy clustering. Sequences are considered in order of
-             decreasing abundance. Distance (DGC) and abundance-based (AGC)
-             strategies are supported, see doi: 10.1186/s40168-015-0081-x
-             and doi: 10.7287/peerj.preprints.1466v1 (parameter '--greedy').
-             Therefore, the candidate representative sequences are obtained;
-
-          3. (optional) remove chimeric sequences from the representatives
-             (parameter '--rmchim') performing a de novo chimera detection;
-
-          4. map sequences to the representatives.
+        * de novo swarm (denovo_swarm): sequences are clustered without relying
+          on an external reference database, using swarm (doi:
+          10.7717/peerj.593, doi: 10.7717/peerj.1420,
+          https://github.com/torognes/swarm): i) predict sequence abundances of
+          each sequence by dereplication; ii) swarm clustering; iii) remove
+          chimeric sequences (de novo, optional).
 
         * closed-reference clustering (closed_ref): sequences are clustered
           against an external reference database and reads that could not be
@@ -64,7 +63,7 @@ def main(argv):
 
         * open-reference clustering (open_ref): sequences are clustered
           against an external reference database and reads that could not be
-          matched are clustered with the 'denovo_greedy' protocol.
+          matched are clustered with the 'de novo greedy' protocol.
 
         Outputs:
 
@@ -79,14 +78,15 @@ def main(argv):
 
           1. matching sequence
           2. representative (seed)
-          3. identity (if available), defined as:
+          3. identity (if available, else '*'), defined as:
 
                       matching columns
              -------------------------------- ;
              alignment length - terminal gaps
 
-        * otuschim.fasta (only for 'denovo_greedy' and 'open_ref' when --rmchim
-          is specified): FASTA file containing the chimeric otus;
+        * otuschim.fasta (only for 'denovo_greedy', 'denovo_swarm' and
+          'open_ref' when --rmchim is specified): FASTA file containing the
+          chimeric otus;
     ''')
 
     epilog = textwrap.dedent('''\
@@ -103,6 +103,13 @@ def main(argv):
 
             micca otu -i input.fasta --method open_ref --threads 8 --id 0.97 \\
             --ref greengenes_2013_05/rep_set/97_otus.fasta
+
+        De novo swarm clustering with the protocol suggested by the authors
+        using 4 threads (see https://github.com/torognes/swarm and
+        https://github.com/torognes/swarm/wiki):
+
+            micca otu -i input.fasta --method denovo_swarm --threads 4 \\
+            --swarm-fastidious --rmchim --minsize 1
     ''')
 
     parser = argparse.ArgumentParser(
@@ -122,7 +129,8 @@ def main(argv):
                        help="reference sequences in fasta format, required "
                        "for 'closed_ref' and 'open_ref' clustering methods.")
     group.add_argument('-m', '--method', default="denovo_greedy",
-                       choices=["denovo_greedy", "closed_ref", "open_ref"],
+                       choices=["denovo_greedy", "denovo_swarm", "closed_ref",
+                       "open_ref"],
                        help="clustering method (default %(default)s)")
     group.add_argument('-d', '--id', default=0.97, type=float,
                        help="sequence identity threshold (0.0 to 1.0, "
@@ -137,8 +145,8 @@ def main(argv):
                         help="number of threads to use (1 to 256, default "
                         "%(default)s).")
     group.add_argument('-c', '--rmchim', default=False, action="store_true",
-                        help="remove chimeric sequences (for 'denovo_greedy' and "
-                        "'open_ref' OTU picking methods).")
+                        help="remove chimeric sequences (for 'denovo_greedy', "
+                        "'denovo_swarm' and 'open_ref' OTU picking methods).")
     group.add_argument('-g', '--greedy', default="dgc", choices=["dgc", "agc"],
                         help="greedy clustering strategy, distance (DGC) or "
                         "abundance-based (AGC) (for 'denovo_greedy' and "
@@ -146,14 +154,29 @@ def main(argv):
     group.add_argument('-s', '--minsize', default=2, type=int,
                         help="discard sequences with an abundance value "
                         "smaller than MINSIZE after dereplication (>=1, "
-                        "default %(default)s). Recommended value is 2, i.e. "
-                        "discard singletons (for 'denovo_greedy' and "
-                        "'open_ref' clustering methods).")
+                        "default %(default)s). Recommended value is 2 (i.e. "
+                        "discard singletons) for 'denovo_greedy' and "
+                        "'open_ref', 1 (do not discard anything) for "
+                        "'denovo_swarm'.")
     group.add_argument('-a', '--strand', default="both",
                         choices=["both", "plus"],
                         help="search both strands or the plus strand only "
                         "(for 'closed_ref' and 'open_ref' clustering methods, "
                         "default %(default)s).")
+
+    # swarm options
+    group_swarm = parser.add_argument_group("Swarm specific options")
+    group_swarm.add_argument('--swarm-differences', type=int, default=1,
+                             help="maximum number of differences allowed "
+                             "between two amplicons. Commonly used d values "
+                             "are 1 (linear complexity algorithm), 2 or 3, "
+                             "rarely higher. (>=0, default %(default)s).")
+    group_swarm.add_argument('--swarm-fastidious', default=False,
+                             action="store_true",
+                             help="when working with SWARM_DIFFERENCES=1, "
+                             "perform a second clustering pass to reduce the "
+                             "number of small OTUs (recommended option).")
+
     args = parser.parse_args(argv)
 
 
@@ -170,6 +193,16 @@ def main(argv):
                 threads=args.threads,
                 rmchim=args.rmchim,
                 greedy=args.greedy,
+                minsize=args.minsize)
+
+        elif args.method == "denovo_swarm":
+            micca.api.otu.denovo_swarm(
+                input_fn=args.input,
+                output_dir=args.output,
+                differences=args.swarm_differences,
+                fastidious=args.swarm_fastidious,
+                threads=args.threads,
+                rmchim=args.rmchim,
                 minsize=args.minsize)
 
         elif args.method == "closed_ref":
