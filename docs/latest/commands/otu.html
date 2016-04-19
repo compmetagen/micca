@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>otu &mdash; micca 1.2.0 documentation</title>
+  <title>otu &mdash; micca 1.3.0 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="micca 1.2.0 documentation" href="../index.html"/>
+    <link rel="top" title="micca 1.3.0 documentation" href="../index.html"/>
         <link rel="next" title="root" href="root.html"/>
         <link rel="prev" title="msa" href="msa.html"/> 
 
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                1.2.0
+                1.3.0
               </div>
             
           
@@ -170,37 +170,37 @@
 <h1>otu<a class="headerlink" href="#otu" title="Permalink to this headline">¶</a></h1>
 <div class="highlight-text"><div class="highlight"><pre>$ micca otu --help
 usage: micca otu [-h] -i FILE [-o DIR] [-r FILE]
-                 [-m {denovo_greedy,closed_ref,open_ref}] [-d ID] [-n MINCOV]
-                 [-t THREADS] [-c] [-g {dgc,agc}] [-s MINSIZE]
-                 [-a {both,plus}]
+                 [-m {denovo_greedy,denovo_swarm,closed_ref,open_ref}] [-d ID]
+                 [-n MINCOV] [-t THREADS] [-c] [-g {dgc,agc}] [-s MINSIZE]
+                 [-a {both,plus}] [--swarm-differences SWARM_DIFFERENCES]
+                 [--swarm-fastidious]
 
 micca otu assigns similar sequences (marker genes such as 16S rRNA and
 the fungal ITS region) to operational taxonomic units (OTUs).
+
 Trimming the sequences to a fixed position before clustering is
 *strongly recommended* when they cover partial amplicons or if quality
 deteriorates towards the end (common when you have long amplicons and
 single-end sequencing).
+
+Removing ambiguous nucleotides &#39;N&#39; (with the option --maxns 0 in micca
+filter) is mandatory if you use the de novo swarm clustering method.
 
 micca otu provides the following protocols:
 
 * de novo greedy clustering (denovo_greedy): sequences are clustered
   without relying on an external reference database, using an
   approach similar to the UPARSE pipeline (doi: 10.1038/nmeth.2604):
+  i) predict sequence abundances of each sequence by dereplication; ii)
+  greedy clustering; iii) remove chimeric sequences (de novo, optional)
+  from the representatives; iv) map sequences to the representatives.
 
-  1. predict sequence abundances of each sequence by dereplication,
-     order by abundance and discard sequences with abundance value
-     smaller than --minsize parameter;
-
-  2. greedy clustering. Sequences are considered in order of
-     decreasing abundance. Distance (DGC) and abundance-based (AGC)
-     strategies are supported, see doi: 10.1186/s40168-015-0081-x
-     and doi: 10.7287/peerj.preprints.1466v1 (parameter &#39;--greedy&#39;).
-     Therefore, the candidate representative sequences are obtained;
-
-  3. (optional) remove chimeric sequences from the representatives
-     (parameter &#39;--rmchim&#39;) performing a de novo chimera detection;
-
-  4. map sequences to the representatives.
+* de novo swarm (denovo_swarm): sequences are clustered without relying
+  on an external reference database, using swarm (doi:
+  10.7717/peerj.593, doi: 10.7717/peerj.1420,
+  https://github.com/torognes/swarm): i) predict sequence abundances of
+  each sequence by dereplication; ii) swarm clustering; iii) remove
+  chimeric sequences (de novo, optional).
 
 * closed-reference clustering (closed_ref): sequences are clustered
   against an external reference database and reads that could not be
@@ -208,7 +208,7 @@ micca otu provides the following protocols:
 
 * open-reference clustering (open_ref): sequences are clustered
   against an external reference database and reads that could not be
-  matched are clustered with the &#39;denovo_greedy&#39; protocol.
+  matched are clustered with the &#39;de novo greedy&#39; protocol.
 
 Outputs:
 
@@ -223,14 +223,15 @@ Outputs:
 
   1. matching sequence
   2. representative (seed)
-  3. identity (if available), defined as:
+  3. identity (if available, else &#39;*&#39;), defined as:
 
               matching columns
      -------------------------------- ;
      alignment length - terminal gaps
 
-* otuschim.fasta (only for &#39;denovo_greedy&#39; and &#39;open_ref&#39; when --rmchim
-  is specified): FASTA file containing the chimeric otus;
+* otuschim.fasta (only for &#39;denovo_greedy&#39;, &#39;denovo_swarm&#39; and
+  &#39;open_ref&#39; when --rmchim is specified): FASTA file containing the
+  chimeric otus;
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -241,7 +242,7 @@ arguments:
   -o DIR, --output DIR  output directory (default .).
   -r FILE, --ref FILE   reference sequences in fasta format, required for
                         &#39;closed_ref&#39; and &#39;open_ref&#39; clustering methods.
-  -m {denovo_greedy,closed_ref,open_ref}, --method {denovo_greedy,closed_ref,open_ref}
+  -m {denovo_greedy,denovo_swarm,closed_ref,open_ref}, --method {denovo_greedy,denovo_swarm,closed_ref,open_ref}
                         clustering method (default denovo_greedy)
   -d ID, --id ID        sequence identity threshold (0.0 to 1.0, default
                         0.97).
@@ -253,8 +254,8 @@ arguments:
                         clustering methods, default 0.75).
   -t THREADS, --threads THREADS
                         number of threads to use (1 to 256, default 1).
-  -c, --rmchim          remove chimeric sequences (for &#39;denovo_greedy&#39; and
-                        &#39;open_ref&#39; OTU picking methods).
+  -c, --rmchim          remove chimeric sequences (for &#39;denovo_greedy&#39;,
+                        &#39;denovo_swarm&#39; and &#39;open_ref&#39; OTU picking methods).
   -g {dgc,agc}, --greedy {dgc,agc}
                         greedy clustering strategy, distance (DGC) or
                         abundance-based (AGC) (for &#39;denovo_greedy&#39; and
@@ -262,12 +263,23 @@ arguments:
   -s MINSIZE, --minsize MINSIZE
                         discard sequences with an abundance value smaller than
                         MINSIZE after dereplication (&gt;=1, default 2).
-                        Recommended value is 2, i.e. discard singletons (for
-                        &#39;denovo_greedy&#39; and &#39;open_ref&#39; clustering methods).
+                        Recommended value is 2 (i.e. discard singletons) for
+                        &#39;denovo_greedy&#39; and &#39;open_ref&#39;, 1 (do not discard
+                        anything) for &#39;denovo_swarm&#39;.
   -a {both,plus}, --strand {both,plus}
                         search both strands or the plus strand only (for
                         &#39;closed_ref&#39; and &#39;open_ref&#39; clustering methods,
                         default both).
+
+Swarm specific options:
+  --swarm-differences SWARM_DIFFERENCES
+                        maximum number of differences allowed between two
+                        amplicons. Commonly used d values are 1 (linear
+                        complexity algorithm), 2 or 3, rarely higher. (&gt;=0,
+                        default 1).
+  --swarm-fastidious    when working with SWARM_DIFFERENCES=1, perform a
+                        second clustering pass to reduce the number of small
+                        OTUs (recommended option).
 
 Examples
 
@@ -282,6 +294,13 @@ and using 8 threads:
 
     micca otu -i input.fasta --method open_ref --threads 8 --id 0.97 \
     --ref greengenes_2013_05/rep_set/97_otus.fasta
+
+De novo swarm clustering with the protocol suggested by the authors
+using 4 threads (see https://github.com/torognes/swarm and
+https://github.com/torognes/swarm/wiki):
+
+    micca otu -i input.fasta --method denovo_swarm --threads 4 \
+    --swarm-fastidious --rmchim --minsize 1
 </pre></div>
 </div>
 </div>
@@ -327,7 +346,7 @@ and using 8 threads:
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.2.0',
+            VERSION:'1.3.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

@@ -53,17 +53,18 @@ will be included into the sequence indentifiers.
    files. If your sequences are in a different format (e.g. SFF or
    FASTA+QUAL) use :doc:`/commands/convert` to convert them.
 
-.. Warning:: 
+.. Warning::
 
    In the case of multiplexed reads (with 5' barcode sequences) use
    :doc:`/commands/split` instead of :doc:`/commands/merge`. This
    command will perform demultiplexing and merging at the same time.
 
-.. Warning:: 
+.. Warning::
 
    In the case of overlapping paired-end reads go to
    :doc:`/pairedend`.
 
+.. _singleend-primer_trimming:
 
 Primer trimming
 ---------------
@@ -89,11 +90,11 @@ These operations can be performed with the :doc:`/commands/trim` command:
 The option ``-W/--duforward`` ensures that reads that do not contain
 the forward primer will be discarded.
 
-.. Warning:: 
+.. Warning::
 
    Do not use the ``-R/--dureverse`` with single-end reads.
 
-.. Note:: 
+.. Note::
 
    The :doc:`/commands/trim` command supports `IUPAC
    <http://www.bioinformatics.org/sms/iupac.html>`_ nucleotide codes
@@ -150,7 +151,7 @@ than **92%** reads will pass the filter::
    351     78.369  92.300  97.357  99.116  99.700  99.892
    ...
 
-.. Note:: 
+.. Note::
 
    To obtain general sequencing statistics, run
    :doc:`/commands/stats`.
@@ -166,11 +167,12 @@ the selected parameters:
 
    micca filter -i trimmed.fastq -o filtered.fasta -e 0.5 -m 350 -t
 
-.. Note::  
+.. Note::
 
    The maximum number of allowed Ns after truncation can be also
    specified in :doc:`/commands/filterstats` and in
    :doc:`/commands/filter`.
+
 
 .. _singleend-otu_picking:
 
@@ -194,10 +196,11 @@ The :doc:`/commands/otu` command returns several files in the output
 directory, including the **OTU table** (``otutable.txt``) and a FASTA
 file containing the **representative sequences** (``otus.fasta``).
 
-.. Note:: 
+.. Note::
 
-   See :doc:`/otu` to see how to apply the **closed-reference** and
-   the **open-reference** OTU picking strategies to these data.
+   See :doc:`/otu` to see how to apply the **swarm de novo**,
+   **closed-reference** and the **open-reference** OTU picking strategies to
+   these data.
 
 
 Assign taxonomy
@@ -248,7 +251,7 @@ Greengenes Core Set:
 At this point we can run the :doc:`/commands/msa` command:
 
 .. code-block:: sh
-   
+
    micca msa -m nast -i denovo_greedy_otus/otus.fasta -o denovo_greedy_otus/msa.fasta --nast-template core_set_aligned.fasta.imputed --nast-threads 4
 
 
@@ -259,10 +262,10 @@ At this point we can build the phylogenetic tree from the MSA using
 :doc:`/commands/tree`:
 
 .. code-block:: sh
-    
+
    micca tree -i denovo_greedy_otus/msa.fasta -o denovo_greedy_otus/tree.tree
 
-.. Note:: 
+.. Note::
 
    The output tree is in `Newick format
    <https://en.wikipedia.org/wiki/Newick_format>`_.
@@ -276,10 +279,10 @@ be rooted (in this case at midpoint between the two most distant tips
 of the tree) using the :doc:`/commands/root` command:
 
 .. code-block:: sh
-  
+
    micca root -i denovo_greedy_otus/tree.tree -o denovo_greedy_otus/tree_rooted.tree
 
-.. Note:: 
+.. Note::
 
    Tree can also be rooted with the outgroup clade containing selected
    targets, see :doc:`/commands/root`.
@@ -298,7 +301,7 @@ steps to the BIOM format. In addition, the :ref:`formats-sample_data` can
 be added:
 
 .. code-block:: sh
-   
+
    micca tobiom -i denovo_greedy_otus/otutable.txt -o denovo_greedy_otus/tables.biom -t denovo_greedy_otus/taxa.txt -s sampledata.txt
 
 

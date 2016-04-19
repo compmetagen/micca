@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>CHANGES &mdash; micca 1.2.0 documentation</title>
+  <title>CHANGES &mdash; micca 1.3.0 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="micca 1.2.0 documentation" href="index.html"/>
+    <link rel="top" title="micca 1.3.0 documentation" href="index.html"/>
         <link rel="next" title="classify" href="commands/classify.html"/>
         <link rel="prev" title="Supported file formats" href="formats.html"/> 
 
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                1.2.0
+                1.3.0
               </div>
             
           
@@ -83,7 +83,7 @@
             
                 <p class="caption"><span class="caption-text">Getting Started</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="install.html">Download and install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="run.html">Run micca in 6 steps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="databases.html">Supported databases</a></li>
 </ul>
@@ -101,6 +101,9 @@
 <li class="toctree-l1"><a class="reference internal" href="otu.html">OTU picking in micca</a></li>
 <li class="toctree-l1"><a class="reference internal" href="formats.html">Supported file formats</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">CHANGES</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#version-1-3-0">Version 1.3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-1-2-2">Version 1.2.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-1-2-1">Version 1.2.1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#version-1-2-0">Version 1.2.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#version-1-1-0">Version 1.1.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#version-1-0-0">Version 1.0.0</a></li>
@@ -173,6 +176,31 @@
             
   <div class="section" id="changes">
 <h1>CHANGES<a class="headerlink" href="#changes" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="version-1-3-0">
+<h2>Version 1.3.0<a class="headerlink" href="#version-1-3-0" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Swarm clustering algorithm added to micca otu;</li>
+<li>micca.api.otu.denovo_swarm() function added;</li>
+<li>micca v1.3.0 includes: VSEARCH v1.9.5, MUSCLE v3.8.31, FastTree v2.1.8, swarm
+v2.1.8.</li>
+<li>Minor: Documentation updated.</li>
+</ul>
+</div>
+<div class="section" id="version-1-2-2">
+<h2>Version 1.2.2<a class="headerlink" href="#version-1-2-2" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Fix: now micca can generate plots with matplotlib when DISPLAY environment
+variable is undefined;</li>
+<li>Minor: MANIFEST.in, Dockerfile updated.</li>
+</ul>
+</div>
+<div class="section" id="version-1-2-1">
+<h2>Version 1.2.1<a class="headerlink" href="#version-1-2-1" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Dockerfile added;</li>
+<li>Documentation improved.</li>
+</ul>
+</div>
 <div class="section" id="version-1-2-0">
 <h2>Version 1.2.0<a class="headerlink" href="#version-1-2-0" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
@@ -193,15 +221,8 @@ strand only.</li>
 <div class="section" id="version-1-0-0">
 <h2>Version 1.0.0<a class="headerlink" href="#version-1-0-0" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>micca includes:</li>
+<li>micca 1.0.0 includes: VSEARCH v1.9.5, MUSCLE v3.8.31, FastTree v2.1.8.</li>
 </ul>
-<blockquote>
-<div><ul class="simple">
-<li>VSEARCH v1.9.5</li>
-<li>MUSCLE v3.8.31</li>
-<li>FastTree v2.1.8</li>
-</ul>
-</div></blockquote>
 </div>
 </div>
 
@@ -246,7 +267,7 @@ strand only.</li>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.2.0',
+            VERSION:'1.3.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

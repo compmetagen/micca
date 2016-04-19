@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>OTU picking in micca &mdash; micca 1.2.0 documentation</title>
+  <title>OTU picking in micca &mdash; micca 1.3.0 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="micca 1.2.0 documentation" href="index.html"/>
+    <link rel="top" title="micca 1.3.0 documentation" href="index.html"/>
         <link rel="next" title="Supported file formats" href="formats.html"/>
         <link rel="prev" title="Quality filtering strategy in micca" href="filtering.html"/> 
 
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                1.2.0
+                1.3.0
               </div>
             
           
@@ -344,16 +344,51 @@ micca classify -m cons -i otus.fasta -o taxa.txt -r ../97_otus.fasta -x ../97_ot
 </div>
 <div class="section" id="de-novo-swarm">
 <h3><a class="toc-backref" href="#id4">De novo swarm</a><a class="headerlink" href="#de-novo-swarm" title="Permalink to this headline">¶</a></h3>
-<div class="admonition-todo admonition" id="index-0">
-<p class="first admonition-title">Todo</p>
-<p class="last">Not yet implemented in micca.</p>
+<p>In denovo swarm clustering (doi: 10.7717/peerj.593, doi: 10.7717/peerj.1420,
+<a class="reference external" href="https://github.com/torognes/swarm">https://github.com/torognes/swarm</a>, parameter <code class="docutils literal"><span class="pre">--method</span> <span class="pre">denovo_swarm</span></code>),
+sequences are clustered without relying on an external reference database.
+From <a class="reference external" href="https://github.com/torognes/swarm">https://github.com/torognes/swarm</a>:</p>
+<blockquote>
+<div>The purpose of swarm is to provide a novel clustering algorithm that handles
+massive sets of amplicons. Results of traditional clustering algorithms are
+strongly input-order dependent, and rely on an arbitrary global clustering
+threshold. swarm results are resilient to input-order changes and rely on a
+small local linking threshold d, representing the maximum number of
+differences between two amplicons. swarm forms stable, high-resolution
+clusters, with a high yield of biological information.</div></blockquote>
+<p><a class="reference internal" href="commands/otu.html"><em>otu</em></a> includes in a single command dereplication, clustering and
+de novo chimera filtering:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Dereplication. Predict sequence abundances of each sequence by
+dereplication, order by abundance and discard sequences with
+abundance value smaller than DEREP_MINSIZE (option
+<code class="docutils literal"><span class="pre">--derep-minsize</span></code> recommended value is 1, i.e. no filtering);</li>
+<li>Swarm clustering. Number of differences 1 and the fastidious option are
+recommended (<code class="docutils literal"><span class="pre">--swarm-differences</span> <span class="pre">1</span> <span class="pre">--swarm-fastidious</span></code>).</li>
+<li>Chimera filtering (optional). Remove chimeric sequences from the
+representatives performing a de novo chimera detection (option
+<code class="docutils literal"><span class="pre">--rmchim</span></code>);</li>
+</ol>
+</div></blockquote>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Removing ambiguous nucleotides (<code class="docutils literal"><span class="pre">N</span></code>) (with the option <code class="docutils literal"><span class="pre">--maxns</span> <span class="pre">0</span></code> in
+<a class="reference internal" href="commands/filter.html"><em>filter</em></a>) is mandatory if you use the de novo swarm clustering
+method.</p>
+</div>
+<p>Example (requires <a class="reference internal" href="singleend.html#singleend-primer-trimming"><span>Primer trimming</span></a> in <a class="reference internal" href="singleend.html"><em>Single-end sequencing</em></a> to be
+done):</p>
+<div class="highlight-sh"><div class="highlight"><pre>micca filter -i trimmed.fastq -o filtered.fasta -e 0.5 -m <span class="m">350</span> -t --maxns 0
+micca otu -m denovo_swarm -i filtered.fasta -o otus_denovo_swarm -c --minsize <span class="m">1</span> --swarm-fastidious -t 4
+</pre></div>
 </div>
 </div>
 </div>
 <div class="section" id="definition-of-identity">
 <span id="otu-definition-identity"></span><h2>Definition of identity<a class="headerlink" href="#definition-of-identity" title="Permalink to this headline">¶</a></h2>
-<p>In micca, the pairwise identity is defined as the edit distance
-excluding terminal gaps (same as in USEARCH and BLAST):</p>
+<p>In micca, the pairwise identity (except for de novo swarm) is defined as the
+edit distance excluding terminal gaps (same as in USEARCH and BLAST):</p>
 <div class="math">
 <p><img src="_images/math/e34a5e5eb5fb0ed54961b9f139d76325b1a7b977.png" alt="\frac{\textrm{\# matching columns}}{\textrm{alignment length} - \textrm{terminal gaps}}"/></p>
 </div></div>
@@ -400,7 +435,7 @@ excluding terminal gaps (same as in USEARCH and BLAST):</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.2.0',
+            VERSION:'1.3.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

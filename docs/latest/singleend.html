@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Single-end sequencing &mdash; micca 1.2.0 documentation</title>
+  <title>Single-end sequencing &mdash; micca 1.3.0 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="micca 1.2.0 documentation" href="index.html"/>
+    <link rel="top" title="micca 1.3.0 documentation" href="index.html"/>
         <link rel="next" title="Paired-end sequencing" href="pairedend.html"/>
         <link rel="prev" title="Supported databases" href="databases.html"/> 
 
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                1.2.0
+                1.3.0
               </div>
             
           
@@ -83,7 +83,7 @@
             
                 <p class="caption"><span class="caption-text">Getting Started</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="install.html">Download and install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="run.html">Run micca in 6 steps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="databases.html">Supported databases</a></li>
 </ul>
@@ -256,7 +256,7 @@ command will perform demultiplexing and merging at the same time.</p>
 </div>
 </div>
 <div class="section" id="primer-trimming">
-<h2><a class="toc-backref" href="#id3">Primer trimming</a><a class="headerlink" href="#primer-trimming" title="Permalink to this headline">¶</a></h2>
+<span id="singleend-primer-trimming"></span><h2><a class="toc-backref" href="#id3">Primer trimming</a><a class="headerlink" href="#primer-trimming" title="Permalink to this headline">¶</a></h2>
 <p>Segments which match PCR primers should be now removed. Typical Roche
 454 reads start with a sequence key (e.g. TCAG) followed by the
 barcode (if it was not previously removed) and the forward primer.
@@ -360,8 +360,9 @@ directory, including the <strong>OTU table</strong> (<code class="docutils liter
 file containing the <strong>representative sequences</strong> (<code class="docutils literal"><span class="pre">otus.fasta</span></code>).</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">See <a class="reference internal" href="otu.html"><em>OTU picking in micca</em></a> to see how to apply the <strong>closed-reference</strong> and
-the <strong>open-reference</strong> OTU picking strategies to these data.</p>
+<p class="last">See <a class="reference internal" href="otu.html"><em>OTU picking in micca</em></a> to see how to apply the <strong>swarm de novo</strong>,
+<strong>closed-reference</strong> and the <strong>open-reference</strong> OTU picking strategies to
+these data.</p>
 </div>
 </div>
 <div class="section" id="assign-taxonomy">
@@ -495,7 +496,7 @@ be added:</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.2.0',
+            VERSION:'1.3.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
