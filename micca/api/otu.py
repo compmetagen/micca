@@ -92,22 +92,22 @@ def _hits_to_otutable(hits_fn, otuids_fn, otutable_fn):
     otutable.to_csv(otutable_fn, sep='\t', index_label="OTU")
 
 
-def _uc_to_sqlite(uc_fn, sqlite_fn):
+def _uc_to_hitssqlite(uc_fn, sqlite_fn):
     con = sqlite3.connect(sqlite_fn)
     cur = con.cursor()
     cur.execute('CREATE TABLE hits (query text, target text, ident real)')
+
     with open(uc_fn, 'rb') as uc_handle:
         uc_reader = csv.reader(uc_handle, delimiter='\t')
         for row in uc_reader:
             rtype, ident, query, target = row[0], row[3], row[8], row[9]
             if rtype == 'H':
-                pass
+                hit = (query, target, ident)
             elif rtype == 'C':
-                target = query
+                hit = (query, query, 100.0)
             else:
                 continue
-            cur.execute('INSERT INTO hits VALUES (?, ?, ?)',
-                        (query, target, ident))
+            cur.execute('INSERT INTO hits VALUES (?, ?, ?)', hit)
 
     cur.execute('CREATE INDEX idx_target ON hits (target)')
     con.commit()
@@ -397,8 +397,8 @@ def denovo_swarm(input_fn, output_dir, differences=1, fastidious=True,
         return
 
     # store the uc file in a sqlite3 database
-    derep_sqlite_fn = micca.ioutils.make_tempfile(output_dir)
-    _uc_to_sqlite(derep_uc_fn, derep_sqlite_fn)
+    derep_hitssqlite_fn = micca.ioutils.make_tempfile(output_dir)
+    _uc_to_hitssqlite(derep_uc_fn, derep_hitssqlite_fn)
     os.remove(derep_uc_fn)
 
     # sort by size and filter by minimum size
@@ -407,14 +407,14 @@ def denovo_swarm(input_fn, output_dir, differences=1, fastidious=True,
         micca.tp.vsearch.sortbysize(derep_fn, derep_sort_fn, minsize=minsize)
     except:
         os.remove(derep_sort_fn)
-        os.remove(derep_sqlite_fn)
+        os.remove(derep_hitssqlite_fn)
         raise
     finally:
         os.remove(derep_fn)
 
     if os.stat(derep_sort_fn).st_size == 0:
         os.remove(derep_sort_fn)
-        os.remove(derep_sqlite_fn)
+        os.remove(derep_hitssqlite_fn)
         return
 
     # swarm clustering
@@ -432,7 +432,7 @@ def denovo_swarm(input_fn, output_dir, differences=1, fastidious=True,
     except:
         os.remove(swarms_temp_fn)
         os.remove(otus_temp_fn)
-        os.remove(derep_sqlite_fn)
+        os.remove(derep_hitssqlite_fn)
         raise
     finally:
         os.remove(derep_sort_fn)
@@ -448,14 +448,14 @@ def denovo_swarm(input_fn, output_dir, differences=1, fastidious=True,
                 nonchimeras_fn=otus_nochim_fn)
         except:
             os.remove(otus_nochim_fn)
-            os.remove(derep_sqlite_fn)
+            os.remove(derep_hitssqlite_fn)
             raise
         finally:
             os.remove(otus_temp_fn)
 
         if os.stat(otus_nochim_fn).st_size == 0:
             os.remove(otus_nochim_fn)
-            os.remove(derep_sqlite_fn)
+            os.remove(derep_hitssqlite_fn)
             return
     else:
         otus_nochim_fn = otus_temp_fn
@@ -478,8 +478,9 @@ def denovo_swarm(input_fn, output_dir, differences=1, fastidious=True,
     swarms_temp_reader = csv.reader(swarms_temp_handle, delimiter=' ')
     hits_handle = open(hits_fn, 'wb')
     hits_writer = csv.writer(hits_handle, delimiter='\t', lineterminator='\n')
-    con = sqlite3.connect(derep_sqlite_fn)
+    con = sqlite3.connect(derep_hitssqlite_fn)
     cur = con.cursor()
+
     for otu in swarms_temp_reader:
         otuid = strip_size(otu[0])
         if otuid in otuids:
@@ -496,7 +497,7 @@ def denovo_swarm(input_fn, output_dir, differences=1, fastidious=True,
     swarms_temp_handle.close()
 
     os.remove(swarms_temp_fn)
-    os.remove(derep_sqlite_fn)
+    os.remove(derep_hitssqlite_fn)
 
     _rename_seqids(otus_fn, otuids_fn, prefix="DENOVO")
     _hits_to_otutable(hits_fn, otuids_fn, otutable_fn)

@@ -26,7 +26,7 @@ The :doc:`commands/otu` command returns in a single directory 5 files:
 
    otus.fasta
       FASTA containing the representative sequences (OTUs)::
-     
+
          >DENOVO1
      	 GACGAACGCTGGCGGCGTGCCTAACACATGCAAGTCGAACGGGG...
      	 >DENOVO2
@@ -38,7 +38,7 @@ The :doc:`commands/otu` command returns in a single directory 5 files:
    otuids.txt
       TAB-delimited file which maps the OTU ids to original sequence
       ids::
- 
+
          DENOVO1 IS0AYJS04JQKIS;sample=Mw_01
 	 DENOVO2 IS0AYJS04JL6RS;sample=Mw_01
 	 DENOVO3 IS0AYJS04H4XNN;sample=Mw_01
@@ -48,13 +48,13 @@ The :doc:`commands/otu` command returns in a single directory 5 files:
       TAB-separated file, three-columns, where each column contains:
       the matching sequence, the representative (seed) and the
       identity (if available), see :ref:`otu-definition_identity`::
-      
+
          IS0AYJS04JE658;sample=Mw_01; IS0AYJS04I4XYN;sample=Mw_01 99.4
 	 IS0AYJS04JPH34;sample=Mw_01; IS0AYJS04JVUBC;sample=Mw_01 98.0
 	 IS0AYJS04I67XN;sample=Mw_01; IS0AYJS04JVUBC;sample=Mw_01 99.7
 	 ...
-	
-   otuschim.fasta 
+
+   otuschim.fasta
       (only for 'denovo_greedy' and 'open_ref' mathods, when
       ``-c/--rmchim`` is specified) FASTA file containing the chimeric
       otus.
@@ -100,7 +100,7 @@ filtering:
       dereplication, order by abundance and discard sequences with
       abundance value smaller than DEREP_MINSIZE (option
       ``--derep-minsize`` recommended value 2);
-       
+
    #. Greedy clustering. Distance (DGC) and abundance-based (AGC)
       strategies are supported (option ``--greedy``, see
       https://doi.org/10.1186/s40168-015-0081-x and
@@ -148,7 +148,7 @@ Simply perform a sequence ID matching with the reference taxonomy
 file (see :doc:`commands/classify`):
 
 .. code-block:: sh
-   
+
    cd closed_ref_otus
    micca classify -m otuid -i otuids.txt -o taxa.txt -x ../97_otu_taxonomy.txt
 
@@ -180,26 +180,62 @@ Run the VSEARCH-based consensus classifier or the RDP classifier (see
 :doc:`commands/classify`):
 
 .. code-block:: sh
-   
+
    cd open_ref_otus
    micca classify -m cons -i otus.fasta -o taxa.txt -r ../97_otus.fasta -x ../97_otu_taxonomy.txt -t 4
 
 
 De novo swarm
 ^^^^^^^^^^^^^
+In denovo swarm clustering (doi: 10.7717/peerj.593, doi: 10.7717/peerj.1420,
+https://github.com/torognes/swarm, parameter ``--method denovo_swarm``),
+sequences are clustered without relying on an external reference database.
+From https://github.com/torognes/swarm:
 
-.. todo::
+    The purpose of swarm is to provide a novel clustering algorithm that handles
+    massive sets of amplicons. Results of traditional clustering algorithms are
+    strongly input-order dependent, and rely on an arbitrary global clustering
+    threshold. swarm results are resilient to input-order changes and rely on a
+    small local linking threshold d, representing the maximum number of
+    differences between two amplicons. swarm forms stable, high-resolution
+    clusters, with a high yield of biological information.
 
-   Not yet implemented in micca.
+:doc:`commands/otu` includes in a single command dereplication, clustering and
+de novo chimera filtering:
 
+   #. Dereplication. Predict sequence abundances of each sequence by
+      dereplication, order by abundance and discard sequences with
+      abundance value smaller than DEREP_MINSIZE (option
+      ``--derep-minsize`` recommended value is 1, i.e. no filtering);
+
+   #. Swarm clustering. Number of differences 1 and the fastidious option are
+      recommended (``--swarm-differences 1 --swarm-fastidious``).
+
+   #. Chimera filtering (optional). Remove chimeric sequences from the
+      representatives performing a de novo chimera detection (option
+      ``--rmchim``);
+
+.. warning::
+
+    Removing ambiguous nucleotides (``N``) (with the option ``--maxns 0`` in
+    :doc:`commands/filter`) is mandatory if you use the de novo swarm clustering
+    method.
+
+Example (requires :ref:`singleend-primer_trimming` in :doc:`singleend` to be
+done):
+
+.. code-block:: sh
+
+    micca filter -i trimmed.fastq -o filtered.fasta -e 0.5 -m 350 -t --maxns 0
+    micca otu -m denovo_swarm -i filtered.fasta -o otus_denovo_swarm -c --minsize 1 --swarm-fastidious -t 4
 
 .. _otu-definition_identity:
 
 Definition of identity
 ----------------------
 
-In micca, the pairwise identity is defined as the edit distance
-excluding terminal gaps (same as in USEARCH and BLAST):
+In micca, the pairwise identity (except for de novo swarm) is defined as the
+edit distance excluding terminal gaps (same as in USEARCH and BLAST):
 
 .. math::
    \frac{\textrm{\# matching columns}}{\textrm{alignment length} - \textrm{terminal gaps}}

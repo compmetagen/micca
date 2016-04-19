@@ -55,7 +55,7 @@ def main(argv):
           10.7717/peerj.593, doi: 10.7717/peerj.1420,
           https://github.com/torognes/swarm): i) predict sequence abundances of
           each sequence by dereplication; ii) swarm clustering; iii) remove
-          chimeric sequences (de novo, optional).
+          chimeric sequences (de novo, optional) from the representatives.
 
         * closed-reference clustering (closed_ref): sequences are clustered
           against an external reference database and reads that could not be
