@@ -166,7 +166,7 @@ def _aln_to_seqs(aln, query, target):
 
 
 def nast(input_fn, template_fn, output_fn, notaligned_fn=None, hits_fn=None,
-         ident=0.75, threads=1, mincov=0.75, strand="both"):
+         ident=0.75, threads=1, mincov=0.75, strand="both", nofilter=False):
 
     output_dir = os.path.dirname(output_fn)
 
@@ -269,24 +269,30 @@ def nast(input_fn, template_fn, output_fn, notaligned_fn=None, hits_fn=None,
     hits_temp_handle.close()
     output_temp_handle.close()
     hits_out_handle.close()
+    os.remove(hits_temp_fn)
+    os.remove(template_wg_temp_fn)
 
     # remove columns which are gaps in every sequence
-    output_temp_handle = open(output_temp_fn, "rb")
-    output_handle = open(output_fn, "wb")
-    for title, seq in SimpleFastaParser(output_temp_handle):
-        seqout = "".join(np.array(list(seq))[msa_cov > 0])
-        output_handle.write(">{}\n{}\n".format(title, seqout))
-    output_temp_handle.close()
-    output_handle.close()
+    if nofilter:
+        os.rename(output_temp_fn, output_fn)
+    else:
+        output_temp_handle = open(output_temp_fn, "rb")
+        output_handle = open(output_fn, "wb")
+        for title, seq in SimpleFastaParser(output_temp_handle):
+            seqout = "".join(np.array(list(seq))[msa_cov > 0])
+            output_handle.write(">{}\n{}\n".format(title, seqout))
+        output_temp_handle.close()
+        output_handle.close()
+        os.remove(output_temp_fn)
 
     if hits_fn is None:
         os.remove(hits_out_fn)
     else:
         os.rename(hits_out_fn, hits_fn)
 
-    os.remove(template_wg_temp_fn)
-    os.remove(hits_temp_fn)
-    os.remove(output_temp_fn)
+
+
+
 
 
 def muscle(input_fn, output_fn, maxiters=16):

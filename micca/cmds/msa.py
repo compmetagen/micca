@@ -111,6 +111,10 @@ def main(argv):
                             help="write hits on a TAB delimited file with the "
                             "query sequence id, the template sequence id and "
                             "the identity.")
+    group_nast.add_argument('--nast-nofilter', default=False, action="store_true",
+                            help="do not remove positions which are gaps in "
+                            "every sequenceces (useful if you want to apply "
+                            "a Lane mask filter before the tree inference).")
     args = parser.parse_args(argv)
 
 
@@ -129,7 +133,8 @@ def main(argv):
                 ident=args.nast_id,
                 threads=args.nast_threads,
                 mincov=args.nast_mincov,
-                strand=args.nast_strand)
+                strand=args.nast_strand,
+                nofilter=args.nast_nofilter)
         else:
             micca.api.msa.muscle(
                 input_fn=args.input,

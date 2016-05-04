@@ -11,6 +11,7 @@ The RDP Classifier is included.
 ## Available Tags/Versions
 
 - latest: GitHub snapshot (master)
+- 1.4.0: micca 1.4.0 (RDP Classifier release 2.11 included)
 - 1.3.0: micca 1.3.0 (RDP Classifier release 2.11 included)
 - 1.2.2: micca 1.2.2 (RDP Classifier release 2.11 included)
 

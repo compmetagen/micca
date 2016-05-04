@@ -133,7 +133,8 @@ def main(argv):
                        "open_ref"],
                        help="clustering method (default %(default)s)")
     group.add_argument('-d', '--id', default=0.97, type=float,
-                       help="sequence identity threshold (0.0 to 1.0, "
+                       help="sequence identity threshold (for 'denovo_greedy', "
+                       "'closed_ref' and 'open_ref', 0.0 to 1.0, "
                        "default %(default)s).")
     group.add_argument('-n', '--mincov', default=0.75, type=float,
                        help="reject sequence if the fraction of alignment "

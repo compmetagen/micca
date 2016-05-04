@@ -1,6 +1,12 @@
 CHANGES
 =======
 
+Version 1.4.0
+-------------
+* nofilter option added to micca.api.msa.nast() (do not remove positions which
+  are gaps in every sequenceces) and to the msa command (--nast-nofilter option);
+* Documentation improved.
+
 Version 1.3.0
 -------------
 * Swarm clustering algorithm added to micca otu;
