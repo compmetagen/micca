@@ -1,32 +1,25 @@
 language: python
-
 python:
 - '2.7'
 - '3.3'
 - '3.4'
 - '3.5'
-
 before_install:
-# Ubuntu 12.04 does not provide recent versions of numpy, scipy, matplotlib and
-# pandas, so we will install them with pip
 - sudo apt-get -qq update
 - sudo apt-get install build-essential
 - sudo apt-get install python-numpy
-# scipy requirements
 - sudo apt-get install gcc gfortran python-dev libblas-dev liblapack-dev cython
-# matplotlib additional requirements
 - sudo apt-get install pkg-config libfreetype6 libfreetype6-dev libpng-dev
 - pip install --upgrade pip
 - pip install 'setuptools >=14.0'
-
 install: pip install .
-
 script: micca -h
-
 deploy:
   provider: pypi
   user: davidealbanese
   password:
-    secure: em37Owz1AJdQLKX4haxhQlwAHUI37ZHkZSXjgdtJo9WlBF7KwEXXwFhU2TolYH7JOTj2aau1WHavzORa5FNU9TbpP72BVYKlf46ilFWmbKywmLaSC0U37aR4aCmTPtAipy8QWIEFsldAFzqS0t7uqJGjhMeZqd+rCHgD0afxAHk2TAut7qt4Cc1kL1dThIS1jporTG8kUnEEnhbG6HQLlZ1ND1AW/OAlSt7UAU3LSpWNyG1b0NjJ3Ja8SQQtRe4cb9XAZVHuGJU/MpkQwQF5Y9ggbW4v43WpIQEKym8M02nAxNKIWgqVNjjYAol3uNdhij1EkKwQgd8/p7U9BXx+SCIdilEFh5U7m7nT54xIgDA1w9zfHqzEhs3oMV6dR5BdLV2cHfvo9EHd1qVFeb+Z3jZPP49DQOEOPYPYWtBIjUVMo7/hkSW/raMPuW4syQ8TkOqFHxa5i+bhLjCZoPLn52yW1heZNCGEmW7NZpu9wQLv+67l0/HpngUcG9AJ9yCLaW9KNNTJcBUk+sUYm5x9a5rszDo4CDOlL5jAv1dsYi52vagKx0aqYw0meeWXJBJQJmjZlfHZNbhLVoXImD9SWpqM1fOxM3ikt+fPlwJuhz/by6aCzlYTYxmNxkl9nE6EZd5mgyRVFgSO7VVAcje0KukNshU3+hehF+YQJhjsudI=
+    secure: nRbGUlQIHl+Nz9DTqEUdJGkzFCxm0U0n4Z4OKamPMX6jdKkzCznDn8PLQkqfgXLFkaUPp44ta3uormcxQVs6AEwRnKoM5hFO5QSfz2163q9YCl0VeCTteycM272s9i7QNY19e6/FsGby+coDjZiDh3dKLNesyuem4GEv3E8y85PoOkfTNwzr0IEHDhs4ISmyODftbb868kTrkTUWmfR1X5cRnk8UQNJ93WIIMnmdp7fo7Z1bIvMBTAbrSIDI3hT4fsbJkBZZVvEG+DxX2cwCLGHSj2lsf6aiy5GJWNAfMjgu9pQKELcXUQ/7HKghJZ4xWVIrWsuolYfbajy4pbgdrfrj0PLW2uwIYn8cXAQUehPoQoQq0tAYrajB92aOSv5/qGrZ2Ue84R7T5qgMTYMyX4OBD8P68x8sRH90XmZUr9M2FvsJ43yolg7CH0aIWEMZG4alx1zwgsI4v03YTERr6LeLZLdW3MTgeTpitqsryb3hinCeOAIkHpI/bHbNSZnb/JjGTO2DgLzdbACw7WwuvJucrm8YrsBl/RYSl/YbmBgkAtunlxUbqP2Ge+hbCGDE3FStofeikNxnFjTSA6J3z03KSskIxXYqLY/C6WgDVy5hCWsdVvPCGRyvA9xi9kpXaHtag3XH86Yx+JWutAngCTHWBr4nLsdLqALSqbmn5Fs=
   on:
     tags: true
+    distributions: sdist bdist_wheel
+    repo: compmetagen/micca
