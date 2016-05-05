@@ -1,6 +1,13 @@
 CHANGES
 =======
 
+Version 1.5.0
+-------------
+* now the NAST algorithm trims candidate sequences to that which is bound by the
+  beginning and end points of the alignment span; with the the new option
+  --nast-notrim in micca msa produces the same results of the previous version
+  (<=1.4.0) 
+
 Version 1.4.0
 -------------
 * nofilter option added to micca.api.msa.nast() (do not remove positions which
