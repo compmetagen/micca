@@ -138,7 +138,7 @@ def _msa_remove_gaps(input_fn, output_fn):
     output_handle.close()
 
 
-def _aln_to_seqs(aln, query, target):
+def _aln_to_seqs(aln, target, query):
     """Re-contruct query and target alignments from the VSEARCH alignment
     string.
     """
@@ -162,11 +162,32 @@ def _aln_to_seqs(aln, query, target):
         else:
             raise ValueError("alignment string, query and target do not match")
 
-    return "".join(query_aln), "".join(target_aln)
+    return "".join(target_aln), "".join(query_aln)
+
+
+def _trim_candidate(template_aln, candidate_aln):
+
+    alnlen = len(template_aln)
+
+    if alnlen != len(candidate_aln):
+        raise ValueError("template/candidate alignment do not match")
+
+    for i in range(alnlen):
+        if template_aln[i] != '-':
+            start = i
+            break
+
+    for i in range(alnlen-1, -1, -1):
+        if template_aln[i] != '-':
+            end = i
+            break
+
+    return template_aln[start:end+1], candidate_aln[start:end+1]
 
 
 def nast(input_fn, template_fn, output_fn, notaligned_fn=None, hits_fn=None,
-         ident=0.75, threads=1, mincov=0.75, strand="both", nofilter=False):
+         ident=0.75, threads=1, mincov=0.75, strand="both", nofilter=False,
+         notrim=False):
 
     output_dir = os.path.dirname(output_fn)
 
@@ -174,15 +195,15 @@ def nast(input_fn, template_fn, output_fn, notaligned_fn=None, hits_fn=None,
     ncols = _msa_count_columns(template_fn)
 
     # remove gaps from MSA template
-    template_wg_temp_fn = micca.ioutils.make_tempfile(output_dir)
-    _msa_remove_gaps(template_fn, template_wg_temp_fn)
+    template_wogaps_temp_fn = micca.ioutils.make_tempfile(output_dir)
+    _msa_remove_gaps(template_fn, template_wogaps_temp_fn)
 
     # run VSEARCH
     hits_temp_fn = micca.ioutils.make_tempfile(output_dir)
     try:
         micca.tp.vsearch.usearch_global(
             input_fn=input_fn,
-            db_fn=template_wg_temp_fn,
+            db_fn=template_wogaps_temp_fn,
             userout_fn=hits_temp_fn,
             notmatched_fn=notaligned_fn,
             ident=ident,
@@ -194,14 +215,14 @@ def nast(input_fn, template_fn, output_fn, notaligned_fn=None, hits_fn=None,
             top_hits_only=True,
             strand=strand)
     except:
-        os.remove(template_wg_temp_fn)
+        os.remove(template_wogaps_temp_fn)
         os.remove(hits_temp_fn)
         raise
 
     # indexing
     input_records = SeqIO.index(input_fn, "fasta")
     template_records = SeqIO.index(template_fn, "fasta")
-    template_wg_temp_records = SeqIO.index(template_wg_temp_fn, "fasta")
+    template_wogaps_temp_records = SeqIO.index(template_wogaps_temp_fn, "fasta")
 
     # set up output temp file
     output_temp_fn = micca.ioutils.make_tempfile(output_dir)
@@ -229,7 +250,8 @@ def nast(input_fn, template_fn, output_fn, notaligned_fn=None, hits_fn=None,
             template = template.replace('.', '-')
 
             # get the template without gaps
-            template_wg = str(template_wg_temp_records[template_id].seq.upper())
+            template_wogaps = str(template_wogaps_temp_records[template_id]
+                .seq.upper())
 
             # get the candidate
             candidate_seq = input_records[candidate_id].seq.upper()
@@ -238,8 +260,14 @@ def nast(input_fn, template_fn, output_fn, notaligned_fn=None, hits_fn=None,
             candidate = str(candidate_seq)
 
             # re-contruct query and target alignments
-            candidate_aln, template_aln = _aln_to_seqs(
-                aln, candidate, template_wg)
+            template_aln, candidate_aln = _aln_to_seqs(
+                aln, template_wogaps, candidate)
+
+            # trim the candidate sequence to that which is bound by the
+            # beginning and end points of the alignment span
+            if not notrim:
+                template_aln, candidate_aln = _trim_candidate(
+                    template_aln, candidate_aln)
 
             try:
                 candidate_msa = _nast_core(template, template_aln, candidate_aln)
@@ -270,7 +298,7 @@ def nast(input_fn, template_fn, output_fn, notaligned_fn=None, hits_fn=None,
     output_temp_handle.close()
     hits_out_handle.close()
     os.remove(hits_temp_fn)
-    os.remove(template_wg_temp_fn)
+    os.remove(template_wogaps_temp_fn)
 
     # remove columns which are gaps in every sequence
     if nofilter:

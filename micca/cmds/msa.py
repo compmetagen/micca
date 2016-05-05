@@ -115,6 +115,11 @@ def main(argv):
                             help="do not remove positions which are gaps in "
                             "every sequenceces (useful if you want to apply "
                             "a Lane mask filter before the tree inference).")
+    group_nast.add_argument('--nast-notrim', default=False, action="store_true",
+                            help="force to align the entire candidate sequence "
+                            "(i.e. do not trim the candidate sequence to that "
+                            "which is bound by the beginning and end points of "
+                            "of the alignment span")
     args = parser.parse_args(argv)
 
 
@@ -134,7 +139,8 @@ def main(argv):
                 threads=args.nast_threads,
                 mincov=args.nast_mincov,
                 strand=args.nast_strand,
-                nofilter=args.nast_nofilter)
+                nofilter=args.nast_nofilter,
+                notrim=args.nast_notrim)
         else:
             micca.api.msa.muscle(
                 input_fn=args.input,
