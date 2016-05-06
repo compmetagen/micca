@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>OTU picking in micca &mdash; micca 1.3.0 documentation</title>
+  <title>OTU picking in micca &mdash; micca 1.4.0 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="micca 1.3.0 documentation" href="index.html"/>
+    <link rel="top" title="micca 1.4.0 documentation" href="index.html"/>
         <link rel="next" title="Supported file formats" href="formats.html"/>
         <link rel="prev" title="Quality filtering strategy in micca" href="filtering.html"/> 
 
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                1.3.0
+                1.4.0
               </div>
             
           
@@ -83,7 +83,7 @@
             
                 <p class="caption"><span class="caption-text">Getting Started</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="install.html">Download and install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="run.html">Run micca in 6 steps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="databases.html">Supported databases</a></li>
 </ul>
@@ -203,12 +203,12 @@ DENOVO3 533   305   63    ...
 <dt>otus.fasta</dt>
 <dd><p class="first">FASTA containing the representative sequences (OTUs):</p>
 <div class="last highlight-python"><div class="highlight"><pre>&gt;DENOVO1
-GACGAACGCTGGCGGCGTGCCTAACACATGCAAGTCGAACGGGG...
-&gt;DENOVO2
-GATGAACGCTAGCTACAGGCTTAACACATGCAAGTCGAGGGGCA...
-&gt;DENOVO3
-AGTGAACGCTGGCGACGTGGTTAAGACATGCAAGTCGAGCGGTA...
-...
+  GACGAACGCTGGCGGCGTGCCTAACACATGCAAGTCGAACGGGG...
+  &gt;DENOVO2
+  GATGAACGCTAGCTACAGGCTTAACACATGCAAGTCGAGGGGCA...
+  &gt;DENOVO3
+  AGTGAACGCTGGCGACGTGGTTAAGACATGCAAGTCGAGCGGTA...
+  ...
 </pre></div>
 </div>
 </dd>
@@ -216,8 +216,8 @@ AGTGAACGCTGGCGACGTGGTTAAGACATGCAAGTCGAGCGGTA...
 <dd><p class="first">TAB-delimited file which maps the OTU ids to original sequence
 ids:</p>
 <div class="last highlight-python"><div class="highlight"><pre>DENOVO1 IS0AYJS04JQKIS;sample=Mw_01
-DENOVO2 IS0AYJS04JL6RS;sample=Mw_01
-DENOVO3 IS0AYJS04H4XNN;sample=Mw_01
+      DENOVO2 IS0AYJS04JL6RS;sample=Mw_01
+      DENOVO3 IS0AYJS04H4XNN;sample=Mw_01
 ...
 </pre></div>
 </div>
@@ -227,14 +227,14 @@ DENOVO3 IS0AYJS04H4XNN;sample=Mw_01
 the matching sequence, the representative (seed) and the
 identity (if available), see <a class="reference internal" href="#otu-definition-identity"><span>Definition of identity</span></a>:</p>
 <div class="last highlight-python"><div class="highlight"><pre>IS0AYJS04JE658;sample=Mw_01; IS0AYJS04I4XYN;sample=Mw_01 99.4
-IS0AYJS04JPH34;sample=Mw_01; IS0AYJS04JVUBC;sample=Mw_01 98.0
-IS0AYJS04I67XN;sample=Mw_01; IS0AYJS04JVUBC;sample=Mw_01 99.7
+      IS0AYJS04JPH34;sample=Mw_01; IS0AYJS04JVUBC;sample=Mw_01 98.0
+      IS0AYJS04I67XN;sample=Mw_01; IS0AYJS04JVUBC;sample=Mw_01 99.7
 ...
 </pre></div>
 </div>
 </dd>
 <dt>otuschim.fasta</dt>
-<dd>(only for &#8216;denovo_greedy&#8217; and &#8216;open_ref&#8217; mathods, when
+<dd>(only for &#8216;denovo_greedy&#8217;, &#8216;denovo_swarm&#8217; and &#8216;open_ref&#8217; mathods, when
 <code class="docutils literal"><span class="pre">-c/--rmchim</span></code> is specified) FASTA file containing the chimeric
 otus.</dd>
 </dl>
@@ -435,7 +435,7 @@ edit distance excluding terminal gaps (same as in USEARCH and BLAST):</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.3.0',
+            VERSION:'1.4.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

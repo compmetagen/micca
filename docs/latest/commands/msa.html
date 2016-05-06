@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>msa &mdash; micca 1.3.0 documentation</title>
+  <title>msa &mdash; micca 1.4.0 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="micca 1.3.0 documentation" href="../index.html"/>
+    <link rel="top" title="micca 1.4.0 documentation" href="../index.html"/>
         <link rel="next" title="otu" href="otu.html"/>
         <link rel="prev" title="mergepairs" href="mergepairs.html"/> 
 
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                1.3.0
+                1.4.0
               </div>
             
           
@@ -83,7 +83,7 @@
             
                 <p class="caption"><span class="caption-text">Getting Started</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../install.html">Download and install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../run.html">Run micca in 6 steps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../databases.html">Supported databases</a></li>
 </ul>
@@ -173,7 +173,7 @@ usage: micca msa [-h] -i FILE -o FILE [-m {muscle,nast}]
                  [--muscle-maxiters MUSCLE_MAXITERS] [--nast-template FILE]
                  [--nast-id NAST_ID] [--nast-threads NAST_THREADS]
                  [--nast-mincov NAST_MINCOV] [--nast-strand {both,plus}]
-                 [--nast-notaligned FILE] [--nast-hits FILE]
+                 [--nast-notaligned FILE] [--nast-hits FILE] [--nast-nofilter]
 
 micca msa performs a multiple sequence alignment (MSA) on the input
 file in FASTA format. micca msa provides two approaches for MSA:
@@ -227,6 +227,9 @@ NAST specific options:
   --nast-hits FILE      write hits on a TAB delimited file with the query
                         sequence id, the template sequence id and the
                         identity.
+  --nast-nofilter       do not remove positions which are gaps in every
+                        sequenceces (useful if you want to apply a Lane mask
+                        filter before the tree inference).
 
 Examples
 
@@ -285,7 +288,7 @@ identity threshold of 75%:
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.3.0',
+            VERSION:'1.4.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

@@ -27,7 +27,7 @@ The :doc:`commands/otu` command returns in a single directory 5 files:
    otus.fasta
       FASTA containing the representative sequences (OTUs)::
 
-         >DENOVO1
+       >DENOVO1
      	 GACGAACGCTGGCGGCGTGCCTAACACATGCAAGTCGAACGGGG...
      	 >DENOVO2
      	 GATGAACGCTAGCTACAGGCTTAACACATGCAAGTCGAGGGGCA...
@@ -40,8 +40,8 @@ The :doc:`commands/otu` command returns in a single directory 5 files:
       ids::
 
          DENOVO1 IS0AYJS04JQKIS;sample=Mw_01
-	 DENOVO2 IS0AYJS04JL6RS;sample=Mw_01
-	 DENOVO3 IS0AYJS04H4XNN;sample=Mw_01
+	       DENOVO2 IS0AYJS04JL6RS;sample=Mw_01
+	       DENOVO3 IS0AYJS04H4XNN;sample=Mw_01
 	 ...
 
    hits.txt
@@ -50,12 +50,12 @@ The :doc:`commands/otu` command returns in a single directory 5 files:
       identity (if available), see :ref:`otu-definition_identity`::
 
          IS0AYJS04JE658;sample=Mw_01; IS0AYJS04I4XYN;sample=Mw_01 99.4
-	 IS0AYJS04JPH34;sample=Mw_01; IS0AYJS04JVUBC;sample=Mw_01 98.0
-	 IS0AYJS04I67XN;sample=Mw_01; IS0AYJS04JVUBC;sample=Mw_01 99.7
+	       IS0AYJS04JPH34;sample=Mw_01; IS0AYJS04JVUBC;sample=Mw_01 98.0
+	       IS0AYJS04I67XN;sample=Mw_01; IS0AYJS04JVUBC;sample=Mw_01 99.7
 	 ...
 
    otuschim.fasta
-      (only for 'denovo_greedy' and 'open_ref' mathods, when
+      (only for 'denovo_greedy', 'denovo_swarm' and 'open_ref' mathods, when
       ``-c/--rmchim`` is specified) FASTA file containing the chimeric
       otus.
 

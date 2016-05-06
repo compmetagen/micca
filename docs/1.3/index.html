@@ -1,0 +1,343 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>micca - MICrobial Community Analysis &mdash; micca 1.3.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="micca 1.3.0 documentation" href="#"/>
+        <link rel="next" title="Install" href="install.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="#" class="icon icon-home"> micca
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run.html">Run micca in 6 steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="databases.html">Supported databases</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="singleend.html">Single-end sequencing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pairedend.html">Paired-end sequencing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="phyloseq.html">Import and analyze the data into R and phyloseq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="table.html">Compute basic OTU table statistics, rarefy and summarize OTU tables by taxa using micca</a></li>
+<li class="toctree-l1"><a class="reference internal" href="picrust.html">Picking OTUs for use in PICRUSt</a></li>
+</ul>
+<p class="caption"><span class="caption-text">In Depth</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="filtering.html">Quality filtering strategy in micca</a></li>
+<li class="toctree-l1"><a class="reference internal" href="otu.html">OTU picking in micca</a></li>
+<li class="toctree-l1"><a class="reference internal" href="formats.html">Supported file formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html">CHANGES</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Command reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="commands/classify.html">classify</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/convert.html">convert</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/filter.html">filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/filterstats.html">filterstats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/merge.html">merge</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/mergepairs.html">mergepairs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/msa.html">msa</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/otu.html">otu</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/root.html">root</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/split.html">split</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/stats.html">stats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/tablebar.html">tablebar</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/tablerare.html">tablerare</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/tablestats.html">tablestats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/tabletotax.html">tabletotax</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/tobiom.html">tobiom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/tree.html">tree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/trim.html">trim</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="#">micca</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="#">Docs</a> &raquo;</li>
+      
+    <li>micca - MICrobial Community Analysis</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/index.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="micca-microbial-community-analysis">
+<h1>micca - MICrobial Community Analysis<a class="headerlink" href="#micca-microbial-community-analysis" title="Permalink to this headline">¶</a></h1>
+<a class="reference external image-reference" href="https://travis-ci.org/compmetagen/micca"><img alt="https://travis-ci.org/compmetagen/micca.svg?branch=master" src="https://travis-ci.org/compmetagen/micca.svg?branch=master" /></a>
+<p>micca (MICrobial Community Analysis) is a software pipeline for the
+processing of amplicon sequencing data, <strong>from raw sequences</strong> to
+<strong>OTU tables</strong>, <strong>taxonomy classification</strong> and <strong>phylogenetic tree</strong>
+inference. The pipeline can be applied to a range of highly conserved
+genes/spacers, such as <strong>16S rRNA gene</strong>, <strong>Internal Transcribed
+Spacer (ITS)</strong> and <strong>28S rRNA</strong>.</p>
+<p>micca is an open-source, GPLv3-licensed software.</p>
+<ul class="simple">
+<li><a class="reference external" href="http://micca.org/">Homepage</a></li>
+<li><a class="reference external" href="http://micca.org/docs/latest">Documentation (latest)</a></li>
+<li><a class="reference external" href="https://github.com/compmetagen/micca/issues">Issues</a></li>
+<li><a class="reference external" href="https://github.com/compmetagen/micca">Github page</a></li>
+</ul>
+<div class="section" id="key-features">
+<h2>Key features<a class="headerlink" href="#key-features" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>supports <strong>single-end</strong> (Roche 454, Illumina MiSeq/HiSeq ,Ion
+Torren) as well <strong>overlapping paired-end</strong> reads (Illumina MiSeq/HiSeq);</li>
+<li><strong>multithread</strong> de novo greedy clustering</li>
+<li><strong>closed-reference</strong>, <strong>open-reference</strong> and <strong>swarm</strong> OTU picking protocols;</li>
+<li><strong>state-of-the-art taxonomic classification</strong> algorithms are
+available (RDP and consensus-based classifier);</li>
+<li>fast (multithread) and and memory efficient implementation of the
+<strong>NAST</strong> multiple sequence alignment (MSA);</li>
+<li>filters low quality sequences according to the maximum allowed <strong>expected
+error (EE) rate</strong> %;</li>
+<li>runs on <strong>Linux</strong>, <strong>Mac OS X</strong> and <strong>MS Windows</strong> (through Docker
+containers)</li>
+<li><strong>simple, easy to use</strong>.</li>
+</ul>
+</div>
+<div class="section" id="docker-images">
+<h2>Docker images<a class="headerlink" href="#docker-images" title="Permalink to this headline">¶</a></h2>
+<p>Docker images are available (compmetagen/micca) starting from version 1.2.2,
+see the documentation (&gt;=1.3.0) to learn how to use them. <a class="reference external" href="https://hub.docker.com/r/compmetagen/micca/">Docker hub page:</a>.</p>
+</div>
+<div class="section" id="citing-micca">
+<h2>Citing micca<a class="headerlink" href="#citing-micca" title="Permalink to this headline">¶</a></h2>
+<p>Davide Albanese, Paolo Fontana, Carlotta De Filippo, Duccio Cavalieri
+and Claudio Donati. <strong>MICCA: a complete and accurate software for
+taxonomic profiling of metagenomic data</strong>. Scientific Reports 5,
+Article number: 9743 (2015), doi:10.1038/srep09743, <a class="reference external" href="http://www.nature.com/articles/srep09743/">Link</a>. <a class="reference external" href="ftp://ftp.fmach.it/metagenomics/micca/scirep/">Dataset download</a>.</p>
+<p>micca wraps third party software packages and these <strong>should be
+cited</strong> if they are used:</p>
+<ul class="simple">
+<li>VSEARCH (<a class="reference external" href="https://github.com/torognes/vsearch">https://github.com/torognes/vsearch</a>) used in <code class="docutils literal"><span class="pre">classify</span></code>,
+<code class="docutils literal"><span class="pre">filter</span></code>, <code class="docutils literal"><span class="pre">mergepairs</span></code>, <code class="docutils literal"><span class="pre">otu</span></code> and <code class="docutils literal"><span class="pre">msa</span></code> commands</li>
+<li>MUSCLE (doi: 10.1093/nar/gkh340) used in <code class="docutils literal"><span class="pre">msa</span></code> and <code class="docutils literal"><span class="pre">tree</span></code> commands</li>
+<li>FastTree (doi: 10.1371/journal.pone.0009490) used in the <code class="docutils literal"><span class="pre">tree</span></code> command</li>
+<li>Cutadapt (doi: 10.14806/ej.17.1.200) used in the <code class="docutils literal"><span class="pre">trim</span></code> command</li>
+<li>RDP classifier (doi:10.1128/AEM.00062-07) used in the <code class="docutils literal"><span class="pre">classify</span></code> command</li>
+<li>swarm (10.7717/peerj.593, doi: 10.7717/peerj.1420) used in the <code class="docutils literal"><span class="pre">otu</span></code> command</li>
+</ul>
+<div class="toctree-wrapper compound" id="getting-started">
+<p class="caption"><span class="caption-text">Getting Started</span><a class="headerlink" href="#getting-started" title="Permalink to this toctree">¶</a></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run.html">Run micca in 6 steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="databases.html">Supported databases</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound" id="tutorials">
+<p class="caption"><span class="caption-text">Tutorials</span><a class="headerlink" href="#tutorials" title="Permalink to this toctree">¶</a></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="singleend.html">Single-end sequencing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pairedend.html">Paired-end sequencing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="phyloseq.html">Import and analyze the data into R and phyloseq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="table.html">Compute basic OTU table statistics, rarefy and summarize OTU tables by taxa using micca</a></li>
+<li class="toctree-l1"><a class="reference internal" href="picrust.html">Picking OTUs for use in PICRUSt</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound" id="in-depth">
+<p class="caption"><span class="caption-text">In Depth</span><a class="headerlink" href="#in-depth" title="Permalink to this toctree">¶</a></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="filtering.html">Quality filtering strategy in micca</a></li>
+<li class="toctree-l1"><a class="reference internal" href="otu.html">OTU picking in micca</a></li>
+<li class="toctree-l1"><a class="reference internal" href="formats.html">Supported file formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html">CHANGES</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound" id="command-reference">
+<p class="caption"><span class="caption-text">Command reference</span><a class="headerlink" href="#command-reference" title="Permalink to this toctree">¶</a></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="commands/classify.html">classify</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/convert.html">convert</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/filter.html">filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/filterstats.html">filterstats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/merge.html">merge</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/mergepairs.html">mergepairs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/msa.html">msa</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/otu.html">otu</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/root.html">root</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/split.html">split</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/stats.html">stats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/tablebar.html">tablebar</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/tablerare.html">tablerare</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/tablestats.html">tablestats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/tabletotax.html">tabletotax</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/tobiom.html">tobiom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/tree.html">tree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/trim.html">trim</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="install.html" class="btn btn-neutral float-right" title="Install" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, micca development team.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.3.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -6,19 +6,18 @@
 .. include:: ../../README.rst
 
 
-
 .. toctree::
    :maxdepth: 1
    :caption: Getting Started
-   
+
    install
    run
    databases
-   
+
 .. toctree::
    :maxdepth: 1
    :caption: Tutorials
-   
+
    singleend
    pairedend
    phyloseq
@@ -43,8 +42,7 @@
 
 .. Indices and tables
 .. ==================
-.. 
+..
 .. * :ref:`genindex`
 .. * :ref:`modindex`
 .. * :ref:`search`
-

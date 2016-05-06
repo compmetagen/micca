@@ -1,0 +1,465 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>OTU picking in micca &mdash; micca 1.3.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="micca 1.3.0 documentation" href="index.html"/>
+        <link rel="next" title="Supported file formats" href="formats.html"/>
+        <link rel="prev" title="Quality filtering strategy in micca" href="filtering.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> micca
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Download and install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run.html">Run micca in 6 steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="databases.html">Supported databases</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="singleend.html">Single-end sequencing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pairedend.html">Paired-end sequencing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="phyloseq.html">Import and analyze the data into R and phyloseq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="table.html">Compute basic OTU table statistics, rarefy and summarize OTU tables by taxa using micca</a></li>
+<li class="toctree-l1"><a class="reference internal" href="picrust.html">Picking OTUs for use in PICRUSt</a></li>
+</ul>
+<p class="caption"><span class="caption-text">In Depth</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="filtering.html">Quality filtering strategy in micca</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">OTU picking in micca</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#clustering-strategies">Clustering strategies</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#de-novo-greedy">De novo greedy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#closed-reference">Closed-reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#open-reference">Open-reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#de-novo-swarm">De novo swarm</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#definition-of-identity">Definition of identity</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="formats.html">Supported file formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html">CHANGES</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Command reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="commands/classify.html">classify</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/convert.html">convert</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/filter.html">filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/filterstats.html">filterstats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/merge.html">merge</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/mergepairs.html">mergepairs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/msa.html">msa</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/otu.html">otu</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/root.html">root</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/split.html">split</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/stats.html">stats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/tablebar.html">tablebar</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/tablerare.html">tablerare</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/tablestats.html">tablestats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/tabletotax.html">tabletotax</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/tobiom.html">tobiom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/tree.html">tree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/trim.html">trim</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">micca</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>OTU picking in micca</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/otu.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="otu-picking-in-micca">
+<h1>OTU picking in micca<a class="headerlink" href="#otu-picking-in-micca" title="Permalink to this headline">¶</a></h1>
+<p>To characterize the taxonomic structure of the samples, the sequences
+are organized into <a class="reference external" href="https://en.wikipedia.org/wiki/Operational_taxonomic_unit">Operational Taxonomic Units (OTUs)</a> at
+varying levels of identity. An identity of <strong>97%</strong> represent the
+common working definition of bacterial species. The
+<a class="reference internal" href="commands/otu.html"><em>otu</em></a> command assigns similar sequences (marker genes
+such as 16S rRNA and the fungal ITS region) to operational taxonomic
+units (OTUs). The command <a class="reference internal" href="commands/otu.html"><em>otu</em></a> wraps <a class="reference external" href="https://github.com/torognes/vsearch">VSEARCH</a> for low-level clustering,
+chimera detection an searching operations.</p>
+<p>The <a class="reference internal" href="commands/otu.html"><em>otu</em></a> command returns in a single directory 5 files:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>otutable.txt</dt>
+<dd><p class="first">TAB-delimited file, containing the number of times an OTU is
+found in each sample (OTU x sample, see <a class="reference internal" href="formats.html"><em>Supported file formats</em></a>):</p>
+<div class="last highlight-python"><div class="highlight"><pre>OTU     Mw_01 Mw_02 Mw_03 ...
+DENOVO1 151   178   177   ...
+DENOVO2 339   181   142   ...
+DENOVO3 533   305   63    ...
+...     ...   ...   ...   ...
+</pre></div>
+</div>
+</dd>
+<dt>otus.fasta</dt>
+<dd><p class="first">FASTA containing the representative sequences (OTUs):</p>
+<div class="last highlight-python"><div class="highlight"><pre>&gt;DENOVO1
+GACGAACGCTGGCGGCGTGCCTAACACATGCAAGTCGAACGGGG...
+&gt;DENOVO2
+GATGAACGCTAGCTACAGGCTTAACACATGCAAGTCGAGGGGCA...
+&gt;DENOVO3
+AGTGAACGCTGGCGACGTGGTTAAGACATGCAAGTCGAGCGGTA...
+...
+</pre></div>
+</div>
+</dd>
+<dt>otuids.txt</dt>
+<dd><p class="first">TAB-delimited file which maps the OTU ids to original sequence
+ids:</p>
+<div class="last highlight-python"><div class="highlight"><pre>DENOVO1 IS0AYJS04JQKIS;sample=Mw_01
+DENOVO2 IS0AYJS04JL6RS;sample=Mw_01
+DENOVO3 IS0AYJS04H4XNN;sample=Mw_01
+...
+</pre></div>
+</div>
+</dd>
+<dt>hits.txt</dt>
+<dd><p class="first">TAB-separated file, three-columns, where each column contains:
+the matching sequence, the representative (seed) and the
+identity (if available), see <a class="reference internal" href="#otu-definition-identity"><span>Definition of identity</span></a>:</p>
+<div class="last highlight-python"><div class="highlight"><pre>IS0AYJS04JE658;sample=Mw_01; IS0AYJS04I4XYN;sample=Mw_01 99.4
+IS0AYJS04JPH34;sample=Mw_01; IS0AYJS04JVUBC;sample=Mw_01 98.0
+IS0AYJS04I67XN;sample=Mw_01; IS0AYJS04JVUBC;sample=Mw_01 99.7
+...
+</pre></div>
+</div>
+</dd>
+<dt>otuschim.fasta</dt>
+<dd>(only for &#8216;denovo_greedy&#8217; and &#8216;open_ref&#8217; mathods, when
+<code class="docutils literal"><span class="pre">-c/--rmchim</span></code> is specified) FASTA file containing the chimeric
+otus.</dd>
+</dl>
+</div></blockquote>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Trimming the sequences to a fixed position before clustering is
+strongly recommended when they cover partial amplicons or if
+quality deteriorates towards the end (common when you have long
+amplicons and single-end sequencing), see
+<a class="reference internal" href="singleend.html#singleend-quality-filtering"><span>Quality filtering</span></a>.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">De novo OTUs are renamed to <code class="docutils literal"><span class="pre">DENOVO[N]</span></code> and reference OTUs to
+<code class="docutils literal"><span class="pre">REF[N]</span></code>.</p>
+</div>
+<div class="section" id="clustering-strategies">
+<h2>Clustering strategies<a class="headerlink" href="#clustering-strategies" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference internal" href="commands/otu.html"><em>otu</em></a> implements several state-of-the-art clustering
+strategies:</p>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#de-novo-greedy" id="id1">De novo greedy</a></li>
+<li><a class="reference internal" href="#closed-reference" id="id2">Closed-reference</a></li>
+<li><a class="reference internal" href="#open-reference" id="id3">Open-reference</a></li>
+<li><a class="reference internal" href="#de-novo-swarm" id="id4">De novo swarm</a></li>
+</ul>
+</div>
+<div class="section" id="de-novo-greedy">
+<span id="otu-de-novo-greedy"></span><h3><a class="toc-backref" href="#id1">De novo greedy</a><a class="headerlink" href="#de-novo-greedy" title="Permalink to this headline">¶</a></h3>
+<p>In denovo greedy clustering (parameter <code class="docutils literal"><span class="pre">--method</span> <span class="pre">denovo_greedy</span></code>),
+sequences are clustered without relying on an external reference
+database, using an approach similar to the UPARSE pipeline
+(<a class="reference external" href="https://doi.org/10.1038/nmeth.2604">https://doi.org/10.1038/nmeth.2604</a>) and tested in
+<a class="reference external" href="https://doi.org/10.7287/peerj.preprints.1466v1">https://doi.org/10.7287/peerj.preprints.1466v1</a>. <a class="reference internal" href="commands/otu.html"><em>otu</em></a>
+includes in a single command dereplication, clustering and chimera
+filtering:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Dereplication. Predict sequence abundances of each sequence by
+dereplication, order by abundance and discard sequences with
+abundance value smaller than DEREP_MINSIZE (option
+<code class="docutils literal"><span class="pre">--derep-minsize</span></code> recommended value 2);</li>
+<li>Greedy clustering. Distance (DGC) and abundance-based (AGC)
+strategies are supported (option <code class="docutils literal"><span class="pre">--greedy</span></code>, see
+<a class="reference external" href="https://doi.org/10.1186/s40168-015-0081-x">https://doi.org/10.1186/s40168-015-0081-x</a> and
+<a class="reference external" href="https://doi.org/10.7287/peerj.preprints.1466v1">https://doi.org/10.7287/peerj.preprints.1466v1</a> ). Therefore, the
+candidate representative sequences are obtained;</li>
+<li>Chimera filtering (optional). Remove chimeric sequences from the
+representatives performing a de novo chimera detection (option
+<code class="docutils literal"><span class="pre">--rmchim</span></code>, recommended);</li>
+<li>Map sequences. Map sequences to the representatives.</li>
+</ol>
+</div></blockquote>
+<p>Example (requires <a class="reference internal" href="singleend.html#singleend-quality-filtering"><span>Quality filtering</span></a> in
+<a class="reference internal" href="singleend.html"><em>Single-end sequencing</em></a> to be done):</p>
+<div class="highlight-sh"><div class="highlight"><pre>micca otu -m denovo_greedy -i filtered.fasta -o denovo_greedy_otus -d 0.97 -c -t 4
+</pre></div>
+</div>
+</div>
+<div class="section" id="closed-reference">
+<span id="otu-closed-reference"></span><h3><a class="toc-backref" href="#id2">Closed-reference</a><a class="headerlink" href="#closed-reference" title="Permalink to this headline">¶</a></h3>
+<p>Sequences are clustered against an external reference database and
+reads that could not be matched are discarded. Example (requires
+<a class="reference internal" href="singleend.html#singleend-quality-filtering"><span>Quality filtering</span></a> in <a class="reference internal" href="singleend.html"><em>Single-end sequencing</em></a> to be done):</p>
+<p>Download the reference database (Greengenes), clustered at 97%
+identity:</p>
+<div class="highlight-sh"><div class="highlight"><pre>wget ftp://ftp.fmach.it/metagenomics/micca/dbs/gg_2013_05.tar.gz
+tar -zxvf gg_2013_05.tar.gz
+</pre></div>
+</div>
+<p>Run the closed-reference protocol:</p>
+<div class="highlight-sh"><div class="highlight"><pre>micca otu -m closed_ref -i filtered.fasta -o closed_ref_otus -r 97_otus.fasta -d 0.97 -t 4
+</pre></div>
+</div>
+<p>Simply perform a sequence ID matching with the reference taxonomy
+file (see <a class="reference internal" href="commands/classify.html"><em>classify</em></a>):</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nb">cd</span> closed_ref_otus
+micca classify -m otuid -i otuids.txt -o taxa.txt -x ../97_otu_taxonomy.txt
+</pre></div>
+</div>
+</div>
+<div class="section" id="open-reference">
+<h3><a class="toc-backref" href="#id3">Open-reference</a><a class="headerlink" href="#open-reference" title="Permalink to this headline">¶</a></h3>
+<p>Open-reference clustering (open_ref): sequences are clustered against
+an external reference database (as in <a class="reference internal" href="#otu-closed-reference"><span>Closed-reference</span></a>) and
+reads that could not be matched are clustered with the
+<a class="reference internal" href="#otu-de-novo-greedy"><span>De novo greedy</span></a> protocol. Example (requires
+<a class="reference internal" href="singleend.html#singleend-quality-filtering"><span>Quality filtering</span></a> in <a class="reference internal" href="singleend.html"><em>Single-end sequencing</em></a> to be done):</p>
+<p>Download the reference database (Greengenes), clustered at 97%
+identity:</p>
+<div class="highlight-sh"><div class="highlight"><pre>wget ftp://ftp.fmach.it/metagenomics/micca/dbs/gg_2013_05.tar.gz
+tar -zxvf gg_2013_05.tar.gz
+</pre></div>
+</div>
+<p>Run the open-reference protocol:</p>
+<div class="highlight-sh"><div class="highlight"><pre>micca otu -m open_ref -i filtered.fasta -o open_ref_otus -r 97_otus.fasta -d 0.97 -t <span class="m">7</span> -c
+</pre></div>
+</div>
+<p>Run the VSEARCH-based consensus classifier or the RDP classifier (see
+<a class="reference internal" href="commands/classify.html"><em>classify</em></a>):</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nb">cd</span> open_ref_otus
+micca classify -m cons -i otus.fasta -o taxa.txt -r ../97_otus.fasta -x ../97_otu_taxonomy.txt -t 4
+</pre></div>
+</div>
+</div>
+<div class="section" id="de-novo-swarm">
+<h3><a class="toc-backref" href="#id4">De novo swarm</a><a class="headerlink" href="#de-novo-swarm" title="Permalink to this headline">¶</a></h3>
+<p>In denovo swarm clustering (doi: 10.7717/peerj.593, doi: 10.7717/peerj.1420,
+<a class="reference external" href="https://github.com/torognes/swarm">https://github.com/torognes/swarm</a>, parameter <code class="docutils literal"><span class="pre">--method</span> <span class="pre">denovo_swarm</span></code>),
+sequences are clustered without relying on an external reference database.
+From <a class="reference external" href="https://github.com/torognes/swarm">https://github.com/torognes/swarm</a>:</p>
+<blockquote>
+<div>The purpose of swarm is to provide a novel clustering algorithm that handles
+massive sets of amplicons. Results of traditional clustering algorithms are
+strongly input-order dependent, and rely on an arbitrary global clustering
+threshold. swarm results are resilient to input-order changes and rely on a
+small local linking threshold d, representing the maximum number of
+differences between two amplicons. swarm forms stable, high-resolution
+clusters, with a high yield of biological information.</div></blockquote>
+<p><a class="reference internal" href="commands/otu.html"><em>otu</em></a> includes in a single command dereplication, clustering and
+de novo chimera filtering:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Dereplication. Predict sequence abundances of each sequence by
+dereplication, order by abundance and discard sequences with
+abundance value smaller than DEREP_MINSIZE (option
+<code class="docutils literal"><span class="pre">--derep-minsize</span></code> recommended value is 1, i.e. no filtering);</li>
+<li>Swarm clustering. Number of differences 1 and the fastidious option are
+recommended (<code class="docutils literal"><span class="pre">--swarm-differences</span> <span class="pre">1</span> <span class="pre">--swarm-fastidious</span></code>).</li>
+<li>Chimera filtering (optional). Remove chimeric sequences from the
+representatives performing a de novo chimera detection (option
+<code class="docutils literal"><span class="pre">--rmchim</span></code>);</li>
+</ol>
+</div></blockquote>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Removing ambiguous nucleotides (<code class="docutils literal"><span class="pre">N</span></code>) (with the option <code class="docutils literal"><span class="pre">--maxns</span> <span class="pre">0</span></code> in
+<a class="reference internal" href="commands/filter.html"><em>filter</em></a>) is mandatory if you use the de novo swarm clustering
+method.</p>
+</div>
+<p>Example (requires <a class="reference internal" href="singleend.html#singleend-primer-trimming"><span>Primer trimming</span></a> in <a class="reference internal" href="singleend.html"><em>Single-end sequencing</em></a> to be
+done):</p>
+<div class="highlight-sh"><div class="highlight"><pre>micca filter -i trimmed.fastq -o filtered.fasta -e 0.5 -m <span class="m">350</span> -t --maxns 0
+micca otu -m denovo_swarm -i filtered.fasta -o otus_denovo_swarm -c --minsize <span class="m">1</span> --swarm-fastidious -t 4
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="definition-of-identity">
+<span id="otu-definition-identity"></span><h2>Definition of identity<a class="headerlink" href="#definition-of-identity" title="Permalink to this headline">¶</a></h2>
+<p>In micca, the pairwise identity (except for de novo swarm) is defined as the
+edit distance excluding terminal gaps (same as in USEARCH and BLAST):</p>
+<div class="math">
+<p><img src="_images/math/e34a5e5eb5fb0ed54961b9f139d76325b1a7b977.png" alt="\frac{\textrm{\# matching columns}}{\textrm{alignment length} - \textrm{terminal gaps}}"/></p>
+</div></div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="formats.html" class="btn btn-neutral float-right" title="Supported file formats" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="filtering.html" class="btn btn-neutral" title="Quality filtering strategy in micca" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, micca development team.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.3.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
