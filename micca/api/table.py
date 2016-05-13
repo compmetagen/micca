@@ -97,7 +97,8 @@ def bar(input_fn, output_fn, raw=False, topn=12, xticklabelsize=8, fmt="png"):
         plt.xlabel("Sample")
         plt.ylabel("Abundance")
         plt.xlim((0.0, table.shape[1]))
-        plt.ylim((0.0, 1.0))
+        if not raw:
+            plt.ylim((0.0, 1.0))
 
         fig.savefig(output_fn, bbox_extra_artists=(lgd,), dpi=300,
                     bbox_inches='tight', format=fmt)

@@ -80,7 +80,7 @@ In Mac OS X, we recommend to install Python from `Homebrew <http://brew.sh/>`_:
       .. code-block:: sh
          export PATH=/usr/local/bin:$PATH
 
-   #. Install Python and gfortran:
+   #. Install Python:
 
       .. code-block:: sh
 
