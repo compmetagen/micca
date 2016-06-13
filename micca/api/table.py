@@ -46,7 +46,7 @@ def bar(input_fn, output_fn, raw=False, topn=12, xticklabelsize=8, fmt="png"):
 
     # sort by taxa abundances in decreasing order
     taxsum = table.sum(axis=1)
-    taxsum.order(ascending=False, inplace=True)
+    taxsum.sort_values(ascending=False, inplace=True)
     table = table.reindex(taxsum.index)
 
     # sort by sample names
@@ -158,7 +158,7 @@ def stats(input_fn, output_dir, step=100, replace=False, seed=0):
         "NSingle": (table == 1).sum()},
         columns=["Depth", "NOTU", "NSingle"])
     sample_summ.index.name = "Sample"
-    sample_summ.sort("Depth", inplace=True)
+    sample_summ.sort_values(by="Depth", inplace=True)
     sample_summ.to_csv(sample_summ_fn, sep='\t')
 
     # OTU summary
@@ -167,7 +167,7 @@ def stats(input_fn, output_dir, step=100, replace=False, seed=0):
         "NSample": (table > 0).sum(axis=1)},
         columns=["N", "NSample"])
     otu_summ.index.name = "OTU"
-    otu_summ.sort("N", inplace=True, ascending=False)
+    otu_summ.sort_values(by="N", inplace=True, ascending=False)
     otu_summ.to_csv(otu_summ_fn, sep='\t')
 
     # rarefaction curves
