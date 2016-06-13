@@ -294,9 +294,17 @@ def nast(input_fn, template_fn, output_fn, notaligned_fn=None, hits_fn=None,
             finally:
                 prev_candidate_id = candidate_id
 
+    # close SeqIO.index files
+    input_records.close()
+    template_records.close()
+    template_wogaps_temp_fn.close()
+
+    # close handles
     hits_temp_handle.close()
     output_temp_handle.close()
     hits_out_handle.close()
+
+    # remove tmp files
     os.remove(hits_temp_fn)
     os.remove(template_wogaps_temp_fn)
 
@@ -317,10 +325,6 @@ def nast(input_fn, template_fn, output_fn, notaligned_fn=None, hits_fn=None,
         os.remove(hits_out_fn)
     else:
         os.rename(hits_out_fn, hits_fn)
-
-
-
-
 
 
 def muscle(input_fn, output_fn, maxiters=16):

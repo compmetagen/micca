@@ -8,11 +8,11 @@ import pandas as pd
 def read(input_fn):
     """Read OTU/Taxa tables.
     """
-    
+
     table = pd.read_csv(input_fn, sep='\t', index_col=0)
 
     # cast index into string
-    table.index = table.index.astype(str)
+    table.index = [str(elem) for elem in table.index]
 
     return table
 
@@ -23,7 +23,7 @@ def write(output_fn, table):
 
     table.to_csv(output_fn, sep='\t')
 
-    
+
 def _subsample(counts, n, replace=False, seed=0):
     """Randomly subsample from a vector of counts.
 
@@ -50,18 +50,18 @@ def _subsample(counts, n, replace=False, seed=0):
 
     if n < 0:
         raise ValueError("'n' must be > 0 ")
-    
+
     counts = np.asarray(counts)
-    
+
     if counts.ndim != 1:
         raise ValueError("counts must be an 1-D array_like object")
-    
+
     counts = counts.astype(int, casting='safe')
     counts_sum = counts.sum()
-    
+
     if n > counts_sum:
         raise ValueError("'n' must be <= the total number of counts")
-    
+
     prng = RandomState(seed)
 
     if replace:
@@ -109,15 +109,15 @@ def _subsample_nonzero(counts, ns, replace=False, seed=0):
 
     if (ns < 0).sum() > 0:
         raise ValueError("values in 'ns' must be > 0 ")
-    
+
     counts = counts.astype(int, casting='safe')
     ns = ns.astype(int, casting='safe')
-    
+
     counts_sum = counts.sum()
 
     prng = RandomState(seed)
-    nonzero = []    
-    
+    nonzero = []
+
     if replace:
         p = counts / counts_sum
         for n in ns:
@@ -136,12 +136,12 @@ def _subsample_nonzero(counts, ns, replace=False, seed=0):
             else:
                 subcounts = np.bincount(permuted[:n], minlength=counts.size)
                 nonzero.append(np.count_nonzero(subcounts))
-            
+
     return np.array(nonzero)
 
 
 def rarefy(table, depth, replace=False, seed=0):
-    """Rarefy a table of counts. 
+    """Rarefy a table of counts.
 
     Rarefy a table of integers by subsampling, with or without
     replacement. Samples that have fewer counts then the depth are
@@ -152,7 +152,7 @@ def rarefy(table, depth, replace=False, seed=0):
     ----------
     table : pandas DataFrame of integers
         Table of counts (observations x samples).
-    depth : int 
+    depth : int
         Number of element to subsample in each sample.
     replace : bool, optional
         Subsample with or without replacement.
@@ -171,13 +171,13 @@ def rarefy(table, depth, replace=False, seed=0):
 
     if depth < 0:
         raise ValueError("'depth' must be > 0 ")
-    
+
     if not isinstance(table, pd.DataFrame):
         raise TypeError("'table' must be a pandas DataFrame object")
-    
+
     if table.values.dtype != 'int':
         raise TypeError("values in 'table' must be integers")
-    
+
     # prune samples that have fewer counts than 'depth'
     table = table.loc[:, table.sum(axis=0) >= depth]
 
@@ -187,7 +187,7 @@ def rarefy(table, depth, replace=False, seed=0):
 
     # prune OTUs that are not present in at least one sample
     raretable = raretable.loc[raretable.sum(axis=1) > 0]
-    
+
     return raretable
 
 
@@ -202,7 +202,7 @@ def rarecurve(table, step, replace=False, seed=0):
     ----------
     table : pandas DataFrame of integers
         Table of counts (observations x samples).
-    step : int 
+    step : int
         Sample depth interval.
     replace : bool, optional
         Subsample with or without replacement.
@@ -218,10 +218,10 @@ def rarecurve(table, step, replace=False, seed=0):
     ------
     ValueError, TypeError
     """
-    
+
     if not isinstance(table, pd.DataFrame):
         raise TypeError("'table' must be a pandas DataFrame object")
-    
+
     if table.values.dtype != 'int':
         raise TypeError("values in 'table' must be integers")
 
@@ -232,15 +232,15 @@ def rarecurve(table, step, replace=False, seed=0):
     sample_depth_max = sample_depths.max()
 
     # compute the list of depths
-    depths = sorted(set([1] + range(step, sample_depth_max+1, step) + 
+    depths = sorted(set([1] + range(step, sample_depth_max+1, step) +
                         sample_depths.tolist()))
 
     # create an empty DataFrame, depths x samples
     rarecurve = pd.DataFrame(index=depths, columns=table.columns, dtype='float')
     rarecurve.index.name = "Depth"
-    
+
     for sample in table.columns:
         rarecurve[sample] = _subsample_nonzero(
             table[sample], ns=depths, replace=replace, seed=seed)
-   
+
     return rarecurve
