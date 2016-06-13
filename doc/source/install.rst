@@ -29,6 +29,9 @@ which all the software has already been installed, configured and tested.
 
            docker run -t -i -v /Users/davide/micca:/micca -w /micca compmetagen/micca /bin/bash
 
+       You need to write something like ``-v //c/Users/davide/micca:/micca`` if
+       you are in Windows.
+
     #. Now you can use micca:
 
        .. code-block:: sh
