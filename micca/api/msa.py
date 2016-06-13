@@ -297,7 +297,7 @@ def nast(input_fn, template_fn, output_fn, notaligned_fn=None, hits_fn=None,
     # close SeqIO.index files
     input_records.close()
     template_records.close()
-    template_wogaps_temp_fn.close()
+    template_wogaps_temp_records.close()
 
     # close handles
     hits_temp_handle.close()
