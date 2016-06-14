@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>OTU picking in micca &mdash; micca 1.4.0 documentation</title>
+  <title>OTU picking in micca &mdash; micca 1.5.0 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="micca 1.4.0 documentation" href="index.html"/>
+    <link rel="top" title="micca 1.5.0 documentation" href="index.html"/>
         <link rel="next" title="Supported file formats" href="formats.html"/>
         <link rel="prev" title="Quality filtering strategy in micca" href="filtering.html"/> 
 
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                1.4.0
+                1.5.0
               </div>
             
           
@@ -98,7 +98,7 @@
 <p class="caption"><span class="caption-text">In Depth</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="filtering.html">Quality filtering strategy in micca</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">OTU picking in micca</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">OTU picking in micca</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#clustering-strategies">Clustering strategies</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#de-novo-greedy">De novo greedy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#closed-reference">Closed-reference</a></li>
@@ -154,7 +154,7 @@
         <div class="rst-content">
           
 
-
+ 
 
 
 
@@ -182,54 +182,54 @@
 are organized into <a class="reference external" href="https://en.wikipedia.org/wiki/Operational_taxonomic_unit">Operational Taxonomic Units (OTUs)</a> at
 varying levels of identity. An identity of <strong>97%</strong> represent the
 common working definition of bacterial species. The
-<a class="reference internal" href="commands/otu.html"><em>otu</em></a> command assigns similar sequences (marker genes
+<a class="reference internal" href="commands/otu.html"><span class="doc">otu</span></a> command assigns similar sequences (marker genes
 such as 16S rRNA and the fungal ITS region) to operational taxonomic
-units (OTUs). The command <a class="reference internal" href="commands/otu.html"><em>otu</em></a> wraps <a class="reference external" href="https://github.com/torognes/vsearch">VSEARCH</a> for low-level clustering,
+units (OTUs). The command <a class="reference internal" href="commands/otu.html"><span class="doc">otu</span></a> wraps <a class="reference external" href="https://github.com/torognes/vsearch">VSEARCH</a> for low-level clustering,
 chimera detection an searching operations.</p>
-<p>The <a class="reference internal" href="commands/otu.html"><em>otu</em></a> command returns in a single directory 5 files:</p>
+<p>The <a class="reference internal" href="commands/otu.html"><span class="doc">otu</span></a> command returns in a single directory 5 files:</p>
 <blockquote>
 <div><dl class="docutils">
 <dt>otutable.txt</dt>
 <dd><p class="first">TAB-delimited file, containing the number of times an OTU is
-found in each sample (OTU x sample, see <a class="reference internal" href="formats.html"><em>Supported file formats</em></a>):</p>
-<div class="last highlight-python"><div class="highlight"><pre>OTU     Mw_01 Mw_02 Mw_03 ...
-DENOVO1 151   178   177   ...
-DENOVO2 339   181   142   ...
-DENOVO3 533   305   63    ...
-...     ...   ...   ...   ...
+found in each sample (OTU x sample, see <a class="reference internal" href="formats.html"><span class="doc">Supported file formats</span></a>):</p>
+<div class="last highlight-default"><div class="highlight"><pre><span></span><span class="n">OTU</span>     <span class="n">Mw_01</span> <span class="n">Mw_02</span> <span class="n">Mw_03</span> <span class="o">...</span>
+<span class="n">DENOVO1</span> <span class="mi">151</span>   <span class="mi">178</span>   <span class="mi">177</span>   <span class="o">...</span>
+<span class="n">DENOVO2</span> <span class="mi">339</span>   <span class="mi">181</span>   <span class="mi">142</span>   <span class="o">...</span>
+<span class="n">DENOVO3</span> <span class="mi">533</span>   <span class="mi">305</span>   <span class="mi">63</span>    <span class="o">...</span>
+<span class="o">...</span>     <span class="o">...</span>   <span class="o">...</span>   <span class="o">...</span>   <span class="o">...</span>
 </pre></div>
 </div>
 </dd>
 <dt>otus.fasta</dt>
 <dd><p class="first">FASTA containing the representative sequences (OTUs):</p>
-<div class="last highlight-python"><div class="highlight"><pre>&gt;DENOVO1
-  GACGAACGCTGGCGGCGTGCCTAACACATGCAAGTCGAACGGGG...
-  &gt;DENOVO2
-  GATGAACGCTAGCTACAGGCTTAACACATGCAAGTCGAGGGGCA...
-  &gt;DENOVO3
-  AGTGAACGCTGGCGACGTGGTTAAGACATGCAAGTCGAGCGGTA...
-  ...
+<div class="last highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;</span><span class="n">DENOVO1</span>
+  <span class="n">GACGAACGCTGGCGGCGTGCCTAACACATGCAAGTCGAACGGGG</span><span class="o">...</span>
+  <span class="o">&gt;</span><span class="n">DENOVO2</span>
+  <span class="n">GATGAACGCTAGCTACAGGCTTAACACATGCAAGTCGAGGGGCA</span><span class="o">...</span>
+  <span class="o">&gt;</span><span class="n">DENOVO3</span>
+  <span class="n">AGTGAACGCTGGCGACGTGGTTAAGACATGCAAGTCGAGCGGTA</span><span class="o">...</span>
+  <span class="o">...</span>
 </pre></div>
 </div>
 </dd>
 <dt>otuids.txt</dt>
 <dd><p class="first">TAB-delimited file which maps the OTU ids to original sequence
 ids:</p>
-<div class="last highlight-python"><div class="highlight"><pre>DENOVO1 IS0AYJS04JQKIS;sample=Mw_01
-      DENOVO2 IS0AYJS04JL6RS;sample=Mw_01
-      DENOVO3 IS0AYJS04H4XNN;sample=Mw_01
-...
+<div class="last highlight-default"><div class="highlight"><pre><span></span><span class="n">DENOVO1</span> <span class="n">IS0AYJS04JQKIS</span><span class="p">;</span><span class="n">sample</span><span class="o">=</span><span class="n">Mw_01</span>
+      <span class="n">DENOVO2</span> <span class="n">IS0AYJS04JL6RS</span><span class="p">;</span><span class="n">sample</span><span class="o">=</span><span class="n">Mw_01</span>
+      <span class="n">DENOVO3</span> <span class="n">IS0AYJS04H4XNN</span><span class="p">;</span><span class="n">sample</span><span class="o">=</span><span class="n">Mw_01</span>
+<span class="o">...</span>
 </pre></div>
 </div>
 </dd>
 <dt>hits.txt</dt>
 <dd><p class="first">TAB-separated file, three-columns, where each column contains:
 the matching sequence, the representative (seed) and the
-identity (if available), see <a class="reference internal" href="#otu-definition-identity"><span>Definition of identity</span></a>:</p>
-<div class="last highlight-python"><div class="highlight"><pre>IS0AYJS04JE658;sample=Mw_01; IS0AYJS04I4XYN;sample=Mw_01 99.4
-      IS0AYJS04JPH34;sample=Mw_01; IS0AYJS04JVUBC;sample=Mw_01 98.0
-      IS0AYJS04I67XN;sample=Mw_01; IS0AYJS04JVUBC;sample=Mw_01 99.7
-...
+identity (if available), see <a class="reference internal" href="#otu-definition-identity"><span class="std std-ref">Definition of identity</span></a>:</p>
+<div class="last highlight-default"><div class="highlight"><pre><span></span><span class="n">IS0AYJS04JE658</span><span class="p">;</span><span class="n">sample</span><span class="o">=</span><span class="n">Mw_01</span><span class="p">;</span> <span class="n">IS0AYJS04I4XYN</span><span class="p">;</span><span class="n">sample</span><span class="o">=</span><span class="n">Mw_01</span> <span class="mf">99.4</span>
+      <span class="n">IS0AYJS04JPH34</span><span class="p">;</span><span class="n">sample</span><span class="o">=</span><span class="n">Mw_01</span><span class="p">;</span> <span class="n">IS0AYJS04JVUBC</span><span class="p">;</span><span class="n">sample</span><span class="o">=</span><span class="n">Mw_01</span> <span class="mf">98.0</span>
+      <span class="n">IS0AYJS04I67XN</span><span class="p">;</span><span class="n">sample</span><span class="o">=</span><span class="n">Mw_01</span><span class="p">;</span> <span class="n">IS0AYJS04JVUBC</span><span class="p">;</span><span class="n">sample</span><span class="o">=</span><span class="n">Mw_01</span> <span class="mf">99.7</span>
+<span class="o">...</span>
 </pre></div>
 </div>
 </dd>
@@ -245,7 +245,7 @@ otus.</dd>
 strongly recommended when they cover partial amplicons or if
 quality deteriorates towards the end (common when you have long
 amplicons and single-end sequencing), see
-<a class="reference internal" href="singleend.html#singleend-quality-filtering"><span>Quality filtering</span></a>.</p>
+<a class="reference internal" href="singleend.html#singleend-quality-filtering"><span class="std std-ref">Quality filtering</span></a>.</p>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -254,7 +254,7 @@ amplicons and single-end sequencing), see
 </div>
 <div class="section" id="clustering-strategies">
 <h2>Clustering strategies<a class="headerlink" href="#clustering-strategies" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference internal" href="commands/otu.html"><em>otu</em></a> implements several state-of-the-art clustering
+<p><a class="reference internal" href="commands/otu.html"><span class="doc">otu</span></a> implements several state-of-the-art clustering
 strategies:</p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
@@ -270,7 +270,7 @@ strategies:</p>
 sequences are clustered without relying on an external reference
 database, using an approach similar to the UPARSE pipeline
 (<a class="reference external" href="https://doi.org/10.1038/nmeth.2604">https://doi.org/10.1038/nmeth.2604</a>) and tested in
-<a class="reference external" href="https://doi.org/10.7287/peerj.preprints.1466v1">https://doi.org/10.7287/peerj.preprints.1466v1</a>. <a class="reference internal" href="commands/otu.html"><em>otu</em></a>
+<a class="reference external" href="https://doi.org/10.7287/peerj.preprints.1466v1">https://doi.org/10.7287/peerj.preprints.1466v1</a>. <a class="reference internal" href="commands/otu.html"><span class="doc">otu</span></a>
 includes in a single command dereplication, clustering and chimera
 filtering:</p>
 <blockquote>
@@ -290,9 +290,9 @@ representatives performing a de novo chimera detection (option
 <li>Map sequences. Map sequences to the representatives.</li>
 </ol>
 </div></blockquote>
-<p>Example (requires <a class="reference internal" href="singleend.html#singleend-quality-filtering"><span>Quality filtering</span></a> in
-<a class="reference internal" href="singleend.html"><em>Single-end sequencing</em></a> to be done):</p>
-<div class="highlight-sh"><div class="highlight"><pre>micca otu -m denovo_greedy -i filtered.fasta -o denovo_greedy_otus -d 0.97 -c -t 4
+<p>Example (requires <a class="reference internal" href="singleend.html#singleend-quality-filtering"><span class="std std-ref">Quality filtering</span></a> in
+<a class="reference internal" href="singleend.html"><span class="doc">Single-end sequencing</span></a> to be done):</p>
+<div class="highlight-sh"><div class="highlight"><pre><span></span>micca otu -m denovo_greedy -i filtered.fasta -o denovo_greedy_otus -d 0.97 -c -t 4
 </pre></div>
 </div>
 </div>
@@ -300,20 +300,20 @@ representatives performing a de novo chimera detection (option
 <span id="otu-closed-reference"></span><h3><a class="toc-backref" href="#id2">Closed-reference</a><a class="headerlink" href="#closed-reference" title="Permalink to this headline">¶</a></h3>
 <p>Sequences are clustered against an external reference database and
 reads that could not be matched are discarded. Example (requires
-<a class="reference internal" href="singleend.html#singleend-quality-filtering"><span>Quality filtering</span></a> in <a class="reference internal" href="singleend.html"><em>Single-end sequencing</em></a> to be done):</p>
+<a class="reference internal" href="singleend.html#singleend-quality-filtering"><span class="std std-ref">Quality filtering</span></a> in <a class="reference internal" href="singleend.html"><span class="doc">Single-end sequencing</span></a> to be done):</p>
 <p>Download the reference database (Greengenes), clustered at 97%
 identity:</p>
-<div class="highlight-sh"><div class="highlight"><pre>wget ftp://ftp.fmach.it/metagenomics/micca/dbs/gg_2013_05.tar.gz
+<div class="highlight-sh"><div class="highlight"><pre><span></span>wget ftp://ftp.fmach.it/metagenomics/micca/dbs/gg_2013_05.tar.gz
 tar -zxvf gg_2013_05.tar.gz
 </pre></div>
 </div>
 <p>Run the closed-reference protocol:</p>
-<div class="highlight-sh"><div class="highlight"><pre>micca otu -m closed_ref -i filtered.fasta -o closed_ref_otus -r 97_otus.fasta -d 0.97 -t 4
+<div class="highlight-sh"><div class="highlight"><pre><span></span>micca otu -m closed_ref -i filtered.fasta -o closed_ref_otus -r 97_otus.fasta -d 0.97 -t 4
 </pre></div>
 </div>
 <p>Simply perform a sequence ID matching with the reference taxonomy
-file (see <a class="reference internal" href="commands/classify.html"><em>classify</em></a>):</p>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nb">cd</span> closed_ref_otus
+file (see <a class="reference internal" href="commands/classify.html"><span class="doc">classify</span></a>):</p>
+<div class="highlight-sh"><div class="highlight"><pre><span></span><span class="nb">cd</span> closed_ref_otus
 micca classify -m otuid -i otuids.txt -o taxa.txt -x ../97_otu_taxonomy.txt
 </pre></div>
 </div>
@@ -321,23 +321,23 @@ micca classify -m otuid -i otuids.txt -o taxa.txt -x ../97_otu_taxonomy.txt
 <div class="section" id="open-reference">
 <h3><a class="toc-backref" href="#id3">Open-reference</a><a class="headerlink" href="#open-reference" title="Permalink to this headline">¶</a></h3>
 <p>Open-reference clustering (open_ref): sequences are clustered against
-an external reference database (as in <a class="reference internal" href="#otu-closed-reference"><span>Closed-reference</span></a>) and
+an external reference database (as in <a class="reference internal" href="#otu-closed-reference"><span class="std std-ref">Closed-reference</span></a>) and
 reads that could not be matched are clustered with the
-<a class="reference internal" href="#otu-de-novo-greedy"><span>De novo greedy</span></a> protocol. Example (requires
-<a class="reference internal" href="singleend.html#singleend-quality-filtering"><span>Quality filtering</span></a> in <a class="reference internal" href="singleend.html"><em>Single-end sequencing</em></a> to be done):</p>
+<a class="reference internal" href="#otu-de-novo-greedy"><span class="std std-ref">De novo greedy</span></a> protocol. Example (requires
+<a class="reference internal" href="singleend.html#singleend-quality-filtering"><span class="std std-ref">Quality filtering</span></a> in <a class="reference internal" href="singleend.html"><span class="doc">Single-end sequencing</span></a> to be done):</p>
 <p>Download the reference database (Greengenes), clustered at 97%
 identity:</p>
-<div class="highlight-sh"><div class="highlight"><pre>wget ftp://ftp.fmach.it/metagenomics/micca/dbs/gg_2013_05.tar.gz
+<div class="highlight-sh"><div class="highlight"><pre><span></span>wget ftp://ftp.fmach.it/metagenomics/micca/dbs/gg_2013_05.tar.gz
 tar -zxvf gg_2013_05.tar.gz
 </pre></div>
 </div>
 <p>Run the open-reference protocol:</p>
-<div class="highlight-sh"><div class="highlight"><pre>micca otu -m open_ref -i filtered.fasta -o open_ref_otus -r 97_otus.fasta -d 0.97 -t <span class="m">7</span> -c
+<div class="highlight-sh"><div class="highlight"><pre><span></span>micca otu -m open_ref -i filtered.fasta -o open_ref_otus -r 97_otus.fasta -d 0.97 -t <span class="m">7</span> -c
 </pre></div>
 </div>
 <p>Run the VSEARCH-based consensus classifier or the RDP classifier (see
-<a class="reference internal" href="commands/classify.html"><em>classify</em></a>):</p>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nb">cd</span> open_ref_otus
+<a class="reference internal" href="commands/classify.html"><span class="doc">classify</span></a>):</p>
+<div class="highlight-sh"><div class="highlight"><pre><span></span><span class="nb">cd</span> open_ref_otus
 micca classify -m cons -i otus.fasta -o taxa.txt -r ../97_otus.fasta -x ../97_otu_taxonomy.txt -t 4
 </pre></div>
 </div>
@@ -356,7 +356,7 @@ threshold. swarm results are resilient to input-order changes and rely on a
 small local linking threshold d, representing the maximum number of
 differences between two amplicons. swarm forms stable, high-resolution
 clusters, with a high yield of biological information.</div></blockquote>
-<p><a class="reference internal" href="commands/otu.html"><em>otu</em></a> includes in a single command dereplication, clustering and
+<p><a class="reference internal" href="commands/otu.html"><span class="doc">otu</span></a> includes in a single command dereplication, clustering and
 de novo chimera filtering:</p>
 <blockquote>
 <div><ol class="arabic simple">
@@ -374,12 +374,12 @@ representatives performing a de novo chimera detection (option
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
 <p class="last">Removing ambiguous nucleotides (<code class="docutils literal"><span class="pre">N</span></code>) (with the option <code class="docutils literal"><span class="pre">--maxns</span> <span class="pre">0</span></code> in
-<a class="reference internal" href="commands/filter.html"><em>filter</em></a>) is mandatory if you use the de novo swarm clustering
+<a class="reference internal" href="commands/filter.html"><span class="doc">filter</span></a>) is mandatory if you use the de novo swarm clustering
 method.</p>
 </div>
-<p>Example (requires <a class="reference internal" href="singleend.html#singleend-primer-trimming"><span>Primer trimming</span></a> in <a class="reference internal" href="singleend.html"><em>Single-end sequencing</em></a> to be
+<p>Example (requires <a class="reference internal" href="singleend.html#singleend-primer-trimming"><span class="std std-ref">Primer trimming</span></a> in <a class="reference internal" href="singleend.html"><span class="doc">Single-end sequencing</span></a> to be
 done):</p>
-<div class="highlight-sh"><div class="highlight"><pre>micca filter -i trimmed.fastq -o filtered.fasta -e 0.5 -m <span class="m">350</span> -t --maxns 0
+<div class="highlight-sh"><div class="highlight"><pre><span></span>micca filter -i trimmed.fastq -o filtered.fasta -e 0.5 -m <span class="m">350</span> -t --maxns 0
 micca otu -m denovo_swarm -i filtered.fasta -o otus_denovo_swarm -c --minsize <span class="m">1</span> --swarm-fastidious -t 4
 </pre></div>
 </div>
@@ -390,7 +390,7 @@ micca otu -m denovo_swarm -i filtered.fasta -o otus_denovo_swarm -c --minsize <s
 <p>In micca, the pairwise identity (except for de novo swarm) is defined as the
 edit distance excluding terminal gaps (same as in USEARCH and BLAST):</p>
 <div class="math">
-<p><img src="_images/math/e34a5e5eb5fb0ed54961b9f139d76325b1a7b977.png" alt="\frac{\textrm{\# matching columns}}{\textrm{alignment length} - \textrm{terminal gaps}}"/></p>
+<p><img src="_images/math/0ca99ad3a58e0c3c37538191f67f72e680fe03b4.png" alt="\frac{\textrm{\# matching columns}}{\textrm{alignment length} - \textrm{terminal gaps}}"/></p>
 </div></div>
 </div>
 
@@ -435,7 +435,7 @@ edit distance excluding terminal gaps (same as in USEARCH and BLAST):</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.4.0',
+            VERSION:'1.5.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

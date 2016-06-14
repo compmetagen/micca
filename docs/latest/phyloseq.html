@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Import and analyze the data into R and phyloseq &mdash; micca 1.4.0 documentation</title>
+  <title>Import and analyze the data into R and phyloseq &mdash; micca 1.5.0 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="micca 1.4.0 documentation" href="index.html"/>
+    <link rel="top" title="micca 1.5.0 documentation" href="index.html"/>
         <link rel="next" title="Compute basic OTU table statistics, rarefy and summarize OTU tables by taxa using micca" href="table.html"/>
         <link rel="prev" title="Paired-end sequencing" href="pairedend.html"/> 
 
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                1.4.0
+                1.5.0
               </div>
             
           
@@ -91,7 +91,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="singleend.html">Single-end sequencing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pairedend.html">Paired-end sequencing</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Import and analyze the data into R and phyloseq</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Import and analyze the data into R and phyloseq</a></li>
 <li class="toctree-l1"><a class="reference internal" href="table.html">Compute basic OTU table statistics, rarefy and summarize OTU tables by taxa using micca</a></li>
 <li class="toctree-l1"><a class="reference internal" href="picrust.html">Picking OTUs for use in PICRUSt</a></li>
 </ul>
@@ -144,7 +144,7 @@
         <div class="rst-content">
           
 
-
+ 
 
 
 
@@ -170,7 +170,7 @@
 <h1>Import and analyze the data into R and phyloseq<a class="headerlink" href="#import-and-analyze-the-data-into-r-and-phyloseq" title="Permalink to this headline">¶</a></h1>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">This tutorial requires <a class="reference internal" href="singleend.html"><em>Single-end sequencing</em></a> to be done.</p>
+<p class="last">This tutorial requires <a class="reference internal" href="singleend.html"><span class="doc">Single-end sequencing</span></a> to be done.</p>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -190,7 +190,7 @@ and/or taxonomic assignment of the OTUs.&#8221;</div></blockquote>
 <p>The <code class="docutils literal"><span class="pre">import_biom()</span></code> function allows to simultaneously import the BIOM
 file and an associated phylogenetic tree file and reference sequence
 file.</p>
-<div class="highlight-R"><div class="highlight"><pre><span class="o">&gt;</span> <span class="kn">library</span><span class="p">(</span><span class="s">&quot;phyloseq&quot;</span><span class="p">)</span>
+<div class="highlight-R"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="kn">library</span><span class="p">(</span><span class="s">&quot;phyloseq&quot;</span><span class="p">)</span>
 <span class="o">&gt;</span> <span class="kn">library</span><span class="p">(</span><span class="s">&quot;ggplot2&quot;</span><span class="p">)</span>
 <span class="o">&gt;</span> theme_set<span class="p">(</span>theme_bw<span class="p">())</span>
 <span class="o">&gt;</span> <span class="kp">setwd</span><span class="p">(</span><span class="s">&quot;denovo_greedy_otus&quot;</span><span class="p">)</span> <span class="c1"># set the working directory</span>
@@ -207,7 +207,7 @@ refseq<span class="p">()</span>      DNAStringSet<span class="o">:</span>      <
 </div>
 <p>At this point we can compute the number of OTUs and the Shannon
 diversity index after the rarefaction:</p>
-<div class="highlight-R"><div class="highlight"><pre><span class="o">&gt;</span> <span class="c1"># rarefy without replacement</span>
+<div class="highlight-R"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="c1"># rarefy without replacement</span>
 <span class="o">&gt;</span> ps.rarefied <span class="o">=</span> rarefy_even_depth<span class="p">(</span>ps<span class="p">,</span> rngseed<span class="o">=</span><span class="m">1</span><span class="p">,</span> sample.size<span class="o">=</span><span class="m">0.9</span><span class="o">*</span><span class="kp">min</span><span class="p">(</span>sample_sums<span class="p">(</span>ps<span class="p">)),</span> replace<span class="o">=</span><span class="bp">F</span><span class="p">)</span>
 <span class="o">&gt;</span> <span class="c1"># plot alpha diversity indexes</span>
 <span class="o">&gt;</span> plot_richness<span class="p">(</span>ps.rarefied<span class="p">,</span> x<span class="o">=</span><span class="s">&quot;Group&quot;</span><span class="p">,</span> measures<span class="o">=</span><span class="kt">c</span><span class="p">(</span><span class="s">&quot;Observed&quot;</span><span class="p">,</span> <span class="s">&quot;Chao1&quot;</span><span class="p">,</span> <span class="s">&quot;Shannon&quot;</span><span class="p">))</span>
@@ -215,7 +215,7 @@ diversity index after the rarefaction:</p>
 </div>
 <img alt="_images/alpha454.png" class="align-center" src="_images/alpha454.png" />
 <p>Finnaly, we can plot the PCoA on the unweighted UniFrac distance of samples:</p>
-<div class="highlight-R"><div class="highlight"><pre><span class="o">&gt;</span> <span class="c1"># PCoA plot on the unweighted UniFrac distance</span>
+<div class="highlight-R"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="c1"># PCoA plot on the unweighted UniFrac distance</span>
 <span class="o">&gt;</span> ordination <span class="o">=</span> ordinate<span class="p">(</span>ps.rarefied<span class="p">,</span> method<span class="o">=</span><span class="s">&quot;PCoA&quot;</span><span class="p">,</span> distance<span class="o">=</span><span class="s">&quot;unifrac&quot;</span><span class="p">,</span> weighted<span class="o">=</span><span class="bp">F</span><span class="p">)</span>
 <span class="o">&gt;</span> plot_ordination<span class="p">(</span>ps.rarefied<span class="p">,</span> ordination<span class="p">,</span> color<span class="o">=</span><span class="s">&quot;Group&quot;</span><span class="p">)</span> <span class="o">+</span> theme<span class="p">(</span>aspect.ratio<span class="o">=</span><span class="m">1</span><span class="p">)</span>
 </pre></div>
@@ -264,7 +264,7 @@ diversity index after the rarefaction:</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.4.0',
+            VERSION:'1.5.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

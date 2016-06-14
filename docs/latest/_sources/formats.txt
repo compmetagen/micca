@@ -16,15 +16,17 @@ Taxonomy files
 
 Taxonomy files map sequence IDs to taxonomy. Input taxonomy files must
 be TAB-delimited files where rows are either in the form:
-   
+
    #. ``SEQID[TAB]k__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__;g__;``
    #. ``SEQID[TAB]Bacteria;Firmicutes;Clostridia;Clostridiales;;;``
    #. ``SEQID[TAB]Bacteria;Firmicutes;Clostridia;Clostridiales``
 
-Compatible taxonomy files are in Greengenes
-(http://greengenes.secondgenome.com/downloads), QIIME-formatted SILVA
-(https://www.arb-silva.de/download/archive/qiime/) and UNITE
-(https://unite.ut.ee/repository.php) databases.
+Compatible taxonomy files are in:
+
+  * Greengenes (http://greengenes.secondgenome.com/downloads);
+  * QIIME-formatted SILVA (https://www.arb-silva.de/download/archive/qiime/);
+  * UNITE (https://unite.ut.ee/repository.php);
+  * Human Oral Microbiome Database (HOMD) (http://www.homd.org/).
 
 The output taxonomy file returned by :doc:`/commands/classify` is a
 TAB-delimited file where each row is always in the format::
