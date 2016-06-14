@@ -22,7 +22,7 @@ which all the software has already been installed, configured and tested.
            docker pull compmetagen/micca
 
     #. Run an instance of the image, mounting the host working directory
-       (``/Users/davide/micca``) on to the container working directory
+       (e.g. ``/Users/davide/micca``) on to the container working directory
        ``/micca``:
 
        .. code-block:: sh
@@ -30,7 +30,8 @@ which all the software has already been installed, configured and tested.
            docker run -t -i -v /Users/davide/micca:/micca -w /micca compmetagen/micca /bin/bash
 
        You need to write something like ``-v //c/Users/davide/micca:/micca`` if
-       you are in Windows.
+       you are in Windows or ``-v /home/davide/micca:/micca`` in Linux. The
+       ``--rm`` option automatically removes the container when it exits.
 
     #. Now you can use micca:
 
