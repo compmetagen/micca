@@ -9,6 +9,7 @@
 Old documentation
 -----------------
 
+* `Version 1.4 <http://micca.org/docs/1.4>`_
 * `Version 1.3 <http://micca.org/docs/1.3>`_
 * `Version 1.2 <http://micca.org/docs/1.2>`_
 * `Version 1.1 <http://micca.org/docs/1.1>`_
