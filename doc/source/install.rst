@@ -27,7 +27,7 @@ which all the software has already been installed, configured and tested.
 
        .. code-block:: sh
 
-           docker run -t -i -v /Users/davide/micca:/micca -w /micca compmetagen/micca /bin/bash
+           docker run --rm -t -i -v /Users/davide/micca:/micca -w /micca compmetagen/micca /bin/bash
 
        You need to write something like ``-v //c/Users/davide/micca:/micca`` if
        you are in Windows or ``-v /home/davide/micca:/micca`` in Linux. The
@@ -82,6 +82,7 @@ In Mac OS X, we recommend to install Python from `Homebrew <http://brew.sh/>`_:
       ``~/.bash_profile`` or ``~/.bashrc``::
 
       .. code-block:: sh
+
          export PATH=/usr/local/bin:$PATH
 
    #. Install Python:
