@@ -35,7 +35,7 @@ def mergepairs(input_fns, output_fn, reverse_fn=None, notmerged_fwd_fn=None,
 
     if not isinstance(input_fns, list):
         raise ValueError("input_fns must be of type list")
-    
+
     if reverse_fn is not None:
         if not isinstance(reverse_fn, str):
             raise ValueError("reverse_fn must be of type string")
@@ -53,7 +53,7 @@ def mergepairs(input_fns, output_fn, reverse_fn=None, notmerged_fwd_fn=None,
     if reverse_fn is not None:
         micca.tp.vsearch.fastq_mergepairs(
             forward_fn=input_fns[0],
-            reverse_fn=reverse_fn, 
+            reverse_fn=reverse_fn,
             fastqout_fn=output_fn,
             fastqout_notmerged_fwd_fn=notmerged_fwd_fn,
             fastqout_notmerged_rev_fn=notmerged_rev_fn,
@@ -66,28 +66,28 @@ def mergepairs(input_fns, output_fn, reverse_fn=None, notmerged_fwd_fn=None,
         # close output files and create temp files
         output_fn_temp = micca.ioutils.make_tempfile(output_dir)
         output_fn_handle = open(output_fn, 'wb')
-        
+
         if notmerged_fwd_fn is not None:
             notmerged_fwd_fn_temp = micca.ioutils.make_tempfile(output_dir)
             notmerged_fwd_handle = open(notmerged_fwd_fn, 'wb')
         else:
             notmerged_fwd_fn_temp = None
-            
+
         if notmerged_rev_fn is not None:
             notmerged_rev_fn_temp = micca.ioutils.make_tempfile(output_dir)
             notmerged_rev_handle = open(notmerged_rev_fn, 'wb')
         else:
             notmerged_rev_fn_temp = None
-        
+
         # for each input forward file
         for input_fn in input_fns:
             input_dir, input_fn_base = os.path.split(input_fn)
-            
+
             # build the reverse filename
             reverse_fn_base, n = re.subn(pattern, repl, input_fn_base, count=1)
             if n == 0:
                 warnings.warn(
-                    "{0}: unable to find pattern '{1}', SKIP"
+                    "{0}: unable to find pattern '{1}', SKIP\n"
                     .format(input_fn_base, pattern))
                 continue
 
@@ -95,7 +95,7 @@ def mergepairs(input_fns, output_fn, reverse_fn=None, notmerged_fwd_fn=None,
             reverse_fn = os.path.join(input_dir, reverse_fn_base)
             if not os.path.isfile(reverse_fn):
                 warnings.warn(
-                    "{}: file does not exist or is not a regular file, SKIP"
+                    "{}: file does not exist or is not a regular file, SKIP\n"
                     .format(reverse_fn_base))
                 continue
 
@@ -103,14 +103,14 @@ def mergepairs(input_fns, output_fn, reverse_fn=None, notmerged_fwd_fn=None,
             try:
                 micca.tp.vsearch.fastq_mergepairs(
                     forward_fn=input_fn,
-                    reverse_fn=reverse_fn, 
+                    reverse_fn=reverse_fn,
                     fastqout_fn=output_fn_temp,
                     fastqout_notmerged_fwd_fn=notmerged_fwd_fn_temp,
                     fastqout_notmerged_rev_fn=notmerged_rev_fn_temp,
                     fastq_minovlen=minovlen,
                     fastq_maxdiffs=maxdiffs)
             except micca.tp.vsearch.VSEARCHError as err:
-                warnings.warn("{}: VSEARCH error: {}, SKIP"
+                warnings.warn("{}: VSEARCH error: {}, SKIP\n"
                               .format(input_fn_base, err))
                 continue
 
@@ -119,16 +119,16 @@ def mergepairs(input_fns, output_fn, reverse_fn=None, notmerged_fwd_fn=None,
             micca.seq.append(
                 input_fn=output_fn_temp,
                 output_handle=output_fn_handle,
-                fmt="fastq", 
+                fmt="fastq",
                 sample_name=sample_name)
-            
+
             if notmerged_fwd_fn is not None:
                 micca.seq.append(
                     input_fn=notmerged_fwd_fn_temp,
                     output_handle=notmerged_fwd_handle,
                     fmt="fastq",
                     sample_name=sample_name)
-                
+
             if notmerged_rev_fn is not None:
                 micca.seq.append(
                     input_fn=notmerged_rev_fn_temp,
@@ -137,7 +137,7 @@ def mergepairs(input_fns, output_fn, reverse_fn=None, notmerged_fwd_fn=None,
                     sample_name=sample_name)
 
         # END for input_fn in input_fns:
-        
+
         # close output files and remove temp files
         output_fn_handle.close()
         os.remove(output_fn_temp)

@@ -37,7 +37,7 @@ def main(argv):
 
         * Nearest Alignment Space Termination (NAST) (doi:
           10.1093/nar/gkl244). MICCA provides a very fast and memory
-          efficient reimplementation of the NAST algorithm. The algorithm is
+          efficient implementation of the NAST algorithm. The algorithm is
           based on VSEARCH (https://github.com/torognes/vsearch). It requires
           a pre-aligned database of sequences (--nast-template). For 16S
           data, a good template file is the Greengenes Core Set

@@ -32,4 +32,3 @@ def merge(input_fns, output_fn, sep='.', fmt="fastq"):
     with open(output_fn,'wb') as output_handle:
         for input_fn in input_fns:
             micca.seq.append(input_fn, output_handle, fmt=fmt, sep=sep)
-    output_handle.close()
