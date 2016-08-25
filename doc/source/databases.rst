@@ -12,10 +12,9 @@ ITS
 ---
 
  * UNITE https://unite.ut.ee/repository.php (QIIME releases)
- 
+
    .. note::
-      
+
       In the QIIME releases of the UNITE database the ``_s`` in the
       filename (e.g. ``sh_qiime_release_s_DD.MM.YYY.zip``) specifies
       that the database includes singletons.
-

@@ -176,7 +176,8 @@ def fastx_subsample(input_fn, fastaout_fn=None, fastqout_fn=None,
 def fastq_mergepairs(forward_fn, reverse_fn, fastaout_fn=None, fastqout_fn=None,
                      fastaout_notmerged_fwd_fn=None, fastaout_notmerged_rev_fn=None,
                      fastqout_notmerged_fwd_fn=None, fastqout_notmerged_rev_fn=None,
-                     fastq_minovlen=10, fastq_maxdiffs=5):
+                     fastq_minovlen=10, fastq_maxdiffs=5,
+                     fastq_allowmergestagger=False):
 
     params = ["--fastq_mergepairs", forward_fn, "--reverse", reverse_fn,
               "--fastq_maxdiffs", str(fastq_maxdiffs), "--fastq_minovlen",
@@ -194,5 +195,7 @@ def fastq_mergepairs(forward_fn, reverse_fn, fastaout_fn=None, fastqout_fn=None,
         params.extend(["--fastqout_notmerged_fwd", fastqout_notmerged_fwd_fn])
     if fastqout_notmerged_rev_fn is not None:
         params.extend(["--fastqout_notmerged_rev", fastqout_notmerged_rev_fn])
+    if fastq_allowmergestagger:
+        params.extend(["--fastq_allowmergestagger"])
 
     _vsearch_cmd(params)

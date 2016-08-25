@@ -31,7 +31,7 @@ import micca.tp
 
 def mergepairs(input_fns, output_fn, reverse_fn=None, notmerged_fwd_fn=None,
                notmerged_rev_fn=None, minovlen=32, maxdiffs=8, pattern="_R1",
-               repl="_R2", sep="_"):
+               repl="_R2", sep="_", allowstagger=False):
 
     if not isinstance(input_fns, list):
         raise ValueError("input_fns must be of type list")
@@ -58,7 +58,8 @@ def mergepairs(input_fns, output_fn, reverse_fn=None, notmerged_fwd_fn=None,
             fastqout_notmerged_fwd_fn=notmerged_fwd_fn,
             fastqout_notmerged_rev_fn=notmerged_rev_fn,
             fastq_minovlen=minovlen,
-            fastq_maxdiffs=maxdiffs)
+            fastq_maxdiffs=maxdiffs,
+            fastq_allowmergestagger=allowstagger)
     else:
         # output directory for temp files
         output_dir = os.path.dirname(output_fn)
@@ -108,7 +109,8 @@ def mergepairs(input_fns, output_fn, reverse_fn=None, notmerged_fwd_fn=None,
                     fastqout_notmerged_fwd_fn=notmerged_fwd_fn_temp,
                     fastqout_notmerged_rev_fn=notmerged_rev_fn_temp,
                     fastq_minovlen=minovlen,
-                    fastq_maxdiffs=maxdiffs)
+                    fastq_maxdiffs=maxdiffs,
+                    fastq_allowmergestagger=allowstagger)
             except micca.tp.vsearch.VSEARCHError as err:
                 warnings.warn("{}: VSEARCH error: {}, SKIP\n"
                               .format(input_fn_base, err))

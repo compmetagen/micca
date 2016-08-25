@@ -270,7 +270,8 @@ def nast(input_fn, template_fn, output_fn, notaligned_fn=None, hits_fn=None,
                     template_aln, candidate_aln)
 
             try:
-                candidate_msa = _nast_core(template, template_aln, candidate_aln)
+                candidate_msa = _nast_core(template, template_aln,
+                                           candidate_aln)
             except UnalignableError:
                 if notaligned_fn is not None:
                     # append the candidate sequence to the notaligned file if

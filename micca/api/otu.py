@@ -32,7 +32,7 @@ from Bio import SeqIO
 import micca.ioutils
 import micca.tp
 
-__all__ = ["denovo_greedy", "denovo_swarm", "open_ref", "closed_ref", ]
+__all__ = ["denovo_greedy", "denovo_swarm", "open_ref", "closed_ref"]
 
 
 _OTUTABLE_FN = "otutable.txt"

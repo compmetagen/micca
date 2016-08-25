@@ -114,10 +114,15 @@ def main(argv):
                        "defined as the leftmost part of the file name "
                        "splitted by the first occurence of 'SEP' (default "
                        "%(default)s)")
+    group.add_argument('-a', '--allowstagger', default=False, action="store_true",
+                       help="allow the command to merge staggered read pairs. "
+                       "The 3’ overhang of the reverse read is not included in "
+                       "the merged sequence.")
     group.add_argument('--notmerged-fwd', metavar="FILE",
                        help="write not merged forward reads.")
     group.add_argument('--notmerged-rev', metavar="FILE",
                        help="write not merged reverse reads.")
+
     args = parser.parse_args(argv)
 
 
@@ -134,7 +139,8 @@ def main(argv):
             maxdiffs=args.maxdiffs,
             pattern=args.pattern,
             repl=args.repl,
-            sep=args.sep)
+            sep=args.sep,
+            allowstagger=args.allowstagger)
     except Exception as err:
         sys.stderr.write("Error: {}\n".format(err))
         sys.exit(1)
