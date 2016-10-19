@@ -20,6 +20,8 @@ be TAB-delimited files where rows are either in the form:
    #. ``SEQID[TAB]k__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__;g__;``
    #. ``SEQID[TAB]Bacteria;Firmicutes;Clostridia;Clostridiales;;;``
    #. ``SEQID[TAB]Bacteria;Firmicutes;Clostridia;Clostridiales``
+   #. ``SEQID[TAB]D_0__Bacteria;D_1__Firmicutes;D_2__Clostridia;D_3__Clostridiales;D_4__;D_5__;``
+
 
 Compatible taxonomy files are in:
 
