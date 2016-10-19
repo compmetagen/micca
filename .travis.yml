@@ -12,6 +12,7 @@ before_install:
 - sudo apt-get install pkg-config libfreetype6 libfreetype6-dev libpng-dev
 - pip install --upgrade pip
 - pip install 'setuptools >=14.0'
+- pip install cython
 install: pip install .
 script: micca -h
 deploy:
