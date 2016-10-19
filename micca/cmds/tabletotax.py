@@ -44,6 +44,7 @@ def main(argv):
         1. SEQID[TAB]k__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__;g__;
         2. SEQID[TAB]Bacteria;Firmicutes;Clostridia;Clostridiales;;;
         3. SEQID[TAB]Bacteria;Firmicutes;Clostridia;Clostridiales
+        4. SEQID[TAB]D_0__Bacteria;D_1__Firmicutes;D_2__Clostridia;D_3__Clostridiales;D_4__;D_5__;
     ''')
 
     epilog = textwrap.dedent('''\

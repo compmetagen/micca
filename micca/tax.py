@@ -25,7 +25,7 @@ class TaxReader:
     def __init__(self, handle):
         self.__handle = handle
         self.__reader = csv.reader(handle, delimiter='\t')
-        
+
     def __iter__(self):
         return self
 
@@ -34,25 +34,27 @@ class TaxReader:
         """
         tax = []
         for elem in s.split(';'):
-            elem = re.sub(r"^\S__", "", elem.strip())
+            elem = re.sub(r"^\S__|^D_\d+__", "", elem.strip())
             if elem == "":
                 break
             tax.append(elem)
         return tax
-    
+
     def next(self):
         row = self.__reader.next()
         return row[0], self.__parse_tax(row[1])
-    
+
 
 def read(input_fn):
     """Parse a tab-delimited taxonomy file where rows are in the form:
-    SEQID[TAB]k__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__; g__; 
+    SEQID[TAB]k__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__; g__;
     or:
-    SEQID[TAB]Bacteria;Firmicutes;Clostridia;Clostridiales;;; 
-    Any external whitespace character and taxonomy prefix (e.g. 'p__' in greengenes
-    taxonomy files) are stripped out. Returns a dictionary containing 'sequence id'/ 
-    'list of taxa' pairs.
+    SEQID[TAB]Bacteria;Firmicutes;Clostridia;Clostridiales;;;
+    or:
+    D_0__Bacteria;D_1__Firmicutes;D_2__Clostridia;D_3__Clostridiales;D_4__Clostridiaceae 1
+    Any external whitespace character and taxonomy prefix (e.g. 'p__' in
+    Greengenes and 'D_2__' in QIIME formatted Silva taxonomy files) are stripped
+    out. Returns a dictionary containing 'sequence id'/'list of taxa' pairs.
     """
 
     tax_dict = dict()
