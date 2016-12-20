@@ -105,16 +105,26 @@ Finally, install micca:
 
     sudo pip install micca
 
+Installation problems
+^^^^^^^^^^^^^^^^^^^^^
+* BIOM fatal error: 'numpy/arrayobject.h'. If the installation process returns
+  a message like this:
 
+  .. code-block:: sh
 
     biom/_filter.c:258:10: fatal error: 'numpy/arrayobject.h' file not found
     #include "numpy/arrayobject.h"
-             ^
+            ^
     1 error generated.
     error: command 'clang' failed with exit status 1
 
-pip install --global-option=build_ext --global-option="-I/usr/local/lib/python2.7/site-packages/numpy/core/include/" biom-format
+  then you need to run:
 
+  .. code-block:: sh
+  
+    pip install --global-option=build_ext --global-option="-I/usr/local/lib/python2.7/site-packages/numpy/core/include/" biom-format
+
+  After that you can install the micca package.
 
 Install micca from source
 -------------------------
