@@ -46,11 +46,11 @@ def _cutadapt_cmd(params):
 
     
 def cutadapt(input_fn, output_fn, adapter=None, front=None, error_rate=0.1, 
-             minimum_length=0, discard_untrimmed=False, fmt="fastq",
-             search_rc=False):
+             minimum_length=0, discard_untrimmed=False, fmt="fastq", 
+             overlap=3, search_rc=False):
     
     params = [input_fn, "-o", output_fn, "-e", str(error_rate), "--format", fmt,
-              "--minimum-length", str(minimum_length)]
+              "--minimum-length", str(minimum_length), "--overlap", str(overlap)]
 
     if adapter is not None:
         for a in adapter:

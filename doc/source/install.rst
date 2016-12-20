@@ -56,7 +56,7 @@ We suggest to install the following packages through the package manager:
 .. code-block:: sh
 
     sudo apt-get update
-    sudo apt-get install build-essential python-numpy gcc gfortran python-dev libblas-dev liblapack-dev cython install pkg-config libfreetype6 libfreetype6-dev libpng-dev
+    sudo apt-get install build-essential python-numpy gcc gfortran python-dev libblas-dev liblapack-dev cython pkg-config libfreetype6 libfreetype6-dev libpng-dev
 
 Then, upgrade pip and install setuptools:
 
@@ -104,6 +104,16 @@ Finally, install micca:
 .. code-block:: sh
 
     sudo pip install micca
+
+
+
+    biom/_filter.c:258:10: fatal error: 'numpy/arrayobject.h' file not found
+    #include "numpy/arrayobject.h"
+             ^
+    1 error generated.
+    error: command 'clang' failed with exit status 1
+
+pip install --global-option=build_ext --global-option="-I/usr/local/lib/python2.7/site-packages/numpy/core/include/" biom-format
 
 
 Install micca from source
