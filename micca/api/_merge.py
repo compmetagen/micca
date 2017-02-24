@@ -20,7 +20,6 @@ from __future__ import division
 
 import os
 import os.path
-import re
 
 from Bio import SeqIO
 
