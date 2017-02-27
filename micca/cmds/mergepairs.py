@@ -123,7 +123,7 @@ def main(argv):
     group.add_argument('-n', '--nostagger', default=False, action="store_true",
                        help="forbid the merging of staggered read pairs. "
                        "Without this option the command will merge staggered "
-                       "read pairs and the 3’ overhang of the reverse read will 
+                       "read pairs and the 3' overhang of the reverse read will " 
                        "be not included in the merged sequence.")
     group.add_argument('--notmerged-fwd', metavar="FILE",
                        help="write not merged forward reads.")
