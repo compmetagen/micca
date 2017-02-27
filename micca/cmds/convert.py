@@ -40,8 +40,8 @@ def main(argv):
         {}
 
     '''.format(
-        "\n".join([" * {}".format(fmt) for fmt in micca.api.CONVERT_INPUT_FMTS]),
-        "\n".join([" * {}".format(fmt) for fmt in micca.api.CONVERT_OUTPUT_FMTS])))
+        ", ".join(micca.api.CONVERT_INPUT_FMTS),
+        ", ".join(micca.api.CONVERT_OUTPUT_FMTS)))
 
     epilog = textwrap.dedent('''\
         Examples

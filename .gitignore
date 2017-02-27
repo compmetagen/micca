@@ -9,3 +9,4 @@ MANIFEST
 .#*
 micca.egg-info/
 .vscode
+micca/thirdparty_bin/

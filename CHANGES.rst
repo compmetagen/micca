@@ -1,4 +1,4 @@
-CHANGES
+Changes
 =======
 
 Version 1.6.0
@@ -7,7 +7,7 @@ Version 1.6.0
 * Now the mergepairs command allows merging staggered reads by default.
   With the new option ``-n/--nostagger`` the command produces the same 
   results of the previous versions (<=1.5.0);
-* classify and tabletotax commands  now strip the 'D_X__' prefix from the Silva 
+* classify and tabletotax commands  now strip the ``D_X__`` prefix from the Silva 
   taxonomy files;
 * Documentation updated;
 * Fix: remove duplicate file closing in micca.api.merge().
