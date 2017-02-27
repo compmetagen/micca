@@ -63,7 +63,8 @@ def main(argv):
         By default staggered read pairs (staggered pairs are pairs where the 3'
         end of the reverse read has an overhang to the left of the 5’ end
         of the forward read) will be merged. To override this feature (and 
-        therefore to discard staggered alignments) set the -n/--nostagger option.
+        therefore to discard staggered alignments) set the -n/--nostagger 
+        option.
     ''')
 
     epilog = textwrap.dedent('''\
