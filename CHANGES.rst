@@ -10,7 +10,7 @@ Version 1.6.0
 * classify and tabletotax commands  now strip the 'D_X__' prefix from the Silva 
   taxonomy files;
 * Documentation updated;
-* Remove duplicate file closing in micca.api.merge().
+* Fix: remove duplicate file closing in micca.api.merge().
 
 Version 1.5.0
 -------------
