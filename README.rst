@@ -9,9 +9,8 @@ processing of amplicon sequencing data, **from raw sequences** to
 **OTU tables**, **taxonomy classification** and **phylogenetic tree**
 inference. The pipeline can be applied to a range of highly conserved
 genes/spacers, such as **16S rRNA gene**, **Internal Transcribed
-Spacer (ITS)** and **28S rRNA**.
-
-micca is an open-source, GPLv3-licensed software.
+Spacer (ITS)** and **28S rRNA**. micca is an open-source, GPLv3-licensed
+software.
 
 * `Homepage <http://micca.org/>`_
 * `Documentation (latest) <http://micca.org/docs/latest>`_
@@ -40,12 +39,10 @@ Docker images are available (compmetagen/micca) starting from version 1.2.2,
 see the documentation (>=1.3.0) to learn how to use them. `Docker hub page:
 <https://hub.docker.com/r/compmetagen/micca/>`_.
 
-Citing micca:
-
-Davide Albanese, Paolo Fontana, Carlotta De Filippo, Duccio Cavalieri
-and Claudio Donati. **MICCA: a complete and accurate software for
-taxonomic profiling of metagenomic data**. Scientific Reports 5,
-Article number: 9743 (2015), doi:10.1038/srep09743, `Link
+**How to cite**: Davide Albanese, Paolo Fontana, Carlotta De Filippo, Duccio 
+Cavalieri and Claudio Donati. **MICCA: a complete and accurate software for
+taxonomic profiling of metagenomic data**. Scientific Reports 5, Article number:
+9743 (2015), doi:10.1038/srep09743, `Link 
 <http://www.nature.com/articles/srep09743/>`_. Dataset download:
 ftp://ftp.fmach.it/metagenomics/micca/scirep/.
 
