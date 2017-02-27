@@ -46,8 +46,8 @@ Davide Albanese, Paolo Fontana, Carlotta De Filippo, Duccio Cavalieri
 and Claudio Donati. **MICCA: a complete and accurate software for
 taxonomic profiling of metagenomic data**. Scientific Reports 5,
 Article number: 9743 (2015), doi:10.1038/srep09743, `Link
-<http://www.nature.com/articles/srep09743/>`_. `Dataset download
-<ftp://ftp.fmach.it/metagenomics/micca/scirep/>`_.
+<http://www.nature.com/articles/srep09743/>`_. Dataset download:
+ftp://ftp.fmach.it/metagenomics/micca/scirep/.
 
 micca wraps third party software packages and these **should be
 cited** if they are used:
