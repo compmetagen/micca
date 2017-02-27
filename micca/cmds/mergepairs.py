@@ -59,6 +59,11 @@ def main(argv):
         Statistical testing of significance is performed in a way similar to
         PEAR (doi: 10.1093/bioinformatics/btt593). The quality of merged bases
         is computed as in USEARCH (doi: 10.1093/bioinformatics/btv401).
+
+        By default staggered read pairs (staggered pairs are pairs where the 3'
+        end of the reverse read has an overhang to the left of the 5’ end
+        of the forward read) will be merged. To override this feature (and 
+        therefore to discard staggered alignments) set the -n/--nostagger option.
     ''')
 
     epilog = textwrap.dedent('''\
@@ -114,10 +119,11 @@ def main(argv):
                        "defined as the leftmost part of the file name "
                        "splitted by the first occurence of 'SEP' (default "
                        "%(default)s)")
-    group.add_argument('-a', '--allowstagger', default=False, action="store_true",
-                       help="allow the command to merge staggered read pairs. "
-                       "The 3’ overhang of the reverse read is not included in "
-                       "the merged sequence.")
+    group.add_argument('-n', '--nostagger', default=False, action="store_true",
+                       help="forbid the merging of staggered read pairs. "
+                       "Without this option the command will merge staggered "
+                       "read pairs and the 3’ overhang of the reverse read will 
+                       "be not included in the merged sequence.")
     group.add_argument('--notmerged-fwd', metavar="FILE",
                        help="write not merged forward reads.")
     group.add_argument('--notmerged-rev', metavar="FILE",
@@ -140,7 +146,7 @@ def main(argv):
             pattern=args.pattern,
             repl=args.repl,
             sep=args.sep,
-            allowstagger=args.allowstagger)
+            nostagger=args.nostagger)
     except Exception as err:
         sys.stderr.write("Error: {}\n".format(err))
         sys.exit(1)

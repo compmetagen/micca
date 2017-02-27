@@ -177,7 +177,7 @@ def fastq_mergepairs(forward_fn, reverse_fn, fastaout_fn=None, fastqout_fn=None,
                      fastaout_notmerged_fwd_fn=None, fastaout_notmerged_rev_fn=None,
                      fastqout_notmerged_fwd_fn=None, fastqout_notmerged_rev_fn=None,
                      fastq_minovlen=10, fastq_maxdiffs=5,
-                     fastq_allowmergestagger=False):
+                     fastq_allowmergestagger=False, fastq_nostagger=True):
 
     params = ["--fastq_mergepairs", forward_fn, "--reverse", reverse_fn,
               "--fastq_maxdiffs", str(fastq_maxdiffs), "--fastq_minovlen",
@@ -197,5 +197,7 @@ def fastq_mergepairs(forward_fn, reverse_fn, fastaout_fn=None, fastqout_fn=None,
         params.extend(["--fastqout_notmerged_rev", fastqout_notmerged_rev_fn])
     if fastq_allowmergestagger:
         params.extend(["--fastq_allowmergestagger"])
+    if fastq_nostagger:
+        params.extend(["--fastq_nostagger"])
 
     _vsearch_cmd(params)

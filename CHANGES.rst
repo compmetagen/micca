@@ -1,10 +1,21 @@
 CHANGES
 =======
 
+Version 1.6.0
+-------------
+* swarm updated to version 2.1.12;
+* Now the mergepairs command allows merging staggered reads by default.
+  With the new option ``-n/--nostagger`` the command produces the same 
+  results of the previous version (<=1.5.0);
+* classify and tabletotax commands  now strip the 'D_X__' prefix from the Silva 
+  taxonomy files;
+* Documentation updated;
+* Remove duplicate file closing in micca.api.merge().
+
 Version 1.5.0
 -------------
 * Now the NAST algorithm trims candidate sequences to that which is bound by the
-  beginning and end points of the alignment span; with the the new option
+  beginning and end points of the alignment span; with the new option
   ``--nast-notrim`` in ``micca msa`` produces the same results of the previous
   version (<=1.4.0);
 * Y-scale in ``micca tablebar`` when ``--raw`` fixed;

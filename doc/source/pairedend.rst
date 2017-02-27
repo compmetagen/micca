@@ -44,9 +44,9 @@ forward file name with ``_R2`` (typical in Illumina file names, see
 options ``-p/--pattern`` and ``-e/--repl``).
 
 Since the sequenced region is about of 464-bp (805-341) and the reads
-are of 300-bp, the overlap region is quite large (~136 bp), so we set
-a minimum overlap length of 100 and maximum number of allowed
-mismatches of 32:
+are of 300-bp, the overlap region is quite large (~136 bp), as rule of thumb
+we set a minimum overlap length of 100 and maximum number of allowed mismatches 
+of about 1/3, say 32:
 
 .. code-block:: sh
 
@@ -54,8 +54,15 @@ mismatches of 32:
 
 .. Note::
 
-   :doc:`/commands/mergepairs` works with FASTQ files only.
+   Starting from micca 1.6.0 staggered read pairs (staggered pairs are pairs
+   where the 3' end of the reverse read has an overhang to the left of the 5’
+   end of the forward read) will be merged by default. To override this feature
+   (and therefore to discard staggered alignments) set the ``-n/--nostagger``
+   option.
 
+.. Note::
+
+   :doc:`/commands/mergepairs` works with FASTQ files only.
 
 Primer trimming
 ---------------
