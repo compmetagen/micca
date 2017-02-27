@@ -34,9 +34,8 @@ Key features:
   containers)
 * **simple, easy to use**.
 
-
 **Docker** images are available (compmetagen/micca) starting from version 1.2.2,
-see the documentation (>=1.3.0) to learn how to use them. `Docker hub page:
+see the documentation (>=1.3.0) to learn how to use them. `Docker hub page
 <https://hub.docker.com/r/compmetagen/micca/>`_.
 
 **How to cite**: Davide Albanese, Paolo Fontana, Carlotta De Filippo, Duccio 
