@@ -5,21 +5,17 @@
 
 .. include:: ../../README.rst
 
-Getting Started
-***************
-
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
+   :caption: Getting Started
 
    install
    run
    databases
 
-Tutorials
-*********
-
 .. toctree::
    :maxdepth: 1
+   :caption: Tutorials
 
    singleend
    pairedend
@@ -27,23 +23,19 @@ Tutorials
    table
    picrust
 
-In Depth
-*********
-
 .. toctree::
    :maxdepth: 1
+   :caption: In Depth
 
    filtering
    otu
    formats
    changes
 
-Command reference
-*****************
-
 .. toctree::
    :glob:
    :maxdepth: 1
+   :caption: Command reference
 
    commands/*
 

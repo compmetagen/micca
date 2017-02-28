@@ -17,7 +17,6 @@ software.
 * `Issues <https://github.com/compmetagen/micca/issues>`_
 * `Github page <https://github.com/compmetagen/micca>`_
 
-
 Key features:
 
 * supports **single-end** (Roche 454, Illumina MiSeq/HiSeq ,Ion
@@ -48,7 +47,7 @@ ftp://ftp.fmach.it/metagenomics/micca/scirep/.
 micca wraps third party software packages and these **should be
 cited** if they are used:
 
-* VSEARCH (https://github.com/torognes/vsearch) used in ``classify``,
+* VSEARCH (doi: 10.7717/peerj.2584) used in ``classify``,
   ``filter``, ``mergepairs``, ``otu`` and ``msa`` commands
 * MUSCLE (doi: 10.1093/nar/gkh340) used in ``msa`` and ``tree`` commands
 * FastTree (doi: 10.1371/journal.pone.0009490) used in the ``tree`` command
