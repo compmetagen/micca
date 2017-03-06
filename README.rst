@@ -20,13 +20,12 @@ software.
 Key features:
 
 * supports **single-end** (Roche 454, Illumina MiSeq/HiSeq ,Ion
-  Torren) as well **overlapping paired-end** reads (Illumina MiSeq/HiSeq);
-* **multithread** de novo greedy clustering
-* **closed-reference**, **open-reference** and **swarm** OTU picking protocols;
-* **state-of-the-art taxonomic classification** algorithms are
-  available (RDP and consensus-based classifier);
-* fast (multithread) and and memory efficient implementation of the
-  **NAST** multiple sequence alignment (MSA);
+  Torrent) and **overlapping paired-end** reads (Illumina MiSeq/HiSeq);
+* **multithread** de novo greedy, closed-reference, open-reference and swarm OTU
+  picking protocols;
+* **state-of-the-art taxonomic classification** algorithms (RDP and 
+  consensus-based classifier);
+* fast and and memory efficient **NAST** multiple sequence alignment (MSA);
 * filters low quality sequences according to the maximum allowed **expected
   error (EE) rate** %;
 * runs on **Linux**, **Mac OS X** and **MS Windows** (through Docker
@@ -52,5 +51,5 @@ cited** if they are used:
 * MUSCLE (doi: 10.1093/nar/gkh340) used in ``msa`` and ``tree`` commands
 * FastTree (doi: 10.1371/journal.pone.0009490) used in the ``tree`` command
 * Cutadapt (doi: 10.14806/ej.17.1.200) used in the ``trim`` command
-* RDP classifier (doi:10.1128/AEM.00062-07) used in the ``classify`` command
-* swarm (10.7717/peerj.593, doi: 10.7717/peerj.1420) used in the ``otu`` command
+* RDP classifier (doi: 10.1128/AEM.00062-07) used in the ``classify`` command
+* swarm (doi: 10.7717/peerj.1420) used in the ``otu`` command

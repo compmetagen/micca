@@ -6,7 +6,7 @@ Version 1.6.0
 * swarm updated to version 2.1.12;
 * Now the mergepairs command allows merging staggered reads by default.
   With the new option ``-n/--nostagger`` the command produces the same 
-  results of the previous versions (<=1.5.0);
+  results of the previous versions (<=1.5);
 * classify and tabletotax commands  now strip the ``D_X__`` prefix from the Silva 
   taxonomy files;
 * Documentation updated;
