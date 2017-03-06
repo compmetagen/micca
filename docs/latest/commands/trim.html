@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>trim &mdash; micca 1.5.0 documentation</title>
+  <title>trim &mdash; micca 1.6.0 documentation</title>
   
 
   
@@ -30,7 +30,10 @@
   
 
   
-    <link rel="top" title="micca 1.5.0 documentation" href="../index.html"/>
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="micca 1.6.0 documentation" href="../index.html"/>
         <link rel="prev" title="tree" href="tree.html"/> 
 
   
@@ -59,7 +62,7 @@
             
             
               <div class="version">
-                1.5.0
+                1.6
               </div>
             
           
@@ -99,7 +102,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../filtering.html">Quality filtering strategy in micca</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../otu.html">OTU picking in micca</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../formats.html">Supported file formats</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../changes.html">CHANGES</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">Changes</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Command reference</span></p>
 <ul class="current">
@@ -155,7 +158,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/commands/trim.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/commands/trim.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -167,66 +170,65 @@
             
   <div class="section" id="trim">
 <h1>trim<a class="headerlink" href="#trim" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-text"><div class="highlight"><pre><span></span>$ micca trim --help
-usage: micca trim [-h] -i FILE -o FILE [-w FORWARD [FORWARD ...]]
-                  [-r REVERSE [REVERSE ...]] [-e MAXERATE] [-c] [-W] [-R]
-                  [-f {fastq,fasta}]
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">usage: micca trim [-h] -i FILE -o FILE [-w FORWARD [FORWARD ...]]</span>
+<span class="go">                [-r REVERSE [REVERSE ...]] [-e MAXERATE] [-c] [-W] [-R]</span>
+<span class="go">                [-f {fastq,fasta}]</span>
 
-micca trim trims forward and reverse primers from a FASTQ/FASTA file
-using Cutadapt (doi: 10.14806/ej.17.1.200) internally. Primer and the
-sequence preceding (for forward) or succeding (for reverse) it are
-removed. Optionally, reads that do not contain the primers (untrimmed
-reads) can be discarded with the options -W/--duforward and
--R/--dureverse. Recommended options are:
+<span class="go">micca trim trims forward and reverse primers from a FASTQ/FASTA file</span>
+<span class="go">using Cutadapt (doi: 10.14806/ej.17.1.200) internally. Primer and the</span>
+<span class="go">sequence preceding (for forward) or succeding (for reverse) it are</span>
+<span class="go">removed. Optionally, reads that do not contain the primers (untrimmed</span>
+<span class="go">reads) can be discarded with the options -W/--duforward and</span>
+<span class="go">-R/--dureverse. Recommended options are:</span>
 
-* always discard reads that do not contain the forward primer
-  (-W/--duforward option);
+<span class="go">* always discard reads that do not contain the forward primer</span>
+<span class="go">(-W/--duforward option);</span>
 
-* for overlapping paired-end (already merged) reads, also discard
-  reads that do not contain the reverse primer (using both
-  -W/--duforward and -R/--dureverse options).
+<span class="go">* for overlapping paired-end (already merged) reads, also discard</span>
+<span class="go">reads that do not contain the reverse primer (using both</span>
+<span class="go">-W/--duforward and -R/--dureverse options).</span>
 
-IUPAC codes and multiple primers are supported.
+<span class="go">IUPAC codes and multiple primers are supported.</span>
 
-optional arguments:
-  -h, --help            show this help message and exit
+<span class="go">optional arguments:</span>
+<span class="go">-h, --help            show this help message and exit</span>
 
-arguments:
-  -i FILE, --input FILE
-                        input FASTQ or FASTA file (required).
-  -o FILE, --output FILE
-                        output FASTQ or FASTA file (required).
-  -w FORWARD [FORWARD ...], --forward FORWARD [FORWARD ...]
-                        trim forward primer(s). Only the best matching primer
-                        is removed.
-  -r REVERSE [REVERSE ...], --reverse REVERSE [REVERSE ...]
-                        trim reverse primer(s). Only the best matching primer
-                        is removed.
-  -e MAXERATE, --maxerate MAXERATE
-                        maximum allowed error rate (default 0.1).
-  -c, --searchrc        search reverse complement primers too (default False).
-  -W, --duforward       discard untrimmed reads (reads that do not contain the
-                        forward primer) (always recommended) (default False).
-  -R, --dureverse       discard untrimmed reads (reads that do not contain the
-                        reverse primer) (suggested option for overlapping
-                        paired-end already merged reads) (default False).
-  -f {fastq,fasta}, --format {fastq,fasta}
-                        file format (default fastq).
+<span class="go">arguments:</span>
+<span class="go">-i FILE, --input FILE</span>
+<span class="go">                        input FASTQ or FASTA file (required).</span>
+<span class="go">-o FILE, --output FILE</span>
+<span class="go">                        output FASTQ or FASTA file (required).</span>
+<span class="go">-w FORWARD [FORWARD ...], --forward FORWARD [FORWARD ...]</span>
+<span class="go">                        trim forward primer(s). Only the best matching primer</span>
+<span class="go">                        is removed.</span>
+<span class="go">-r REVERSE [REVERSE ...], --reverse REVERSE [REVERSE ...]</span>
+<span class="go">                        trim reverse primer(s). Only the best matching primer</span>
+<span class="go">                        is removed.</span>
+<span class="go">-e MAXERATE, --maxerate MAXERATE</span>
+<span class="go">                        maximum allowed error rate (default 0.1).</span>
+<span class="go">-c, --searchrc        search reverse complement primers too (default False).</span>
+<span class="go">-W, --duforward       discard untrimmed reads (reads that do not contain the</span>
+<span class="go">                        forward primer) (always recommended) (default False).</span>
+<span class="go">-R, --dureverse       discard untrimmed reads (reads that do not contain the</span>
+<span class="go">                        reverse primer) (suggested option for overlapping</span>
+<span class="go">                        paired-end already merged reads) (default False).</span>
+<span class="go">-f {fastq,fasta}, --format {fastq,fasta}</span>
+<span class="go">                        file format (default fastq).</span>
 
-Examples
+<span class="go">Examples</span>
 
-454 or Illumina single-end reads: trim forward primer and discard reads
-that do not contain it. Moreover, trim reverse primer:
+<span class="go">454 or Illumina single-end reads: trim forward primer and discard reads</span>
+<span class="go">that do not contain it. Moreover, trim reverse primer:</span>
 
-    micca trim -i input.fastq -o trimmed.fastq -w AGGATTAGATACCCTGGTA \
-    -r CRRCACGAGCTGACGAC -W
+<span class="go">    micca trim -i input.fastq -o trimmed.fastq -w AGGATTAGATACCCTGGTA \</span>
+<span class="go">    -r CRRCACGAGCTGACGAC -W</span>
 
-Illumina overlapping paired-end (already merged) reads: trim
-forward and reverse primers. Reads that do not contain the forward
-or the reverse primer will be discarded:
+<span class="go">Illumina overlapping paired-end (already merged) reads: trim</span>
+<span class="go">forward and reverse primers. Reads that do not contain the forward</span>
+<span class="go">or the reverse primer will be discarded:</span>
 
-    micca trim -i reads.fastq -o trimmed.fastq -w AGGATTAGATACCCTGGTA \
-    -r CRRCACGAGCTGACGAC -W -R
+<span class="go">    micca trim -i reads.fastq -o trimmed.fastq -w AGGATTAGATACCCTGGTA \</span>
+<span class="go">    -r CRRCACGAGCTGACGAC -W -R</span>
 </pre></div>
 </div>
 </div>
@@ -248,7 +250,7 @@ or the reverse primer will be discarded:
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2016, micca development team.
+        &copy; Copyright 2017, micca development team.
 
     </p>
   </div>
@@ -270,7 +272,7 @@ or the reverse primer will be discarded:
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.5.0',
+            VERSION:'1.6.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

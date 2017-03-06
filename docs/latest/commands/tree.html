@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>tree &mdash; micca 1.5.0 documentation</title>
+  <title>tree &mdash; micca 1.6.0 documentation</title>
   
 
   
@@ -30,7 +30,10 @@
   
 
   
-    <link rel="top" title="micca 1.5.0 documentation" href="../index.html"/>
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="micca 1.6.0 documentation" href="../index.html"/>
         <link rel="next" title="trim" href="trim.html"/>
         <link rel="prev" title="tobiom" href="tobiom.html"/> 
 
@@ -60,7 +63,7 @@
             
             
               <div class="version">
-                1.5.0
+                1.6
               </div>
             
           
@@ -100,7 +103,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../filtering.html">Quality filtering strategy in micca</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../otu.html">OTU picking in micca</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../formats.html">Supported file formats</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../changes.html">CHANGES</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">Changes</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Command reference</span></p>
 <ul class="current">
@@ -156,7 +159,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/commands/tree.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/commands/tree.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -168,45 +171,44 @@
             
   <div class="section" id="tree">
 <h1>tree<a class="headerlink" href="#tree" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-text"><div class="highlight"><pre><span></span>$ micca tree --help
-usage: micca tree [-h] -i FILE -o FILE [-m {fasttree,muscle}] [--fasttree-gtr]
-                  [--fasttree-fastest]
-                  [--muscle-cluster {upgmb,upgma,neighborjoining}]
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">usage: micca tree [-h] -i FILE -o FILE [-m {fasttree,muscle}] [--fasttree-gtr]</span>
+<span class="go">                [--fasttree-fastest]</span>
+<span class="go">                [--muscle-cluster {upgmb,upgma,neighborjoining}]</span>
 
-micca tree infers phylogenetic trees from alignments. It provides two
-methods:
+<span class="go">micca tree infers phylogenetic trees from alignments. It provides two</span>
+<span class="go">methods:</span>
 
-* FastTree (doi: 10.1371/journal.pone.0009490);
-* MUSCLE (doi: 10.1093/nar/gkl244).
+<span class="go">* FastTree (doi: 10.1371/journal.pone.0009490);</span>
+<span class="go">* MUSCLE (doi: 10.1093/nar/gkl244).</span>
 
-optional arguments:
-  -h, --help            show this help message and exit
+<span class="go">optional arguments:</span>
+<span class="go">-h, --help            show this help message and exit</span>
 
-arguments:
-  -i FILE, --input FILE
-                        input FASTA file (required).
-  -o FILE, --output FILE
-                        output tree in Newick format (required).
-  -m {fasttree,muscle}, --method {fasttree,muscle}
-                        tree inference method (default fasttree).
+<span class="go">arguments:</span>
+<span class="go">-i FILE, --input FILE</span>
+<span class="go">                        input FASTA file (required).</span>
+<span class="go">-o FILE, --output FILE</span>
+<span class="go">                        output tree in Newick format (required).</span>
+<span class="go">-m {fasttree,muscle}, --method {fasttree,muscle}</span>
+<span class="go">                        tree inference method (default fasttree).</span>
 
-FastTree specific options:
-  --fasttree-gtr        use the generalized time-reversible (GTR)+CAT model
-                        instead of Jukes-Cantor+CAT (default False).
-  --fasttree-fastest    speed up the neighbor joining phase and reduce memory
-                        usage recommended for &gt;50,000 sequences) (default
-                        False).
+<span class="go">FastTree specific options:</span>
+<span class="go">--fasttree-gtr        use the generalized time-reversible (GTR)+CAT model</span>
+<span class="go">                        instead of Jukes-Cantor+CAT (default False).</span>
+<span class="go">--fasttree-fastest    speed up the neighbor joining phase and reduce memory</span>
+<span class="go">                        usage recommended for &gt;50,000 sequences) (default</span>
+<span class="go">                        False).</span>
 
-MUSCLE specific options:
-  --muscle-cluster {upgmb,upgma,neighborjoining}
-                        clustering algorithm (default upgmb).
+<span class="go">MUSCLE specific options:</span>
+<span class="go">--muscle-cluster {upgmb,upgma,neighborjoining}</span>
+<span class="go">                        clustering algorithm (default upgmb).</span>
 
-Examples
+<span class="go">Examples</span>
 
-Tree inference using FastTree and the generalized time-reversible
-(GTR)+CAT model:
+<span class="go">Tree inference using FastTree and the generalized time-reversible</span>
+<span class="go">(GTR)+CAT model:</span>
 
-    micca tree -i input.fasta -o tree.tree --fasttree-gtr
+<span class="go">    micca tree -i input.fasta -o tree.tree --fasttree-gtr</span>
 </pre></div>
 </div>
 </div>
@@ -230,7 +232,7 @@ Tree inference using FastTree and the generalized time-reversible
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2016, micca development team.
+        &copy; Copyright 2017, micca development team.
 
     </p>
   </div>
@@ -252,7 +254,7 @@ Tree inference using FastTree and the generalized time-reversible
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.5.0',
+            VERSION:'1.6.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

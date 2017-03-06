@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Single-end sequencing &mdash; micca 1.5.0 documentation</title>
+  <title>Single-end sequencing &mdash; micca 1.6.0 documentation</title>
   
 
   
@@ -30,7 +30,10 @@
   
 
   
-    <link rel="top" title="micca 1.5.0 documentation" href="index.html"/>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="micca 1.6.0 documentation" href="index.html"/>
         <link rel="next" title="Paired-end sequencing" href="pairedend.html"/>
         <link rel="prev" title="Supported databases" href="databases.html"/> 
 
@@ -60,7 +63,7 @@
             
             
               <div class="version">
-                1.5.0
+                1.6
               </div>
             
           
@@ -121,7 +124,7 @@
 <li class="toctree-l1"><a class="reference internal" href="filtering.html">Quality filtering strategy in micca</a></li>
 <li class="toctree-l1"><a class="reference internal" href="otu.html">OTU picking in micca</a></li>
 <li class="toctree-l1"><a class="reference internal" href="formats.html">Supported file formats</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changes.html">CHANGES</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html">Changes</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Command reference</span></p>
 <ul>
@@ -177,7 +180,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="_sources/singleend.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/singleend.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -332,7 +335,7 @@ than <strong>92%</strong> reads will pass the filter:</p>
 <h3>Filter sequences<a class="headerlink" href="#filter-sequences" title="Permalink to this headline">¶</a></h3>
 <p>Now we can run the <a class="reference internal" href="commands/filter.html"><span class="doc">filter</span></a> command with
 the selected parameters:</p>
-<div class="highlight-sh"><div class="highlight"><pre><span></span>micca filter -i trimmed.fastq -o filtered.fasta -e 0.5 -m <span class="m">350</span> -t
+<div class="highlight-sh"><div class="highlight"><pre><span></span>micca filter -i trimmed.fastq -o filtered.fasta -e <span class="m">0</span>.5 -m <span class="m">350</span> -t
 </pre></div>
 </div>
 <div class="admonition note">
@@ -352,7 +355,7 @@ common working definition of bacterial species. The
 <a class="reference internal" href="commands/otu.html"><span class="doc">otu</span></a> command implements several state-of-the-art
 approaches for OTU clustering, but in this tutorial we will focus on
 the <strong>de novo greedy clustering</strong> (see <a class="reference internal" href="otu.html"><span class="doc">OTU picking in micca</span></a>):</p>
-<div class="highlight-sh"><div class="highlight"><pre><span></span>micca otu -i filtered.fasta -o denovo_greedy_otus -d 0.97 -c -t 4
+<div class="highlight-sh"><div class="highlight"><pre><span></span>micca otu -i filtered.fasta -o denovo_greedy_otus -d <span class="m">0</span>.97 -c -t <span class="m">4</span>
 </pre></div>
 </div>
 <p>The <a class="reference internal" href="commands/otu.html"><span class="doc">otu</span></a> command returns several files in the output
@@ -401,7 +404,7 @@ tar -zxvf core_set.tar.gz
 </pre></div>
 </div>
 <p>At this point we can run the <a class="reference internal" href="commands/msa.html"><span class="doc">msa</span></a> command:</p>
-<div class="highlight-sh"><div class="highlight"><pre><span></span>micca msa -m nast -i denovo_greedy_otus/otus.fasta -o denovo_greedy_otus/msa.fasta --nast-template core_set_aligned.fasta.imputed --nast-threads 4
+<div class="highlight-sh"><div class="highlight"><pre><span></span>micca msa -m nast -i denovo_greedy_otus/otus.fasta -o denovo_greedy_otus/msa.fasta --nast-template core_set_aligned.fasta.imputed --nast-threads <span class="m">4</span>
 </pre></div>
 </div>
 </div>
@@ -474,7 +477,7 @@ be added:</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2016, micca development team.
+        &copy; Copyright 2017, micca development team.
 
     </p>
   </div>
@@ -496,7 +499,7 @@ be added:</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.5.0',
+            VERSION:'1.6.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>filterstats &mdash; micca 1.5.0 documentation</title>
+  <title>filterstats &mdash; micca 1.6.0 documentation</title>
   
 
   
@@ -30,7 +30,10 @@
   
 
   
-    <link rel="top" title="micca 1.5.0 documentation" href="../index.html"/>
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="micca 1.6.0 documentation" href="../index.html"/>
         <link rel="next" title="merge" href="merge.html"/>
         <link rel="prev" title="filter" href="filter.html"/> 
 
@@ -60,7 +63,7 @@
             
             
               <div class="version">
-                1.5.0
+                1.6
               </div>
             
           
@@ -100,7 +103,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../filtering.html">Quality filtering strategy in micca</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../otu.html">OTU picking in micca</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../formats.html">Supported file formats</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../changes.html">CHANGES</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">Changes</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Command reference</span></p>
 <ul class="current">
@@ -156,7 +159,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/commands/filterstats.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/commands/filterstats.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -168,56 +171,55 @@
             
   <div class="section" id="filterstats">
 <h1>filterstats<a class="headerlink" href="#filterstats" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-text"><div class="highlight"><pre><span></span>$ micca filterstats --help
-usage: micca filterstats [-h] -i FILE [-o DIR] [-t TOPN]
-                         [-e MAXEERATES [MAXEERATES ...]] [-n MAXNS]
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">usage: micca filterstats [-h] -i FILE [-o DIR] [-t TOPN]</span>
+<span class="go">                        [-e MAXEERATES [MAXEERATES ...]] [-n MAXNS]</span>
 
-micca filterstats reports the fraction of reads that would pass for each
-specified maximum expected error (EE) rate %% and the maximum number of
-allowed Ns after:
+<span class="go">micca filterstats reports the fraction of reads that would pass for each</span>
+<span class="go">specified maximum expected error (EE) rate %% and the maximum number of</span>
+<span class="go">allowed Ns after:</span>
 
-* discarding sequences that are shorter than the specified length
-  (suggested for Illumina overlapping paired-end (already merged)
-  reads);
+<span class="go">* discarding sequences that are shorter than the specified length</span>
+<span class="go">(suggested for Illumina overlapping paired-end (already merged)</span>
+<span class="go">reads);</span>
 
-* discarding sequences that are shorter than the specified length AND
-  truncating sequences that are longer (suggested for Illumina and 454
-  unpaired reads);
+<span class="go">* discarding sequences that are shorter than the specified length AND</span>
+<span class="go">truncating sequences that are longer (suggested for Illumina and 454</span>
+<span class="go">unpaired reads);</span>
 
-Parameters for the &#39;micca filter&#39; command should be chosen for each
-sequencing run using this tool.
+<span class="go">Parameters for the &#39;micca filter&#39; command should be chosen for each</span>
+<span class="go">sequencing run using this tool.</span>
 
-micca filterstats returns in the output directory 3 files:
+<span class="go">micca filterstats returns in the output directory 3 files:</span>
 
-* filterstats_minlen.txt: fraction of reads that would pass the filter after
-  the minimum length filtering;
-* filterstats_trunclen.txt: fraction of reads that would pass the filter after
-  the minimum length filtering + truncation;
-* filterstats_plot.png: plot in PNG format.
+<span class="go">* filterstats_minlen.txt: fraction of reads that would pass the filter after</span>
+<span class="go">the minimum length filtering;</span>
+<span class="go">* filterstats_trunclen.txt: fraction of reads that would pass the filter after</span>
+<span class="go">the minimum length filtering + truncation;</span>
+<span class="go">* filterstats_plot.png: plot in PNG format.</span>
 
-optional arguments:
-  -h, --help            show this help message and exit
+<span class="go">optional arguments:</span>
+<span class="go">-h, --help            show this help message and exit</span>
 
-arguments:
-  -i FILE, --input FILE
-                        input FASTQ file, Sanger/Illumina 1.8+ format
-                        (phred+33) (required).
-  -o DIR, --output DIR  output directory (default .).
-  -t TOPN, --topn TOPN  perform statistics on the first TOPN sequences
-                        (disabled by default)
-  -e MAXEERATES [MAXEERATES ...], --maxeerates MAXEERATES [MAXEERATES ...]
-                        max expected error rates (%). (default [0.25, 0.5,
-                        0.75, 1, 1.25, 1.5])
-  -n MAXNS, --maxns MAXNS
-                        max number of Ns. (disabled by default).
+<span class="go">arguments:</span>
+<span class="go">-i FILE, --input FILE</span>
+<span class="go">                        input FASTQ file, Sanger/Illumina 1.8+ format</span>
+<span class="go">                        (phred+33) (required).</span>
+<span class="go">-o DIR, --output DIR  output directory (default .).</span>
+<span class="go">-t TOPN, --topn TOPN  perform statistics on the first TOPN sequences</span>
+<span class="go">                        (disabled by default)</span>
+<span class="go">-e MAXEERATES [MAXEERATES ...], --maxeerates MAXEERATES [MAXEERATES ...]</span>
+<span class="go">                        max expected error rates (%). (default [0.25, 0.5,</span>
+<span class="go">                        0.75, 1, 1.25, 1.5])</span>
+<span class="go">-n MAXNS, --maxns MAXNS</span>
+<span class="go">                        max number of Ns. (disabled by default).</span>
 
-Examples
+<span class="go">Examples</span>
 
-Compute filter statistics on the top 10000 sequences, predicting
-the fraction of reads that would pass for each maximum EE error
-rate (default values):
+<span class="go">Compute filter statistics on the top 10000 sequences, predicting</span>
+<span class="go">the fraction of reads that would pass for each maximum EE error</span>
+<span class="go">rate (default values):</span>
 
-    micca filterstats -i input.fastq -o stats -t 10000
+<span class="go">    micca filterstats -i input.fastq -o stats -t 10000</span>
 </pre></div>
 </div>
 </div>
@@ -241,7 +243,7 @@ rate (default values):
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2016, micca development team.
+        &copy; Copyright 2017, micca development team.
 
     </p>
   </div>
@@ -263,7 +265,7 @@ rate (default values):
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.5.0',
+            VERSION:'1.6.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

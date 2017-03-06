@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>filter &mdash; micca 1.5.0 documentation</title>
+  <title>filter &mdash; micca 1.6.0 documentation</title>
   
 
   
@@ -30,7 +30,10 @@
   
 
   
-    <link rel="top" title="micca 1.5.0 documentation" href="../index.html"/>
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="micca 1.6.0 documentation" href="../index.html"/>
         <link rel="next" title="filterstats" href="filterstats.html"/>
         <link rel="prev" title="convert" href="convert.html"/> 
 
@@ -60,7 +63,7 @@
             
             
               <div class="version">
-                1.5.0
+                1.6
               </div>
             
           
@@ -100,7 +103,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../filtering.html">Quality filtering strategy in micca</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../otu.html">OTU picking in micca</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../formats.html">Supported file formats</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../changes.html">CHANGES</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">Changes</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Command reference</span></p>
 <ul class="current">
@@ -156,7 +159,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/commands/filter.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/commands/filter.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -168,75 +171,74 @@
             
   <div class="section" id="filter">
 <h1>filter<a class="headerlink" href="#filter" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-text"><div class="highlight"><pre><span></span>$ micca filter --help
-usage: micca filter [-h] -i FILE -o FILE [-e MAXEERATE] [-m MINLEN] [-t]
-                    [-n MAXNS] [-f {fastq,fasta}]
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">usage: micca filter [-h] -i FILE -o FILE [-e MAXEERATE] [-m MINLEN] [-t]</span>
+<span class="go">                    [-n MAXNS] [-f {fastq,fasta}]</span>
 
-micca filter filters sequences according to the maximum allowed
-expected error (EE) rate %%. Optionally, you can:
+<span class="go">micca filter filters sequences according to the maximum allowed</span>
+<span class="go">expected error (EE) rate %%. Optionally, you can:</span>
 
-* discard sequences that are shorter than the specified length
-  (suggested for Illumina overlapping paired-end (already merged)
-  reads) (option --minlen MINLEN);
+<span class="go">* discard sequences that are shorter than the specified length</span>
+<span class="go">(suggested for Illumina overlapping paired-end (already merged)</span>
+<span class="go">reads) (option --minlen MINLEN);</span>
 
-* discard sequences that are shorter than the specified length AND
-  truncate sequences that are longer (suggested for Illumina and 454
-  unpaired reads) (options --minlen MINLEN --trunc);
+<span class="go">* discard sequences that are shorter than the specified length AND</span>
+<span class="go">truncate sequences that are longer (suggested for Illumina and 454</span>
+<span class="go">unpaired reads) (options --minlen MINLEN --trunc);</span>
 
-* discard sequences that contain more than a specified number of Ns
-  (--maxns).
+<span class="go">* discard sequences that contain more than a specified number of Ns</span>
+<span class="go">(--maxns).</span>
 
-Sequences are first shortened and then filtered. Overlapping paired
-reads with should be merged first (using micca-mergepairs) and then
-filtered.
+<span class="go">Sequences are first shortened and then filtered. Overlapping paired</span>
+<span class="go">reads with should be merged first (using micca-mergepairs) and then</span>
+<span class="go">filtered.</span>
 
-The expected error (EE) rate %% in a sequence of length L is defined
-as (doi: 10.1093/bioinformatics/btv401):
+<span class="go">The expected error (EE) rate %% in a sequence of length L is defined</span>
+<span class="go">as (doi: 10.1093/bioinformatics/btv401):</span>
 
-                 sum(error probabilities)
-    EE rate %% = ------------------------ * 100
-                            L
+<span class="go">                sum(error probabilities)</span>
+<span class="go">    EE rate %% = ------------------------ * 100</span>
+<span class="go">                            L</span>
 
-Before filtering, run &#39;micca filterstats&#39; to see how many reads will
-pass the filter at different minimum lengths with or without
-truncation, given a maximum allowed expected error rate %% and maximum
-allowed number of Ns.
+<span class="go">Before filtering, run &#39;micca filterstats&#39; to see how many reads will</span>
+<span class="go">pass the filter at different minimum lengths with or without</span>
+<span class="go">truncation, given a maximum allowed expected error rate %% and maximum</span>
+<span class="go">allowed number of Ns.</span>
 
-micca-filter is based on VSEARCH (https://github.com/torognes/vsearch).
+<span class="go">micca-filter is based on VSEARCH (https://github.com/torognes/vsearch).</span>
 
-optional arguments:
-  -h, --help            show this help message and exit
+<span class="go">optional arguments:</span>
+<span class="go">-h, --help            show this help message and exit</span>
 
-arguments:
-  -i FILE, --input FILE
-                        input FASTQ file, Sanger/Illumina 1.8+ format
-                        (phred+33) (required).
-  -o FILE, --output FILE
-                        output FASTA/FASTQ file (required).
-  -e MAXEERATE, --maxeerate MAXEERATE
-                        discard sequences with more than the specified expeced
-                        error rate % (values &lt;=1%, i.e. less or equal than one
-                        error per 100 bases, are highly recommended).
-                        Sequences are discarded after truncation (if enabled)
-                        (default 1).
-  -m MINLEN, --minlen MINLEN
-                        discard sequences that are shorter than MINLEN
-                        (default 1).
-  -t, --trunc           truncate sequences that are longer than MINLEN
-                        (disabled by default).
-  -n MAXNS, --maxns MAXNS
-                        discard sequences with more than the specified number
-                        of Ns. Sequences are discarded after truncation
-                        (disabled by default).
-  -f {fastq,fasta}, --output-format {fastq,fasta}
-                        file format (default fasta).
+<span class="go">arguments:</span>
+<span class="go">-i FILE, --input FILE</span>
+<span class="go">                        input FASTQ file, Sanger/Illumina 1.8+ format</span>
+<span class="go">                        (phred+33) (required).</span>
+<span class="go">-o FILE, --output FILE</span>
+<span class="go">                        output FASTA/FASTQ file (required).</span>
+<span class="go">-e MAXEERATE, --maxeerate MAXEERATE</span>
+<span class="go">                        discard sequences with more than the specified expeced</span>
+<span class="go">                        error rate % (values &lt;=1%, i.e. less or equal than one</span>
+<span class="go">                        error per 100 bases, are highly recommended).</span>
+<span class="go">                        Sequences are discarded after truncation (if enabled)</span>
+<span class="go">                        (default 1).</span>
+<span class="go">-m MINLEN, --minlen MINLEN</span>
+<span class="go">                        discard sequences that are shorter than MINLEN</span>
+<span class="go">                        (default 1).</span>
+<span class="go">-t, --trunc           truncate sequences that are longer than MINLEN</span>
+<span class="go">                        (disabled by default).</span>
+<span class="go">-n MAXNS, --maxns MAXNS</span>
+<span class="go">                        discard sequences with more than the specified number</span>
+<span class="go">                        of Ns. Sequences are discarded after truncation</span>
+<span class="go">                        (disabled by default).</span>
+<span class="go">-f {fastq,fasta}, --output-format {fastq,fasta}</span>
+<span class="go">                        file format (default fasta).</span>
 
-Examples
+<span class="go">Examples</span>
 
-Truncate reads at 300 bp, discard low quality sequences
-(with EE rate &gt; 0.5%%) and write a FASTA file:
+<span class="go">Truncate reads at 300 bp, discard low quality sequences</span>
+<span class="go">(with EE rate &gt; 0.5%%) and write a FASTA file:</span>
 
-    micca filter -i reads.fastq -o filtered.fasta -m 300 -t -e 0.5
+<span class="go">    micca filter -i reads.fastq -o filtered.fasta -m 300 -t -e 0.5</span>
 </pre></div>
 </div>
 </div>
@@ -260,7 +262,7 @@ Truncate reads at 300 bp, discard low quality sequences
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2016, micca development team.
+        &copy; Copyright 2017, micca development team.
 
     </p>
   </div>
@@ -282,7 +284,7 @@ Truncate reads at 300 bp, discard low quality sequences
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.5.0',
+            VERSION:'1.6.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

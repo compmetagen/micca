@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>mergepairs &mdash; micca 1.5.0 documentation</title>
+  <title>mergepairs &mdash; micca 1.6.0 documentation</title>
   
 
   
@@ -30,7 +30,10 @@
   
 
   
-    <link rel="top" title="micca 1.5.0 documentation" href="../index.html"/>
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="micca 1.6.0 documentation" href="../index.html"/>
         <link rel="next" title="msa" href="msa.html"/>
         <link rel="prev" title="merge" href="merge.html"/> 
 
@@ -60,7 +63,7 @@
             
             
               <div class="version">
-                1.5.0
+                1.6
               </div>
             
           
@@ -100,7 +103,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../filtering.html">Quality filtering strategy in micca</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../otu.html">OTU picking in micca</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../formats.html">Supported file formats</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../changes.html">CHANGES</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">Changes</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Command reference</span></p>
 <ul class="current">
@@ -156,7 +159,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/commands/mergepairs.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/commands/mergepairs.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -168,82 +171,92 @@
             
   <div class="section" id="mergepairs">
 <h1>mergepairs<a class="headerlink" href="#mergepairs" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-text"><div class="highlight"><pre><span></span>$ micca mergepairs --help
-usage: micca mergepairs [-h] -i FILE [FILE ...] -o FILE [-r FILE]
-                        [-l MINOVLEN] [-d MAXDIFFS] [-p PATTERN] [-e REPL]
-                        [-s SEP] [--notmerged-fwd FILE] [--notmerged-rev FILE]
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">usage: micca mergepairs [-h] -i FILE [FILE ...] -o FILE [-r FILE]</span>
+<span class="go">                        [-l MINOVLEN] [-d MAXDIFFS] [-p PATTERN] [-e REPL]</span>
+<span class="go">                        [-s SEP] [-n] [--notmerged-fwd FILE]</span>
+<span class="go">                        [--notmerged-rev FILE]</span>
 
-micca mergepairs merges paired-end sequence reads into one sequence.
+<span class="go">micca mergepairs merges paired-end sequence reads into one sequence.</span>
 
-A single merging of a pair of FASTQ files can be simply performed
-using both -i/--input and -r/--reverse options.
+<span class="go">A single merging of a pair of FASTQ files can be simply performed</span>
+<span class="go">using both -i/--input and -r/--reverse options.</span>
 
-When the option -r/--reverse is not specified:
+<span class="go">When the option -r/--reverse is not specified:</span>
 
-1. you can indicate several forward files (with the option -i/--input);
+<span class="go">1. you can indicate several forward files (with the option -i/--input);</span>
 
-2. the reverse file name will be constructed by replacing the string
-   &#39;_R1&#39; in the forward file name with &#39;_R2&#39; (typical in Illumina
-   file names, see options -p/--pattern and -e/--repl);
+<span class="go">2. the reverse file name will be constructed by replacing the string</span>
+<span class="go">&#39;_R1&#39; in the forward file name with &#39;_R2&#39; (typical in Illumina</span>
+<span class="go">file names, see options -p/--pattern and -e/--repl);</span>
 
-3. after the merging of the paired reads, different samples will be
-   merged in a single file and sample names will be appended to the
-   sequence identifier (e.g. &gt;SEQID;sample=SAMPLENAME), as in &#39;micca
-   merge&#39; and &#39;micca split&#39;. Sample names are defined as the leftmost
-   part of the file name splitted by the first occurence of &#39;_&#39;
-   (-s/--sep option). Whitespace characters in names will be replaced
-   with a single character underscore (&#39;_&#39;).
+<span class="go">3. after the merging of the paired reads, different samples will be</span>
+<span class="go">merged in a single file and sample names will be appended to the</span>
+<span class="go">sequence identifier (e.g. &gt;SEQID;sample=SAMPLENAME), as in &#39;micca</span>
+<span class="go">merge&#39; and &#39;micca split&#39;. Sample names are defined as the leftmost</span>
+<span class="go">part of the file name splitted by the first occurence of &#39;_&#39;</span>
+<span class="go">(-s/--sep option). Whitespace characters in names will be replaced</span>
+<span class="go">with a single character underscore (&#39;_&#39;).</span>
 
-micca mergepairs wraps VSEARCH (https://github.com/torognes/vsearch).
-Statistical testing of significance is performed in a way similar to
-PEAR (doi: 10.1093/bioinformatics/btt593). The quality of merged bases
-is computed as in USEARCH (doi: 10.1093/bioinformatics/btv401).
+<span class="go">micca mergepairs wraps VSEARCH (https://github.com/torognes/vsearch).</span>
+<span class="go">Statistical testing of significance is performed in a way similar to</span>
+<span class="go">PEAR (doi: 10.1093/bioinformatics/btt593). The quality of merged bases</span>
+<span class="go">is computed as in USEARCH (doi: 10.1093/bioinformatics/btv401).</span>
 
-optional arguments:
-  -h, --help            show this help message and exit
+<span class="go">By default staggered read pairs (staggered pairs are pairs where the 3&#39;</span>
+<span class="go">end of the reverse read has an overhang to the left of the 5’ end</span>
+<span class="go">of the forward read) will be merged. To override this feature (and</span>
+<span class="go">therefore to discard staggered alignments) set the -n/--nostagger</span>
+<span class="go">option.</span>
 
-arguments:
-  -i FILE [FILE ...], --input FILE [FILE ...]
-                        forward FASTQ file(s), Sanger/Illumina 1.8+ format
-                        (phred+33) (required).
-  -o FILE, --output FILE
-                        output FASTQ file (required).
-  -r FILE, --reverse FILE
-                        reverse FASTQ file, Sanger/Illumina 1.8+ format
-                        (phred+33).
-  -l MINOVLEN, --minovlen MINOVLEN
-                        minimum overlap length (default 32).
-  -d MAXDIFFS, --maxdiffs MAXDIFFS
-                        maximum number of allowed mismatches in the overlap
-                        region (default 8).
-  -p PATTERN, --pattern PATTERN
-                        when the reverse filename is not specified, it will be
-                        constructed by replacing &#39;PATTERN&#39; in the forward file
-                        name with &#39;REPL&#39; (default _R1).
-  -e REPL, --repl REPL  when the reverse filename is not specified, it will be
-                        constructed by replacing &#39;PATTERN&#39; in the forward file
-                        name with &#39;REPL&#39; (default _R2).
-  -s SEP, --sep SEP     when the reverse file name is not specified, sample
-                        names are appended to the sequence identifier (e.g.
-                        &gt;SEQID;sample=SAMPLENAME). Sample names are defined as
-                        the leftmost part of the file name splitted by the
-                        first occurence of &#39;SEP&#39; (default _)
-  --notmerged-fwd FILE  write not merged forward reads.
-  --notmerged-rev FILE  write not merged reverse reads.
+<span class="go">optional arguments:</span>
+<span class="go">-h, --help            show this help message and exit</span>
 
-Examples
+<span class="go">arguments:</span>
+<span class="go">-i FILE [FILE ...], --input FILE [FILE ...]</span>
+<span class="go">                        forward FASTQ file(s), Sanger/Illumina 1.8+ format</span>
+<span class="go">                        (phred+33) (required).</span>
+<span class="go">-o FILE, --output FILE</span>
+<span class="go">                        output FASTQ file (required).</span>
+<span class="go">-r FILE, --reverse FILE</span>
+<span class="go">                        reverse FASTQ file, Sanger/Illumina 1.8+ format</span>
+<span class="go">                        (phred+33).</span>
+<span class="go">-l MINOVLEN, --minovlen MINOVLEN</span>
+<span class="go">                        minimum overlap length (default 32).</span>
+<span class="go">-d MAXDIFFS, --maxdiffs MAXDIFFS</span>
+<span class="go">                        maximum number of allowed mismatches in the overlap</span>
+<span class="go">                        region (default 8).</span>
+<span class="go">-p PATTERN, --pattern PATTERN</span>
+<span class="go">                        when the reverse filename is not specified, it will be</span>
+<span class="go">                        constructed by replacing &#39;PATTERN&#39; in the forward file</span>
+<span class="go">                        name with &#39;REPL&#39; (default _R1).</span>
+<span class="go">-e REPL, --repl REPL  when the reverse filename is not specified, it will be</span>
+<span class="go">                        constructed by replacing &#39;PATTERN&#39; in the forward file</span>
+<span class="go">                        name with &#39;REPL&#39; (default _R2).</span>
+<span class="go">-s SEP, --sep SEP     when the reverse file name is not specified, sample</span>
+<span class="go">                        names are appended to the sequence identifier (e.g.</span>
+<span class="go">                        &gt;SEQID;sample=SAMPLENAME). Sample names are defined as</span>
+<span class="go">                        the leftmost part of the file name splitted by the</span>
+<span class="go">                        first occurence of &#39;SEP&#39; (default _)</span>
+<span class="go">-n, --nostagger       forbid the merging of staggered read pairs. Without</span>
+<span class="go">                        this option the command will merge staggered read</span>
+<span class="go">                        pairs and the 3&#39; overhang of the reverse read will be</span>
+<span class="go">                        not included in the merged sequence.</span>
+<span class="go">--notmerged-fwd FILE  write not merged forward reads.</span>
+<span class="go">--notmerged-rev FILE  write not merged reverse reads.</span>
 
-Merge reads with a minimum overlap length of 50 and maximum number
-of allowed mismatches of 3:
+<span class="go">Examples</span>
 
-    micca mergepairs -i reads1.fastq -r reads2.fastq -o merged.fastq \
-    -l 50 -d 3
+<span class="go">Merge reads with a minimum overlap length of 50 and maximum number</span>
+<span class="go">of allowed mismatches of 3:</span>
 
-Merge several illumina paired reads (typically named *_R1*.fastq and
-*_R2*.fastq):
+<span class="go">    micca mergepairs -i reads1.fastq -r reads2.fastq -o merged.fastq \</span>
+<span class="go">    -l 50 -d 3</span>
 
-    micca mergepairs -i *_R1*.fastq -o merged.fastq --notmerged-fwd \
-    notmerged_fwd.fastq --notmerged-rev notmerged_rev.fastq
+<span class="go">Merge several illumina paired reads (typically named *_R1*.fastq and</span>
+<span class="go">*_R2*.fastq):</span>
+
+<span class="go">    micca mergepairs -i *_R1*.fastq -o merged.fastq --notmerged-fwd \</span>
+<span class="go">    notmerged_fwd.fastq --notmerged-rev notmerged_rev.fastq</span>
 </pre></div>
 </div>
 </div>
@@ -267,7 +280,7 @@ Merge several illumina paired reads (typically named *_R1*.fastq and
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2016, micca development team.
+        &copy; Copyright 2017, micca development team.
 
     </p>
   </div>
@@ -289,7 +302,7 @@ Merge several illumina paired reads (typically named *_R1*.fastq and
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.5.0',
+            VERSION:'1.6.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

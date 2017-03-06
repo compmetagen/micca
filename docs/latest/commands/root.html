@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>root &mdash; micca 1.5.0 documentation</title>
+  <title>root &mdash; micca 1.6.0 documentation</title>
   
 
   
@@ -30,7 +30,10 @@
   
 
   
-    <link rel="top" title="micca 1.5.0 documentation" href="../index.html"/>
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="micca 1.6.0 documentation" href="../index.html"/>
         <link rel="next" title="split" href="split.html"/>
         <link rel="prev" title="otu" href="otu.html"/> 
 
@@ -60,7 +63,7 @@
             
             
               <div class="version">
-                1.5.0
+                1.6
               </div>
             
           
@@ -100,7 +103,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../filtering.html">Quality filtering strategy in micca</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../otu.html">OTU picking in micca</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../formats.html">Supported file formats</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../changes.html">CHANGES</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">Changes</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Command reference</span></p>
 <ul class="current">
@@ -156,7 +159,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/commands/root.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/commands/root.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -168,41 +171,40 @@
             
   <div class="section" id="root">
 <h1>root<a class="headerlink" href="#root" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-text"><div class="highlight"><pre><span></span>$ micca root --help
-usage: micca root [-h] -i FILE -o FILE [-m {midpoint,outgroup}]
-                  [-t TARGETS [TARGETS ...]]
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">usage: micca root [-h] -i FILE -o FILE [-m {midpoint,outgroup}]</span>
+<span class="go">                [-t TARGETS [TARGETS ...]]</span>
 
-micca root reroot the input tree:
+<span class="go">micca root reroot the input tree:</span>
 
-* at the calculated midpoint between the two most distant tips of the
-  tree (--method midpoint);
+<span class="go">* at the calculated midpoint between the two most distant tips of the</span>
+<span class="go">tree (--method midpoint);</span>
 
-* with the outgroup clade containing the given taxa (leaf nodes),
-  i.e. the common ancestor of the outgroup (--method outgroup).
+<span class="go">* with the outgroup clade containing the given taxa (leaf nodes),</span>
+<span class="go">i.e. the common ancestor of the outgroup (--method outgroup).</span>
 
-optional arguments:
-  -h, --help            show this help message and exit
+<span class="go">optional arguments:</span>
+<span class="go">-h, --help            show this help message and exit</span>
 
-arguments:
-  -i FILE, --input FILE
-                        input FASTA file (required).
-  -o FILE, --output FILE
-                        output MSA file in FASTA format (required).
-  -m {midpoint,outgroup}, --method {midpoint,outgroup}
-                        rooting method (default midpoint).
-  -t TARGETS [TARGETS ...], --targets TARGETS [TARGETS ...]
-                        list of targets defining the outgroup (required for
-                        the outgroup method).
+<span class="go">arguments:</span>
+<span class="go">-i FILE, --input FILE</span>
+<span class="go">                        input FASTA file (required).</span>
+<span class="go">-o FILE, --output FILE</span>
+<span class="go">                        output MSA file in FASTA format (required).</span>
+<span class="go">-m {midpoint,outgroup}, --method {midpoint,outgroup}</span>
+<span class="go">                        rooting method (default midpoint).</span>
+<span class="go">-t TARGETS [TARGETS ...], --targets TARGETS [TARGETS ...]</span>
+<span class="go">                        list of targets defining the outgroup (required for</span>
+<span class="go">                        the outgroup method).</span>
 
-Examples
+<span class="go">Examples</span>
 
-Midpoint rooting:
+<span class="go">Midpoint rooting:</span>
 
-    micca root -i input.tree -o input_rooted.tree
+<span class="go">    micca root -i input.tree -o input_rooted.tree</span>
 
-Rooting with outgroup:
+<span class="go">Rooting with outgroup:</span>
 
-    micca root -i input.tree -o input_rooted.tree -m outgroup DENOVO1 DENOVO2
+<span class="go">    micca root -i input.tree -o input_rooted.tree -m outgroup DENOVO1 DENOVO2</span>
 </pre></div>
 </div>
 </div>
@@ -226,7 +228,7 @@ Rooting with outgroup:
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2016, micca development team.
+        &copy; Copyright 2017, micca development team.
 
     </p>
   </div>
@@ -248,7 +250,7 @@ Rooting with outgroup:
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.5.0',
+            VERSION:'1.6.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

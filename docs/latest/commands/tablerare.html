@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>tablerare &mdash; micca 1.5.0 documentation</title>
+  <title>tablerare &mdash; micca 1.6.0 documentation</title>
   
 
   
@@ -30,7 +30,10 @@
   
 
   
-    <link rel="top" title="micca 1.5.0 documentation" href="../index.html"/>
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="micca 1.6.0 documentation" href="../index.html"/>
         <link rel="next" title="tablestats" href="tablestats.html"/>
         <link rel="prev" title="tablebar" href="tablebar.html"/> 
 
@@ -60,7 +63,7 @@
             
             
               <div class="version">
-                1.5.0
+                1.6
               </div>
             
           
@@ -100,7 +103,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../filtering.html">Quality filtering strategy in micca</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../otu.html">OTU picking in micca</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../formats.html">Supported file formats</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../changes.html">CHANGES</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">Changes</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Command reference</span></p>
 <ul class="current">
@@ -156,7 +159,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/commands/tablerare.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/commands/tablerare.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -168,32 +171,31 @@
             
   <div class="section" id="tablerare">
 <h1>tablerare<a class="headerlink" href="#tablerare" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-text"><div class="highlight"><pre><span></span>$ micca tablerare --help
-usage: micca tablerare [-h] -i FILE -o FILE -d DEPTH [-r] [-s SEED]
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">usage: micca tablerare [-h] -i FILE -o FILE -d DEPTH [-r] [-s SEED]</span>
 
-Rarefy an OTU table by subsampling, with or without
-replacement. Samples that have fewer counts then the depth are
-omitted from the output table. OTUs that are not present in at
-least one sample are omitted from the output table.
+<span class="go">Rarefy an OTU table by subsampling, with or without</span>
+<span class="go">replacement. Samples that have fewer counts then the depth are</span>
+<span class="go">omitted from the output table. OTUs that are not present in at</span>
+<span class="go">least one sample are omitted from the output table.</span>
 
-optional arguments:
-  -h, --help            show this help message and exit
+<span class="go">optional arguments:</span>
+<span class="go">-h, --help            show this help message and exit</span>
 
-arguments:
-  -i FILE, --input FILE
-                        input OTU table file (required).
-  -o FILE, --output FILE
-                        output rarefied OTU table file (required).
-  -d DEPTH, --depth DEPTH
-                        sample depth (&gt;0, required).
-  -r, --replace         subsample with replacement.
-  -s SEED, --seed SEED  random seed (default 0).
+<span class="go">arguments:</span>
+<span class="go">-i FILE, --input FILE</span>
+<span class="go">                        input OTU table file (required).</span>
+<span class="go">-o FILE, --output FILE</span>
+<span class="go">                        output rarefied OTU table file (required).</span>
+<span class="go">-d DEPTH, --depth DEPTH</span>
+<span class="go">                        sample depth (&gt;0, required).</span>
+<span class="go">-r, --replace         subsample with replacement.</span>
+<span class="go">-s SEED, --seed SEED  random seed (default 0).</span>
 
-Examples
+<span class="go">Examples</span>
 
-Rarefy an OTU table at a depth of 1000 sequences/sample:
+<span class="go">Rarefy an OTU table at a depth of 1000 sequences/sample:</span>
 
-    micca tablerare -i otutable.txt -o otutable_rare.txt -d 1000
+<span class="go">    micca tablerare -i otutable.txt -o otutable_rare.txt -d 1000</span>
 </pre></div>
 </div>
 </div>
@@ -217,7 +219,7 @@ Rarefy an OTU table at a depth of 1000 sequences/sample:
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2016, micca development team.
+        &copy; Copyright 2017, micca development team.
 
     </p>
   </div>
@@ -239,7 +241,7 @@ Rarefy an OTU table at a depth of 1000 sequences/sample:
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.5.0',
+            VERSION:'1.6.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

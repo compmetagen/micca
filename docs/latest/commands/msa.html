@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>msa &mdash; micca 1.5.0 documentation</title>
+  <title>msa &mdash; micca 1.6.0 documentation</title>
   
 
   
@@ -30,7 +30,10 @@
   
 
   
-    <link rel="top" title="micca 1.5.0 documentation" href="../index.html"/>
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="micca 1.6.0 documentation" href="../index.html"/>
         <link rel="next" title="otu" href="otu.html"/>
         <link rel="prev" title="mergepairs" href="mergepairs.html"/> 
 
@@ -60,7 +63,7 @@
             
             
               <div class="version">
-                1.5.0
+                1.6
               </div>
             
           
@@ -100,7 +103,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../filtering.html">Quality filtering strategy in micca</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../otu.html">OTU picking in micca</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../formats.html">Supported file formats</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../changes.html">CHANGES</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">Changes</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Command reference</span></p>
 <ul class="current">
@@ -156,7 +159,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/commands/msa.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/commands/msa.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -168,86 +171,85 @@
             
   <div class="section" id="msa">
 <h1>msa<a class="headerlink" href="#msa" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-text"><div class="highlight"><pre><span></span>$ micca msa --help
-usage: micca msa [-h] -i FILE -o FILE [-m {muscle,nast}]
-                 [--muscle-maxiters MUSCLE_MAXITERS] [--nast-template FILE]
-                 [--nast-id NAST_ID] [--nast-threads NAST_THREADS]
-                 [--nast-mincov NAST_MINCOV] [--nast-strand {both,plus}]
-                 [--nast-notaligned FILE] [--nast-hits FILE] [--nast-nofilter]
-                 [--nast-notrim]
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">usage: micca msa [-h] -i FILE -o FILE [-m {muscle,nast}]</span>
+<span class="go">                [--muscle-maxiters MUSCLE_MAXITERS] [--nast-template FILE]</span>
+<span class="go">                [--nast-id NAST_ID] [--nast-threads NAST_THREADS]</span>
+<span class="go">                [--nast-mincov NAST_MINCOV] [--nast-strand {both,plus}]</span>
+<span class="go">                [--nast-notaligned FILE] [--nast-hits FILE] [--nast-nofilter]</span>
+<span class="go">                [--nast-notrim]</span>
 
-micca msa performs a multiple sequence alignment (MSA) on the input
-file in FASTA format. micca msa provides two approaches for MSA:
+<span class="go">micca msa performs a multiple sequence alignment (MSA) on the input</span>
+<span class="go">file in FASTA format. micca msa provides two approaches for MSA:</span>
 
-* MUSCLE (doi: 10.1093/nar/gkh340). It is one of the most widely-used
-  multiple sequence alignment software;
+<span class="go">* MUSCLE (doi: 10.1093/nar/gkh340). It is one of the most widely-used</span>
+<span class="go">multiple sequence alignment software;</span>
 
-* Nearest Alignment Space Termination (NAST) (doi:
-  10.1093/nar/gkl244). MICCA provides a very fast and memory
-  efficient reimplementation of the NAST algorithm. The algorithm is
-  based on VSEARCH (https://github.com/torognes/vsearch). It requires
-  a pre-aligned database of sequences (--nast-template). For 16S
-  data, a good template file is the Greengenes Core Set
-  (http://greengenes.lbl.gov/Download/Sequence_Data/Fasta_data_files/
-  core_set_aligned.fasta.imputed).
+<span class="go">* Nearest Alignment Space Termination (NAST) (doi:</span>
+<span class="go">10.1093/nar/gkl244). MICCA provides a very fast and memory</span>
+<span class="go">efficient implementation of the NAST algorithm. The algorithm is</span>
+<span class="go">based on VSEARCH (https://github.com/torognes/vsearch). It requires</span>
+<span class="go">a pre-aligned database of sequences (--nast-template). For 16S</span>
+<span class="go">data, a good template file is the Greengenes Core Set</span>
+<span class="go">(http://greengenes.lbl.gov/Download/Sequence_Data/Fasta_data_files/</span>
+<span class="go">core_set_aligned.fasta.imputed).</span>
 
-optional arguments:
-  -h, --help            show this help message and exit
+<span class="go">optional arguments:</span>
+<span class="go">-h, --help            show this help message and exit</span>
 
-arguments:
-  -i FILE, --input FILE
-                        input FASTA file (required).
-  -o FILE, --output FILE
-                        output MSA file in FASTA format (required).
-  -m {muscle,nast}, --method {muscle,nast}
-                        multiple sequence alignment method (default muscle).
+<span class="go">arguments:</span>
+<span class="go">-i FILE, --input FILE</span>
+<span class="go">                        input FASTA file (required).</span>
+<span class="go">-o FILE, --output FILE</span>
+<span class="go">                        output MSA file in FASTA format (required).</span>
+<span class="go">-m {muscle,nast}, --method {muscle,nast}</span>
+<span class="go">                        multiple sequence alignment method (default muscle).</span>
 
-MUSCLE specific options:
-  --muscle-maxiters MUSCLE_MAXITERS
-                        maximum number of MUSCLE iterations. Set to 2 for a
-                        good compromise between speed and accuracy (&gt;=1
-                        default 16).
+<span class="go">MUSCLE specific options:</span>
+<span class="go">--muscle-maxiters MUSCLE_MAXITERS</span>
+<span class="go">                        maximum number of MUSCLE iterations. Set to 2 for a</span>
+<span class="go">                        good compromise between speed and accuracy (&gt;=1</span>
+<span class="go">                        default 16).</span>
 
-NAST specific options:
-  --nast-template FILE  multiple sequence alignment template file in FASTA
-                        format.
-  --nast-id NAST_ID     sequence identity threshold to consider a sequence a
-                        match (0.0 to 1.0, default 0.75).
-  --nast-threads NAST_THREADS
-                        number of threads to use (1 to 256, default 1).
-  --nast-mincov NAST_MINCOV
-                        reject sequence if the fraction of alignment to the
-                        template sequence is lower than MINCOV. This parameter
-                        prevents low-coverage alignments at the end of the
-                        sequences (default 0.75).
-  --nast-strand {both,plus}
-                        search both strands or the plus strand only (default
-                        both).
-  --nast-notaligned FILE
-                        write not aligned sequences in FASTA format.
-  --nast-hits FILE      write hits on a TAB delimited file with the query
-                        sequence id, the template sequence id and the
-                        identity.
-  --nast-nofilter       do not remove positions which are gaps in every
-                        sequenceces (useful if you want to apply a Lane mask
-                        filter before the tree inference).
-  --nast-notrim         force to align the entire candidate sequence (i.e. do
-                        not trim the candidate sequence to that which is bound
-                        by the beginning and end points of of the alignment
-                        span
+<span class="go">NAST specific options:</span>
+<span class="go">--nast-template FILE  multiple sequence alignment template file in FASTA</span>
+<span class="go">                        format.</span>
+<span class="go">--nast-id NAST_ID     sequence identity threshold to consider a sequence a</span>
+<span class="go">                        match (0.0 to 1.0, default 0.75).</span>
+<span class="go">--nast-threads NAST_THREADS</span>
+<span class="go">                        number of threads to use (1 to 256, default 1).</span>
+<span class="go">--nast-mincov NAST_MINCOV</span>
+<span class="go">                        reject sequence if the fraction of alignment to the</span>
+<span class="go">                        template sequence is lower than MINCOV. This parameter</span>
+<span class="go">                        prevents low-coverage alignments at the end of the</span>
+<span class="go">                        sequences (default 0.75).</span>
+<span class="go">--nast-strand {both,plus}</span>
+<span class="go">                        search both strands or the plus strand only (default</span>
+<span class="go">                        both).</span>
+<span class="go">--nast-notaligned FILE</span>
+<span class="go">                        write not aligned sequences in FASTA format.</span>
+<span class="go">--nast-hits FILE      write hits on a TAB delimited file with the query</span>
+<span class="go">                        sequence id, the template sequence id and the</span>
+<span class="go">                        identity.</span>
+<span class="go">--nast-nofilter       do not remove positions which are gaps in every</span>
+<span class="go">                        sequenceces (useful if you want to apply a Lane mask</span>
+<span class="go">                        filter before the tree inference).</span>
+<span class="go">--nast-notrim         force to align the entire candidate sequence (i.e. do</span>
+<span class="go">                        not trim the candidate sequence to that which is bound</span>
+<span class="go">                        by the beginning and end points of of the alignment</span>
+<span class="go">                        span</span>
 
-Examples
+<span class="go">Examples</span>
 
-De novo MSA using MUSCLE:
+<span class="go">De novo MSA using MUSCLE:</span>
 
-    micca msa -i input.fasta -o msa.fasta
+<span class="go">    micca msa -i input.fasta -o msa.fasta</span>
 
-Template-based MSA using NAST, the Greengenes alignment as
-template (clustered at 97% similarity) 4 threads and a sequence
-identity threshold of 75%:
+<span class="go">Template-based MSA using NAST, the Greengenes alignment as</span>
+<span class="go">template (clustered at 97% similarity) 4 threads and a sequence</span>
+<span class="go">identity threshold of 75%:</span>
 
-    micca msa -i input.fasta -o msa.fasta -m nast --nast-threads 4 \
-    --nast-template greengenes_2013_05/rep_set_aligned/97_otus.fasta
+<span class="go">    micca msa -i input.fasta -o msa.fasta -m nast --nast-threads 4 \</span>
+<span class="go">    --nast-template greengenes_2013_05/rep_set_aligned/97_otus.fasta</span>
 </pre></div>
 </div>
 </div>
@@ -271,7 +273,7 @@ identity threshold of 75%:
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2016, micca development team.
+        &copy; Copyright 2017, micca development team.
 
     </p>
   </div>
@@ -293,7 +295,7 @@ identity threshold of 75%:
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.5.0',
+            VERSION:'1.6.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>classify &mdash; micca 1.5.0 documentation</title>
+  <title>classify &mdash; micca 1.6.0 documentation</title>
   
 
   
@@ -30,9 +30,12 @@
   
 
   
-    <link rel="top" title="micca 1.5.0 documentation" href="../index.html"/>
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="micca 1.6.0 documentation" href="../index.html"/>
         <link rel="next" title="convert" href="convert.html"/>
-        <link rel="prev" title="CHANGES" href="../changes.html"/> 
+        <link rel="prev" title="Changes" href="../changes.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -60,7 +63,7 @@
             
             
               <div class="version">
-                1.5.0
+                1.6
               </div>
             
           
@@ -100,7 +103,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../filtering.html">Quality filtering strategy in micca</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../otu.html">OTU picking in micca</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../formats.html">Supported file formats</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../changes.html">CHANGES</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">Changes</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Command reference</span></p>
 <ul class="current">
@@ -156,7 +159,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/commands/classify.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/commands/classify.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -168,137 +171,137 @@
             
   <div class="section" id="classify">
 <h1>classify<a class="headerlink" href="#classify" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-text"><div class="highlight"><pre><span></span>$ micca classify --help
-usage: micca classify [-h] -i FILE -o FILE [-m {cons,rdp,otuid}] [-r FILE]
-                      [-x FILE] [--cons-id CONS_ID]
-                      [--cons-maxhits CONS_MAXHITS]
-                      [--cons-minfrac CONS_MINFRAC]
-                      [--cons-mincov CONS_MINCOV] [--cons-strand {both,plus}]
-                      [--cons-threads THREADS]
-                      [--rdp-gene {16srrna,fungallsu,fungalits_warcup,fungalits_unite}]
-                      [--rdp-maxmem GB] [--rdp-minconf RDP_MINCONF]
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">usage: micca classify [-h] -i FILE -o FILE [-m {cons,rdp,otuid}] [-r FILE]</span>
+<span class="go">                    [-x FILE] [--cons-id CONS_ID]</span>
+<span class="go">                    [--cons-maxhits CONS_MAXHITS]</span>
+<span class="go">                    [--cons-minfrac CONS_MINFRAC]</span>
+<span class="go">                    [--cons-mincov CONS_MINCOV] [--cons-strand {both,plus}]</span>
+<span class="go">                    [--cons-threads THREADS]</span>
+<span class="go">                    [--rdp-gene {16srrna,fungallsu,fungalits_warcup,fungalits_unite}]</span>
+<span class="go">                    [--rdp-maxmem GB] [--rdp-minconf RDP_MINCONF]</span>
 
-micca classify assigns taxonomy for each sequence in the input file
-and provides three methods for classification:
+<span class="go">micca classify assigns taxonomy for each sequence in the input file</span>
+<span class="go">and provides three methods for classification:</span>
 
-* VSEARCH-based consensus classifier (cons): input sequences are
-  searched in the reference database with VSEARCH
-  (https://github.com/torognes/vsearch). For each query sequence the
-  method retrives up to &#39;cons-maxhits&#39; hits (i.e. identity &gt;=
-  &#39;cons-id&#39;). Then, the most specific taxonomic label that is
-  associated with at least &#39;cons-minfrac&#39; of the hits is
-  assigned. The method is similar to the UCLUST-based consensus
-  taxonomy assigner presented in doi: 10.7287/peerj.preprints.934v2
-  and available in QIIME.
+<span class="go">* VSEARCH-based consensus classifier (cons): input sequences are</span>
+<span class="go">searched in the reference database with VSEARCH</span>
+<span class="go">(https://github.com/torognes/vsearch). For each query sequence the</span>
+<span class="go">method retrives up to &#39;cons-maxhits&#39; hits (i.e. identity &gt;=</span>
+<span class="go">&#39;cons-id&#39;). Then, the most specific taxonomic label that is</span>
+<span class="go">associated with at least &#39;cons-minfrac&#39; of the hits is</span>
+<span class="go">assigned. The method is similar to the UCLUST-based consensus</span>
+<span class="go">taxonomy assigner presented in doi: 10.7287/peerj.preprints.934v2</span>
+<span class="go">and available in QIIME.</span>
 
-* RDP classifier (rdp): only RDP classifier version &gt;= 2.8 is
-  supported (doi:10.1128/AEM.00062-07). In order to use this
-  classifier RDP must be installed (download at
-  http://sourceforge.net/projects/rdp-classifier/files/rdp-classifier/)
-  and the RDPPATH environment variable setted. The available
-  databases (--rdp-gene) are:
+<span class="go">* RDP classifier (rdp): only RDP classifier version &gt;= 2.8 is</span>
+<span class="go">supported (doi:10.1128/AEM.00062-07). In order to use this</span>
+<span class="go">classifier RDP must be installed (download at</span>
+<span class="go">http://sourceforge.net/projects/rdp-classifier/files/rdp-classifier/)</span>
+<span class="go">and the RDPPATH environment variable setted. The available</span>
+<span class="go">databases (--rdp-gene) are:</span>
 
-  - 16S (16srrna)
-  - Fungal LSU (28S) (fungallsu)
-  - Warcup ITS (fungalits_warcup, doi: 10.3852/14-293)
-  - UNITE ITS (fungalits_unite)
+<span class="go">- 16S (16srrna)</span>
+<span class="go">- Fungal LSU (28S) (fungallsu)</span>
+<span class="go">- Warcup ITS (fungalits_warcup, doi: 10.3852/14-293)</span>
+<span class="go">- UNITE ITS (fungalits_unite)</span>
 
-  For more information about the RDP classifier go to
-  http://rdp.cme.msu.edu/classifier/classifier.jsp
+<span class="go">For more information about the RDP classifier go to</span>
+<span class="go">http://rdp.cme.msu.edu/classifier/classifier.jsp</span>
 
-* OTU ID classifier (otuid): simply perform a sequence ID matching
-  with the reference taxonomy file. Recommended strategy when the
-  closed reference clustering (--method closedref in micca-otu) was
-  performed. OTU ID classifier requires a tab-delimited file where
-  the first column contains the current OTU ids and the second column
-  the reference taxonomy ids (see otuids.txt in micca-otu), e.g.:
+<span class="go">* OTU ID classifier (otuid): simply perform a sequence ID matching</span>
+<span class="go">with the reference taxonomy file. Recommended strategy when the</span>
+<span class="go">closed reference clustering (--method closedref in micca-otu) was</span>
+<span class="go">performed. OTU ID classifier requires a tab-delimited file where</span>
+<span class="go">the first column contains the current OTU ids and the second column</span>
+<span class="go">the reference taxonomy ids (see otuids.txt in micca-otu), e.g.:</span>
 
-  REF1[TAB]1110191
-  REF2[TAB]1104777
-  REF3[TAB]1078527
-  ...
+<span class="go">REF1[TAB]1110191</span>
+<span class="go">REF2[TAB]1104777</span>
+<span class="go">REF3[TAB]1078527</span>
+<span class="go">...</span>
 
-The input reference taxonomy file (--ref-tax) should be a
-tab-delimited file where rows are either in the form:
+<span class="go">The input reference taxonomy file (--ref-tax) should be a</span>
+<span class="go">tab-delimited file where rows are either in the form:</span>
 
-1. SEQID[TAB]k__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__;g__;
-2. SEQID[TAB]Bacteria;Firmicutes;Clostridia;Clostridiales;;;
-3. SEQID[TAB]Bacteria;Firmicutes;Clostridia;Clostridiales
+<span class="go">1. SEQID[TAB]k__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__;g__;</span>
+<span class="go">2. SEQID[TAB]Bacteria;Firmicutes;Clostridia;Clostridiales;;;</span>
+<span class="go">3. SEQID[TAB]Bacteria;Firmicutes;Clostridia;Clostridiales</span>
+<span class="go">4. SEQID[TAB]D_0__Bacteria;D_1__Firmicutes;D_2__Clostridia;D_3__Clostridiales;D_4__;D_5__;</span>
 
-Compatible reference database are Greengenes
-(http://greengenes.secondgenome.com/downloads), QIIME-formatted SILVA
-(https://www.arb-silva.de/download/archive/qiime/) and UNITE
-(https://unite.ut.ee/repository.php).
+<span class="go">Compatible reference database are Greengenes</span>
+<span class="go">(http://greengenes.secondgenome.com/downloads), QIIME-formatted SILVA</span>
+<span class="go">(https://www.arb-silva.de/download/archive/qiime/) and UNITE</span>
+<span class="go">(https://unite.ut.ee/repository.php).</span>
 
-The output file is a tab-delimited file where each row is in the
-format:
+<span class="go">The output file is a tab-delimited file where each row is in the</span>
+<span class="go">format:</span>
 
-SEQID[TAB]Bacteria;Firmicutes;Clostridia;Clostridiales
+<span class="go">SEQID[TAB]Bacteria;Firmicutes;Clostridia;Clostridiales</span>
 
-optional arguments:
-  -h, --help            show this help message and exit
+<span class="go">optional arguments:</span>
+<span class="go">-h, --help            show this help message and exit</span>
 
-arguments:
-  -i FILE, --input FILE
-                        input FASTA file (for &#39;cons&#39; and &#39;rdp&#39;) or a tab-
-                        delimited OTU ids file (for &#39;otuid&#39;) (required).
-  -o FILE, --output FILE
-                        output taxonomy file (required).
-  -m {cons,rdp,otuid}, --method {cons,rdp,otuid}
-                        classification method (default cons)
-  -r FILE, --ref FILE   reference sequences in FASTA format, required for
-                        &#39;cons&#39; classifier.
-  -x FILE, --ref-tax FILE
-                        tab-separated reference taxonomy file, required for
-                        &#39;cons&#39; and &#39;otuid&#39; classifiers.
+<span class="go">arguments:</span>
+<span class="go">-i FILE, --input FILE</span>
+<span class="go">                        input FASTA file (for &#39;cons&#39; and &#39;rdp&#39;) or a tab-</span>
+<span class="go">                        delimited OTU ids file (for &#39;otuid&#39;) (required).</span>
+<span class="go">-o FILE, --output FILE</span>
+<span class="go">                        output taxonomy file (required).</span>
+<span class="go">-m {cons,rdp,otuid}, --method {cons,rdp,otuid}</span>
+<span class="go">                        classification method (default cons)</span>
+<span class="go">-r FILE, --ref FILE   reference sequences in FASTA format, required for</span>
+<span class="go">                        &#39;cons&#39; classifier.</span>
+<span class="go">-x FILE, --ref-tax FILE</span>
+<span class="go">                        tab-separated reference taxonomy file, required for</span>
+<span class="go">                        &#39;cons&#39; and &#39;otuid&#39; classifiers.</span>
 
-VSEARCH-based consensus classifierspecific options:
-  --cons-id CONS_ID     sequence identity threshold (0.0 to 1.0, default 0.9).
-  --cons-maxhits CONS_MAXHITS
-                        number of hits to consider (&gt;=1, default 3).
-  --cons-minfrac CONS_MINFRAC
-                        for each taxonomic rank, a specific taxa will be
-                        assigned if it is present in at least MINFRAC of the
-                        hits (0.0 to 1.0, default 0.5).
-  --cons-mincov CONS_MINCOV
-                        reject sequence if the fraction of alignment to the
-                        reference sequence is lower than MINCOV. This
-                        parameter prevents low-coverage alignments at the end
-                        of the sequences (default 0.75).
-  --cons-strand {both,plus}
-                        search both strands or the plus strand only (default
-                        both).
-  --cons-threads THREADS
-                        number of threads to use (1 to 256, default 1).
+<span class="go">VSEARCH-based consensus classifierspecific options:</span>
+<span class="go">--cons-id CONS_ID     sequence identity threshold (0.0 to 1.0, default 0.9).</span>
+<span class="go">--cons-maxhits CONS_MAXHITS</span>
+<span class="go">                        number of hits to consider (&gt;=1, default 3).</span>
+<span class="go">--cons-minfrac CONS_MINFRAC</span>
+<span class="go">                        for each taxonomic rank, a specific taxa will be</span>
+<span class="go">                        assigned if it is present in at least MINFRAC of the</span>
+<span class="go">                        hits (0.0 to 1.0, default 0.5).</span>
+<span class="go">--cons-mincov CONS_MINCOV</span>
+<span class="go">                        reject sequence if the fraction of alignment to the</span>
+<span class="go">                        reference sequence is lower than MINCOV. This</span>
+<span class="go">                        parameter prevents low-coverage alignments at the end</span>
+<span class="go">                        of the sequences (default 0.75).</span>
+<span class="go">--cons-strand {both,plus}</span>
+<span class="go">                        search both strands or the plus strand only (default</span>
+<span class="go">                        both).</span>
+<span class="go">--cons-threads THREADS</span>
+<span class="go">                        number of threads to use (1 to 256, default 1).</span>
 
-RDP Classifier/Database specific options:
-  --rdp-gene {16srrna,fungallsu,fungalits_warcup,fungalits_unite}
-                        marker gene/region
-  --rdp-maxmem GB       maximum memory size for the java virtual machine in GB
-                        (default 2)
-  --rdp-minconf RDP_MINCONF
-                        minimum confidence value to assign taxonomy to a
-                        sequence (default 0.8)
+<span class="go">RDP Classifier/Database specific options:</span>
+<span class="go">--rdp-gene {16srrna,fungallsu,fungalits_warcup,fungalits_unite}</span>
+<span class="go">                        marker gene/region</span>
+<span class="go">--rdp-maxmem GB       maximum memory size for the java virtual machine in GB</span>
+<span class="go">                        (default 2)</span>
+<span class="go">--rdp-minconf RDP_MINCONF</span>
+<span class="go">                        minimum confidence value to assign taxonomy to a</span>
+<span class="go">                        sequence (default 0.8)</span>
 
-Examples
+<span class="go">Examples</span>
 
-Classification of 16S sequences using the consensus classifier and
-Greengenes:
+<span class="go">Classification of 16S sequences using the consensus classifier and</span>
+<span class="go">Greengenes:</span>
 
-    micca classify -m cons -i input.fasta -o tax.txt \
-    --ref greengenes_2013_05/rep_set/97_otus.fasta \
-    --ref-tax greengenes_2013_05/taxonomy/97_otu_taxonomy.txt
+<span class="go">    micca classify -m cons -i input.fasta -o tax.txt \</span>
+<span class="go">    --ref greengenes_2013_05/rep_set/97_otus.fasta \</span>
+<span class="go">    --ref-tax greengenes_2013_05/taxonomy/97_otu_taxonomy.txt</span>
 
-Classification of ITS sequences using the RDP classifier and the
-UNITE database:
+<span class="go">Classification of ITS sequences using the RDP classifier and the</span>
+<span class="go">UNITE database:</span>
 
-    micca classify -m rdp --rdp-gene fungalits_unite -i input.fasta \
-    -o tax.txt
+<span class="go">    micca classify -m rdp --rdp-gene fungalits_unite -i input.fasta \</span>
+<span class="go">    -o tax.txt</span>
 
-OTU ID matching after the closed reference OTU picking protocol:
+<span class="go">OTU ID matching after the closed reference OTU picking protocol:</span>
 
-    micca classify -m otuid -i otuids.txt -o tax.txt \
-    --ref-tax greengenes_2013_05/taxonomy/97_otu_taxonomy.txt
+<span class="go">    micca classify -m otuid -i otuids.txt -o tax.txt \</span>
+<span class="go">    --ref-tax greengenes_2013_05/taxonomy/97_otu_taxonomy.txt</span>
 </pre></div>
 </div>
 </div>
@@ -313,7 +316,7 @@ OTU ID matching after the closed reference OTU picking protocol:
         <a href="convert.html" class="btn btn-neutral float-right" title="convert" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../changes.html" class="btn btn-neutral" title="CHANGES" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../changes.html" class="btn btn-neutral" title="Changes" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -322,7 +325,7 @@ OTU ID matching after the closed reference OTU picking protocol:
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2016, micca development team.
+        &copy; Copyright 2017, micca development team.
 
     </p>
   </div>
@@ -344,7 +347,7 @@ OTU ID matching after the closed reference OTU picking protocol:
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.5.0',
+            VERSION:'1.6.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

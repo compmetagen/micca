@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>OTU picking in micca &mdash; micca 1.5.0 documentation</title>
+  <title>OTU picking in micca &mdash; micca 1.6.0 documentation</title>
   
 
   
@@ -30,7 +30,10 @@
   
 
   
-    <link rel="top" title="micca 1.5.0 documentation" href="index.html"/>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="micca 1.6.0 documentation" href="index.html"/>
         <link rel="next" title="Supported file formats" href="formats.html"/>
         <link rel="prev" title="Quality filtering strategy in micca" href="filtering.html"/> 
 
@@ -60,7 +63,7 @@
             
             
               <div class="version">
-                1.5.0
+                1.6
               </div>
             
           
@@ -110,7 +113,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="formats.html">Supported file formats</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changes.html">CHANGES</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html">Changes</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Command reference</span></p>
 <ul>
@@ -166,7 +169,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="_sources/otu.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/otu.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -203,12 +206,12 @@ found in each sample (OTU x sample, see <a class="reference internal" href="form
 <dt>otus.fasta</dt>
 <dd><p class="first">FASTA containing the representative sequences (OTUs):</p>
 <div class="last highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;</span><span class="n">DENOVO1</span>
-  <span class="n">GACGAACGCTGGCGGCGTGCCTAACACATGCAAGTCGAACGGGG</span><span class="o">...</span>
-  <span class="o">&gt;</span><span class="n">DENOVO2</span>
-  <span class="n">GATGAACGCTAGCTACAGGCTTAACACATGCAAGTCGAGGGGCA</span><span class="o">...</span>
-  <span class="o">&gt;</span><span class="n">DENOVO3</span>
-  <span class="n">AGTGAACGCTGGCGACGTGGTTAAGACATGCAAGTCGAGCGGTA</span><span class="o">...</span>
-  <span class="o">...</span>
+<span class="n">GACGAACGCTGGCGGCGTGCCTAACACATGCAAGTCGAACGGGG</span><span class="o">...</span>
+<span class="o">&gt;</span><span class="n">DENOVO2</span>
+<span class="n">GATGAACGCTAGCTACAGGCTTAACACATGCAAGTCGAGGGGCA</span><span class="o">...</span>
+<span class="o">&gt;</span><span class="n">DENOVO3</span>
+<span class="n">AGTGAACGCTGGCGACGTGGTTAAGACATGCAAGTCGAGCGGTA</span><span class="o">...</span>
+<span class="o">...</span>
 </pre></div>
 </div>
 </dd>
@@ -216,8 +219,8 @@ found in each sample (OTU x sample, see <a class="reference internal" href="form
 <dd><p class="first">TAB-delimited file which maps the OTU ids to original sequence
 ids:</p>
 <div class="last highlight-default"><div class="highlight"><pre><span></span><span class="n">DENOVO1</span> <span class="n">IS0AYJS04JQKIS</span><span class="p">;</span><span class="n">sample</span><span class="o">=</span><span class="n">Mw_01</span>
-      <span class="n">DENOVO2</span> <span class="n">IS0AYJS04JL6RS</span><span class="p">;</span><span class="n">sample</span><span class="o">=</span><span class="n">Mw_01</span>
-      <span class="n">DENOVO3</span> <span class="n">IS0AYJS04H4XNN</span><span class="p">;</span><span class="n">sample</span><span class="o">=</span><span class="n">Mw_01</span>
+    <span class="n">DENOVO2</span> <span class="n">IS0AYJS04JL6RS</span><span class="p">;</span><span class="n">sample</span><span class="o">=</span><span class="n">Mw_01</span>
+    <span class="n">DENOVO3</span> <span class="n">IS0AYJS04H4XNN</span><span class="p">;</span><span class="n">sample</span><span class="o">=</span><span class="n">Mw_01</span>
 <span class="o">...</span>
 </pre></div>
 </div>
@@ -227,8 +230,8 @@ ids:</p>
 the matching sequence, the representative (seed) and the
 identity (if available), see <a class="reference internal" href="#otu-definition-identity"><span class="std std-ref">Definition of identity</span></a>:</p>
 <div class="last highlight-default"><div class="highlight"><pre><span></span><span class="n">IS0AYJS04JE658</span><span class="p">;</span><span class="n">sample</span><span class="o">=</span><span class="n">Mw_01</span><span class="p">;</span> <span class="n">IS0AYJS04I4XYN</span><span class="p">;</span><span class="n">sample</span><span class="o">=</span><span class="n">Mw_01</span> <span class="mf">99.4</span>
-      <span class="n">IS0AYJS04JPH34</span><span class="p">;</span><span class="n">sample</span><span class="o">=</span><span class="n">Mw_01</span><span class="p">;</span> <span class="n">IS0AYJS04JVUBC</span><span class="p">;</span><span class="n">sample</span><span class="o">=</span><span class="n">Mw_01</span> <span class="mf">98.0</span>
-      <span class="n">IS0AYJS04I67XN</span><span class="p">;</span><span class="n">sample</span><span class="o">=</span><span class="n">Mw_01</span><span class="p">;</span> <span class="n">IS0AYJS04JVUBC</span><span class="p">;</span><span class="n">sample</span><span class="o">=</span><span class="n">Mw_01</span> <span class="mf">99.7</span>
+    <span class="n">IS0AYJS04JPH34</span><span class="p">;</span><span class="n">sample</span><span class="o">=</span><span class="n">Mw_01</span><span class="p">;</span> <span class="n">IS0AYJS04JVUBC</span><span class="p">;</span><span class="n">sample</span><span class="o">=</span><span class="n">Mw_01</span> <span class="mf">98.0</span>
+    <span class="n">IS0AYJS04I67XN</span><span class="p">;</span><span class="n">sample</span><span class="o">=</span><span class="n">Mw_01</span><span class="p">;</span> <span class="n">IS0AYJS04JVUBC</span><span class="p">;</span><span class="n">sample</span><span class="o">=</span><span class="n">Mw_01</span> <span class="mf">99.7</span>
 <span class="o">...</span>
 </pre></div>
 </div>
@@ -292,7 +295,7 @@ representatives performing a de novo chimera detection (option
 </div></blockquote>
 <p>Example (requires <a class="reference internal" href="singleend.html#singleend-quality-filtering"><span class="std std-ref">Quality filtering</span></a> in
 <a class="reference internal" href="singleend.html"><span class="doc">Single-end sequencing</span></a> to be done):</p>
-<div class="highlight-sh"><div class="highlight"><pre><span></span>micca otu -m denovo_greedy -i filtered.fasta -o denovo_greedy_otus -d 0.97 -c -t 4
+<div class="highlight-sh"><div class="highlight"><pre><span></span>micca otu -m denovo_greedy -i filtered.fasta -o denovo_greedy_otus -d <span class="m">0</span>.97 -c -t <span class="m">4</span>
 </pre></div>
 </div>
 </div>
@@ -308,7 +311,7 @@ tar -zxvf gg_2013_05.tar.gz
 </pre></div>
 </div>
 <p>Run the closed-reference protocol:</p>
-<div class="highlight-sh"><div class="highlight"><pre><span></span>micca otu -m closed_ref -i filtered.fasta -o closed_ref_otus -r 97_otus.fasta -d 0.97 -t 4
+<div class="highlight-sh"><div class="highlight"><pre><span></span>micca otu -m closed_ref -i filtered.fasta -o closed_ref_otus -r 97_otus.fasta -d <span class="m">0</span>.97 -t <span class="m">4</span>
 </pre></div>
 </div>
 <p>Simply perform a sequence ID matching with the reference taxonomy
@@ -332,13 +335,13 @@ tar -zxvf gg_2013_05.tar.gz
 </pre></div>
 </div>
 <p>Run the open-reference protocol:</p>
-<div class="highlight-sh"><div class="highlight"><pre><span></span>micca otu -m open_ref -i filtered.fasta -o open_ref_otus -r 97_otus.fasta -d 0.97 -t <span class="m">7</span> -c
+<div class="highlight-sh"><div class="highlight"><pre><span></span>micca otu -m open_ref -i filtered.fasta -o open_ref_otus -r 97_otus.fasta -d <span class="m">0</span>.97 -t <span class="m">7</span> -c
 </pre></div>
 </div>
 <p>Run the VSEARCH-based consensus classifier or the RDP classifier (see
 <a class="reference internal" href="commands/classify.html"><span class="doc">classify</span></a>):</p>
 <div class="highlight-sh"><div class="highlight"><pre><span></span><span class="nb">cd</span> open_ref_otus
-micca classify -m cons -i otus.fasta -o taxa.txt -r ../97_otus.fasta -x ../97_otu_taxonomy.txt -t 4
+micca classify -m cons -i otus.fasta -o taxa.txt -r ../97_otus.fasta -x ../97_otu_taxonomy.txt -t <span class="m">4</span>
 </pre></div>
 </div>
 </div>
@@ -379,8 +382,8 @@ method.</p>
 </div>
 <p>Example (requires <a class="reference internal" href="singleend.html#singleend-primer-trimming"><span class="std std-ref">Primer trimming</span></a> in <a class="reference internal" href="singleend.html"><span class="doc">Single-end sequencing</span></a> to be
 done):</p>
-<div class="highlight-sh"><div class="highlight"><pre><span></span>micca filter -i trimmed.fastq -o filtered.fasta -e 0.5 -m <span class="m">350</span> -t --maxns 0
-micca otu -m denovo_swarm -i filtered.fasta -o otus_denovo_swarm -c --minsize <span class="m">1</span> --swarm-fastidious -t 4
+<div class="highlight-sh"><div class="highlight"><pre><span></span>micca filter -i trimmed.fastq -o filtered.fasta -e <span class="m">0</span>.5 -m <span class="m">350</span> -t --maxns <span class="m">0</span>
+micca otu -m denovo_swarm -i filtered.fasta -o otus_denovo_swarm -c --minsize <span class="m">1</span> --swarm-fastidious -t <span class="m">4</span>
 </pre></div>
 </div>
 </div>
@@ -390,7 +393,7 @@ micca otu -m denovo_swarm -i filtered.fasta -o otus_denovo_swarm -c --minsize <s
 <p>In micca, the pairwise identity (except for de novo swarm) is defined as the
 edit distance excluding terminal gaps (same as in USEARCH and BLAST):</p>
 <div class="math">
-<p><img src="_images/math/0ca99ad3a58e0c3c37538191f67f72e680fe03b4.png" alt="\frac{\textrm{\# matching columns}}{\textrm{alignment length} - \textrm{terminal gaps}}"/></p>
+<p><img src="_images/math/90288ef89fb7a94eec05837bde41356a11a56b08.png" alt="\frac{\textrm{\# matching columns}}{\textrm{alignment length} - \textrm{terminal gaps}}"/></p>
 </div></div>
 </div>
 
@@ -413,7 +416,7 @@ edit distance excluding terminal gaps (same as in USEARCH and BLAST):</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2016, micca development team.
+        &copy; Copyright 2017, micca development team.
 
     </p>
   </div>
@@ -435,7 +438,7 @@ edit distance excluding terminal gaps (same as in USEARCH and BLAST):</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.5.0',
+            VERSION:'1.6.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>tobiom &mdash; micca 1.5.0 documentation</title>
+  <title>tobiom &mdash; micca 1.6.0 documentation</title>
   
 
   
@@ -30,7 +30,10 @@
   
 
   
-    <link rel="top" title="micca 1.5.0 documentation" href="../index.html"/>
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="micca 1.6.0 documentation" href="../index.html"/>
         <link rel="next" title="tree" href="tree.html"/>
         <link rel="prev" title="tabletotax" href="tabletotax.html"/> 
 
@@ -60,7 +63,7 @@
             
             
               <div class="version">
-                1.5.0
+                1.6
               </div>
             
           
@@ -100,7 +103,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../filtering.html">Quality filtering strategy in micca</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../otu.html">OTU picking in micca</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../formats.html">Supported file formats</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../changes.html">CHANGES</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">Changes</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Command reference</span></p>
 <ul class="current">
@@ -156,7 +159,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/commands/tobiom.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/commands/tobiom.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -168,34 +171,33 @@
             
   <div class="section" id="tobiom">
 <h1>tobiom<a class="headerlink" href="#tobiom" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-text"><div class="highlight"><pre><span></span>$ micca tobiom --help
-usage: micca tobiom [-h] -i FILE -o FILE [-t FILE] [-s FILE] [-u FILE]
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">usage: micca tobiom [-h] -i FILE -o FILE [-t FILE] [-s FILE] [-u FILE]</span>
 
-micca tobiom converts the micca OTU table into BIOM Version
-1.0 (JSON) format. Optionally, taxonomy and/or sample
-information can be added.  When you convert on
-(closed-reference) OTU table for PICRUSt, replace OTU IDs with
-the original sequence IDs use the option -u/--otuids.
+<span class="go">micca tobiom converts the micca OTU table into BIOM Version</span>
+<span class="go">1.0 (JSON) format. Optionally, taxonomy and/or sample</span>
+<span class="go">information can be added.  When you convert on</span>
+<span class="go">(closed-reference) OTU table for PICRUSt, replace OTU IDs with</span>
+<span class="go">the original sequence IDs use the option -u/--otuids.</span>
 
-optional arguments:
-  -h, --help            show this help message and exit
+<span class="go">optional arguments:</span>
+<span class="go">-h, --help            show this help message and exit</span>
 
-arguments:
-  -i FILE, --input FILE
-                        input OTU table file (required).
-  -o FILE, --output FILE
-                        output BIOM file Version 1.0 (JSON) (required).
-  -t FILE, --tax FILE   add taxonomy information from a taxonomy file.
-  -s FILE, --sampledata FILE
-                        add sample information from a sample data file.
-  -u FILE, --otuids FILE
-                        replace OTU IDs with the original sequence IDs. Useful
-                        when the closed-reference OTU picking protocol was
-                        performed for PICRUSt
+<span class="go">arguments:</span>
+<span class="go">-i FILE, --input FILE</span>
+<span class="go">                        input OTU table file (required).</span>
+<span class="go">-o FILE, --output FILE</span>
+<span class="go">                        output BIOM file Version 1.0 (JSON) (required).</span>
+<span class="go">-t FILE, --tax FILE   add taxonomy information from a taxonomy file.</span>
+<span class="go">-s FILE, --sampledata FILE</span>
+<span class="go">                        add sample information from a sample data file.</span>
+<span class="go">-u FILE, --otuids FILE</span>
+<span class="go">                        replace OTU IDs with the original sequence IDs. Useful</span>
+<span class="go">                        when the closed-reference OTU picking protocol was</span>
+<span class="go">                        performed for PICRUSt</span>
 
-Example
+<span class="go">Example</span>
 
-    micca tobiom -i otutable.txt -o output.biom -t tax.txt -s sampledata.txt
+<span class="go">    micca tobiom -i otutable.txt -o output.biom -t tax.txt -s sampledata.txt</span>
 </pre></div>
 </div>
 </div>
@@ -219,7 +221,7 @@ Example
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2016, micca development team.
+        &copy; Copyright 2017, micca development team.
 
     </p>
   </div>
@@ -241,7 +243,7 @@ Example
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.5.0',
+            VERSION:'1.6.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

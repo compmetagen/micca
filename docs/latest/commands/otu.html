@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>otu &mdash; micca 1.5.0 documentation</title>
+  <title>otu &mdash; micca 1.6.0 documentation</title>
   
 
   
@@ -30,7 +30,10 @@
   
 
   
-    <link rel="top" title="micca 1.5.0 documentation" href="../index.html"/>
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="micca 1.6.0 documentation" href="../index.html"/>
         <link rel="next" title="root" href="root.html"/>
         <link rel="prev" title="msa" href="msa.html"/> 
 
@@ -60,7 +63,7 @@
             
             
               <div class="version">
-                1.5.0
+                1.6
               </div>
             
           
@@ -100,7 +103,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../filtering.html">Quality filtering strategy in micca</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../otu.html">OTU picking in micca</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../formats.html">Supported file formats</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../changes.html">CHANGES</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">Changes</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Command reference</span></p>
 <ul class="current">
@@ -156,7 +159,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/commands/otu.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/commands/otu.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -168,140 +171,139 @@
             
   <div class="section" id="otu">
 <h1>otu<a class="headerlink" href="#otu" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-text"><div class="highlight"><pre><span></span>$ micca otu --help
-usage: micca otu [-h] -i FILE [-o DIR] [-r FILE]
-                 [-m {denovo_greedy,denovo_swarm,closed_ref,open_ref}] [-d ID]
-                 [-n MINCOV] [-t THREADS] [-c] [-g {dgc,agc}] [-s MINSIZE]
-                 [-a {both,plus}] [--swarm-differences SWARM_DIFFERENCES]
-                 [--swarm-fastidious]
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">usage: micca otu [-h] -i FILE [-o DIR] [-r FILE]</span>
+<span class="go">                [-m {denovo_greedy,denovo_swarm,closed_ref,open_ref}] [-d ID]</span>
+<span class="go">                [-n MINCOV] [-t THREADS] [-c] [-g {dgc,agc}] [-s MINSIZE]</span>
+<span class="go">                [-a {both,plus}] [--swarm-differences SWARM_DIFFERENCES]</span>
+<span class="go">                [--swarm-fastidious]</span>
 
-micca otu assigns similar sequences (marker genes such as 16S rRNA and
-the fungal ITS region) to operational taxonomic units (OTUs).
+<span class="go">micca otu assigns similar sequences (marker genes such as 16S rRNA and</span>
+<span class="go">the fungal ITS region) to operational taxonomic units (OTUs).</span>
 
-Trimming the sequences to a fixed position before clustering is
-*strongly recommended* when they cover partial amplicons or if quality
-deteriorates towards the end (common when you have long amplicons and
-single-end sequencing).
+<span class="go">Trimming the sequences to a fixed position before clustering is</span>
+<span class="go">*strongly recommended* when they cover partial amplicons or if quality</span>
+<span class="go">deteriorates towards the end (common when you have long amplicons and</span>
+<span class="go">single-end sequencing).</span>
 
-Removing ambiguous nucleotides &#39;N&#39; (with the option --maxns 0 in micca
-filter) is mandatory if you use the de novo swarm clustering method.
+<span class="go">Removing ambiguous nucleotides &#39;N&#39; (with the option --maxns 0 in micca</span>
+<span class="go">filter) is mandatory if you use the de novo swarm clustering method.</span>
 
-micca otu provides the following protocols:
+<span class="go">micca otu provides the following protocols:</span>
 
-* de novo greedy clustering (denovo_greedy): sequences are clustered
-  without relying on an external reference database, using an
-  approach similar to the UPARSE pipeline (doi: 10.1038/nmeth.2604):
-  i) predict sequence abundances of each sequence by dereplication; ii)
-  greedy clustering; iii) remove chimeric sequences (de novo, optional)
-  from the representatives; iv) map sequences to the representatives.
+<span class="go">* de novo greedy clustering (denovo_greedy): sequences are clustered</span>
+<span class="go">without relying on an external reference database, using an</span>
+<span class="go">approach similar to the UPARSE pipeline (doi: 10.1038/nmeth.2604):</span>
+<span class="go">i) predict sequence abundances of each sequence by dereplication; ii)</span>
+<span class="go">greedy clustering; iii) remove chimeric sequences (de novo, optional)</span>
+<span class="go">from the representatives; iv) map sequences to the representatives.</span>
 
-* de novo swarm (denovo_swarm): sequences are clustered without relying
-  on an external reference database, using swarm (doi:
-  10.7717/peerj.593, doi: 10.7717/peerj.1420,
-  https://github.com/torognes/swarm): i) predict sequence abundances of
-  each sequence by dereplication; ii) swarm clustering; iii) remove
-  chimeric sequences (de novo, optional) from the representatives.
+<span class="go">* de novo swarm (denovo_swarm): sequences are clustered without relying</span>
+<span class="go">on an external reference database, using swarm (doi:</span>
+<span class="go">10.7717/peerj.593, doi: 10.7717/peerj.1420,</span>
+<span class="go">https://github.com/torognes/swarm): i) predict sequence abundances of</span>
+<span class="go">each sequence by dereplication; ii) swarm clustering; iii) remove</span>
+<span class="go">chimeric sequences (de novo, optional) from the representatives.</span>
 
-* closed-reference clustering (closed_ref): sequences are clustered
-  against an external reference database and reads that could not be
-  matched are discarded.
+<span class="go">* closed-reference clustering (closed_ref): sequences are clustered</span>
+<span class="go">against an external reference database and reads that could not be</span>
+<span class="go">matched are discarded.</span>
 
-* open-reference clustering (open_ref): sequences are clustered
-  against an external reference database and reads that could not be
-  matched are clustered with the &#39;de novo greedy&#39; protocol.
+<span class="go">* open-reference clustering (open_ref): sequences are clustered</span>
+<span class="go">against an external reference database and reads that could not be</span>
+<span class="go">matched are clustered with the &#39;de novo greedy&#39; protocol.</span>
 
-Outputs:
+<span class="go">Outputs:</span>
 
-* otutable.txt: OTU x sample, TAB-separated OTU table file,
-  containing the number of times an OTU is found in each sample.
+<span class="go">* otutable.txt: OTU x sample, TAB-separated OTU table file,</span>
+<span class="go">containing the number of times an OTU is found in each sample.</span>
 
-* otus.fasta: FASTA file containing the representative sequences (OTUs);
+<span class="go">* otus.fasta: FASTA file containing the representative sequences (OTUs);</span>
 
-* otuids.txt: OTU ids to original sequence ids (tab-delimited text file)
+<span class="go">* otuids.txt: OTU ids to original sequence ids (tab-delimited text file)</span>
 
-* hits.txt: three-columns, TAB-separated file:
+<span class="go">* hits.txt: three-columns, TAB-separated file:</span>
 
-  1. matching sequence
-  2. representative (seed)
-  3. identity (if available, else &#39;*&#39;), defined as:
+<span class="go">1. matching sequence</span>
+<span class="go">2. representative (seed)</span>
+<span class="go">3. identity (if available, else &#39;*&#39;), defined as:</span>
 
-              matching columns
-     -------------------------------- ;
-     alignment length - terminal gaps
+<span class="go">            matching columns</span>
+<span class="go">    -------------------------------- ;</span>
+<span class="go">    alignment length - terminal gaps</span>
 
-* otuschim.fasta (only for &#39;denovo_greedy&#39;, &#39;denovo_swarm&#39; and
-  &#39;open_ref&#39; when --rmchim is specified): FASTA file containing the
-  chimeric otus;
+<span class="go">* otuschim.fasta (only for &#39;denovo_greedy&#39;, &#39;denovo_swarm&#39; and</span>
+<span class="go">&#39;open_ref&#39; when --rmchim is specified): FASTA file containing the</span>
+<span class="go">chimeric otus;</span>
 
-optional arguments:
-  -h, --help            show this help message and exit
+<span class="go">optional arguments:</span>
+<span class="go">-h, --help            show this help message and exit</span>
 
-arguments:
-  -i FILE, --input FILE
-                        input fasta file (required).
-  -o DIR, --output DIR  output directory (default .).
-  -r FILE, --ref FILE   reference sequences in fasta format, required for
-                        &#39;closed_ref&#39; and &#39;open_ref&#39; clustering methods.
-  -m {denovo_greedy,denovo_swarm,closed_ref,open_ref}, --method {denovo_greedy,denovo_swarm,closed_ref,open_ref}
-                        clustering method (default denovo_greedy)
-  -d ID, --id ID        sequence identity threshold (for &#39;denovo_greedy&#39;,
-                        &#39;closed_ref&#39; and &#39;open_ref&#39;, 0.0 to 1.0, default
-                        0.97).
-  -n MINCOV, --mincov MINCOV
-                        reject sequence if the fraction of alignment to the
-                        reference sequence is lower than MINCOV. This
-                        parameter prevents low-coverage alignments at the end
-                        of the sequences (for &#39;closed_ref&#39; and &#39;open_ref&#39;
-                        clustering methods, default 0.75).
-  -t THREADS, --threads THREADS
-                        number of threads to use (1 to 256, default 1).
-  -c, --rmchim          remove chimeric sequences (for &#39;denovo_greedy&#39;,
-                        &#39;denovo_swarm&#39; and &#39;open_ref&#39; OTU picking methods).
-  -g {dgc,agc}, --greedy {dgc,agc}
-                        greedy clustering strategy, distance (DGC) or
-                        abundance-based (AGC) (for &#39;denovo_greedy&#39; and
-                        &#39;open_ref&#39; clustering methods) (default dgc).
-  -s MINSIZE, --minsize MINSIZE
-                        discard sequences with an abundance value smaller than
-                        MINSIZE after dereplication (&gt;=1, default 2).
-                        Recommended value is 2 (i.e. discard singletons) for
-                        &#39;denovo_greedy&#39; and &#39;open_ref&#39;, 1 (do not discard
-                        anything) for &#39;denovo_swarm&#39;.
-  -a {both,plus}, --strand {both,plus}
-                        search both strands or the plus strand only (for
-                        &#39;closed_ref&#39; and &#39;open_ref&#39; clustering methods,
-                        default both).
+<span class="go">arguments:</span>
+<span class="go">-i FILE, --input FILE</span>
+<span class="go">                        input fasta file (required).</span>
+<span class="go">-o DIR, --output DIR  output directory (default .).</span>
+<span class="go">-r FILE, --ref FILE   reference sequences in fasta format, required for</span>
+<span class="go">                        &#39;closed_ref&#39; and &#39;open_ref&#39; clustering methods.</span>
+<span class="go">-m {denovo_greedy,denovo_swarm,closed_ref,open_ref}, --method {denovo_greedy,denovo_swarm,closed_ref,open_ref}</span>
+<span class="go">                        clustering method (default denovo_greedy)</span>
+<span class="go">-d ID, --id ID        sequence identity threshold (for &#39;denovo_greedy&#39;,</span>
+<span class="go">                        &#39;closed_ref&#39; and &#39;open_ref&#39;, 0.0 to 1.0, default</span>
+<span class="go">                        0.97).</span>
+<span class="go">-n MINCOV, --mincov MINCOV</span>
+<span class="go">                        reject sequence if the fraction of alignment to the</span>
+<span class="go">                        reference sequence is lower than MINCOV. This</span>
+<span class="go">                        parameter prevents low-coverage alignments at the end</span>
+<span class="go">                        of the sequences (for &#39;closed_ref&#39; and &#39;open_ref&#39;</span>
+<span class="go">                        clustering methods, default 0.75).</span>
+<span class="go">-t THREADS, --threads THREADS</span>
+<span class="go">                        number of threads to use (1 to 256, default 1).</span>
+<span class="go">-c, --rmchim          remove chimeric sequences (for &#39;denovo_greedy&#39;,</span>
+<span class="go">                        &#39;denovo_swarm&#39; and &#39;open_ref&#39; OTU picking methods).</span>
+<span class="go">-g {dgc,agc}, --greedy {dgc,agc}</span>
+<span class="go">                        greedy clustering strategy, distance (DGC) or</span>
+<span class="go">                        abundance-based (AGC) (for &#39;denovo_greedy&#39; and</span>
+<span class="go">                        &#39;open_ref&#39; clustering methods) (default dgc).</span>
+<span class="go">-s MINSIZE, --minsize MINSIZE</span>
+<span class="go">                        discard sequences with an abundance value smaller than</span>
+<span class="go">                        MINSIZE after dereplication (&gt;=1, default 2).</span>
+<span class="go">                        Recommended value is 2 (i.e. discard singletons) for</span>
+<span class="go">                        &#39;denovo_greedy&#39; and &#39;open_ref&#39;, 1 (do not discard</span>
+<span class="go">                        anything) for &#39;denovo_swarm&#39;.</span>
+<span class="go">-a {both,plus}, --strand {both,plus}</span>
+<span class="go">                        search both strands or the plus strand only (for</span>
+<span class="go">                        &#39;closed_ref&#39; and &#39;open_ref&#39; clustering methods,</span>
+<span class="go">                        default both).</span>
 
-Swarm specific options:
-  --swarm-differences SWARM_DIFFERENCES
-                        maximum number of differences allowed between two
-                        amplicons. Commonly used d values are 1 (linear
-                        complexity algorithm), 2 or 3, rarely higher. (&gt;=0,
-                        default 1).
-  --swarm-fastidious    when working with SWARM_DIFFERENCES=1, perform a
-                        second clustering pass to reduce the number of small
-                        OTUs (recommended option).
+<span class="go">Swarm specific options:</span>
+<span class="go">--swarm-differences SWARM_DIFFERENCES</span>
+<span class="go">                        maximum number of differences allowed between two</span>
+<span class="go">                        amplicons. Commonly used d values are 1 (linear</span>
+<span class="go">                        complexity algorithm), 2 or 3, rarely higher. (&gt;=0,</span>
+<span class="go">                        default 1).</span>
+<span class="go">--swarm-fastidious    when working with SWARM_DIFFERENCES=1, perform a</span>
+<span class="go">                        second clustering pass to reduce the number of small</span>
+<span class="go">                        OTUs (recommended option).</span>
 
-Examples
+<span class="go">Examples</span>
 
-De novo clustering with a 97% similarity threshold and remove
-chimeric OTUs:
+<span class="go">De novo clustering with a 97% similarity threshold and remove</span>
+<span class="go">chimeric OTUs:</span>
 
-    micca otu -i input.fasta --method denovo_greedy --id 0.97 -c
+<span class="go">    micca otu -i input.fasta --method denovo_greedy --id 0.97 -c</span>
 
-Open-reference OTU picking protocol with a 97% similarity
-threshold, without removing chimeras in the de novo protocol step
-and using 8 threads:
+<span class="go">Open-reference OTU picking protocol with a 97% similarity</span>
+<span class="go">threshold, without removing chimeras in the de novo protocol step</span>
+<span class="go">and using 8 threads:</span>
 
-    micca otu -i input.fasta --method open_ref --threads 8 --id 0.97 \
-    --ref greengenes_2013_05/rep_set/97_otus.fasta
+<span class="go">    micca otu -i input.fasta --method open_ref --threads 8 --id 0.97 \</span>
+<span class="go">    --ref greengenes_2013_05/rep_set/97_otus.fasta</span>
 
-De novo swarm clustering with the protocol suggested by the authors
-using 4 threads (see https://github.com/torognes/swarm and
-https://github.com/torognes/swarm/wiki):
+<span class="go">De novo swarm clustering with the protocol suggested by the authors</span>
+<span class="go">using 4 threads (see https://github.com/torognes/swarm and</span>
+<span class="go">https://github.com/torognes/swarm/wiki):</span>
 
-    micca otu -i input.fasta --method denovo_swarm --threads 4 \
-    --swarm-fastidious --rmchim --minsize 1
+<span class="go">    micca otu -i input.fasta --method denovo_swarm --threads 4 \</span>
+<span class="go">    --swarm-fastidious --rmchim --minsize 1</span>
 </pre></div>
 </div>
 </div>
@@ -325,7 +327,7 @@ https://github.com/torognes/swarm/wiki):
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2016, micca development team.
+        &copy; Copyright 2017, micca development team.
 
     </p>
   </div>
@@ -347,7 +349,7 @@ https://github.com/torognes/swarm/wiki):
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.5.0',
+            VERSION:'1.6.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

@@ -1,0 +1,321 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>CHANGES &mdash; micca 1.5.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="micca 1.5.0 documentation" href="index.html"/>
+        <link rel="next" title="classify" href="commands/classify.html"/>
+        <link rel="prev" title="Supported file formats" href="formats.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> micca
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run.html">Run micca in 6 steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="databases.html">Supported databases</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="singleend.html">Single-end sequencing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pairedend.html">Paired-end sequencing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="phyloseq.html">Import and analyze the data into R and phyloseq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="table.html">Compute basic OTU table statistics, rarefy and summarize OTU tables by taxa using micca</a></li>
+<li class="toctree-l1"><a class="reference internal" href="picrust.html">Picking OTUs for use in PICRUSt</a></li>
+</ul>
+<p class="caption"><span class="caption-text">In Depth</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="filtering.html">Quality filtering strategy in micca</a></li>
+<li class="toctree-l1"><a class="reference internal" href="otu.html">OTU picking in micca</a></li>
+<li class="toctree-l1"><a class="reference internal" href="formats.html">Supported file formats</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">CHANGES</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#version-1-5-0">Version 1.5.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-1-4-0">Version 1.4.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-1-3-0">Version 1.3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-1-2-2">Version 1.2.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-1-2-1">Version 1.2.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-1-2-0">Version 1.2.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-1-1-0">Version 1.1.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-1-0-0">Version 1.0.0</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Command reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="commands/classify.html">classify</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/convert.html">convert</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/filter.html">filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/filterstats.html">filterstats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/merge.html">merge</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/mergepairs.html">mergepairs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/msa.html">msa</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/otu.html">otu</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/root.html">root</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/split.html">split</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/stats.html">stats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/tablebar.html">tablebar</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/tablerare.html">tablerare</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/tablestats.html">tablestats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/tabletotax.html">tabletotax</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/tobiom.html">tobiom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/tree.html">tree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/trim.html">trim</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">micca</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>CHANGES</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/changes.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="changes">
+<h1>CHANGES<a class="headerlink" href="#changes" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="version-1-5-0">
+<h2>Version 1.5.0<a class="headerlink" href="#version-1-5-0" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Now the NAST algorithm trims candidate sequences to that which is bound by the
+beginning and end points of the alignment span; with the the new option
+<code class="docutils literal"><span class="pre">--nast-notrim</span></code> in <code class="docutils literal"><span class="pre">micca</span> <span class="pre">msa</span></code> produces the same results of the previous
+version (&lt;=1.4.0);</li>
+<li>Y-scale in <code class="docutils literal"><span class="pre">micca</span> <span class="pre">tablebar</span></code> when <code class="docutils literal"><span class="pre">--raw</span></code> fixed;</li>
+<li>&#8220;text file busy error&#8221; in <code class="docutils literal"><span class="pre">micca</span> <span class="pre">msa</span></code> (nast) fixed;</li>
+<li>pandas deprecation warnings fixed;</li>
+<li>documentation updated.</li>
+</ul>
+</div>
+<div class="section" id="version-1-4-0">
+<h2>Version 1.4.0<a class="headerlink" href="#version-1-4-0" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>No-filter option added to <code class="docutils literal"><span class="pre">micca.api.msa.nast()</span></code> (do not remove positions
+which are gaps in every sequenceces) and to the <code class="docutils literal"><span class="pre">msa</span></code> command
+(<code class="docutils literal"><span class="pre">--nast-nofilter</span></code> option);</li>
+<li>documentation improved.</li>
+</ul>
+</div>
+<div class="section" id="version-1-3-0">
+<h2>Version 1.3.0<a class="headerlink" href="#version-1-3-0" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Swarm clustering algorithm added to <code class="docutils literal"><span class="pre">micca</span> <span class="pre">otu</span></code>;</li>
+<li><code class="docutils literal"><span class="pre">micca.api.otu.denovo_swarm()</span></code> function added;</li>
+<li>micca v1.3.0 includes: VSEARCH v1.9.5, MUSCLE v3.8.31, FastTree v2.1.8, swarm
+v2.1.8;</li>
+<li>documentation updated.</li>
+</ul>
+</div>
+<div class="section" id="version-1-2-2">
+<h2>Version 1.2.2<a class="headerlink" href="#version-1-2-2" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Mow micca can generate plots with matplotlib when the <code class="docutils literal"><span class="pre">DISPLAY</span></code> environment
+variable is undefined;</li>
+<li><code class="docutils literal"><span class="pre">MANIFEST.in</span></code>, Dockerfile updated.</li>
+</ul>
+</div>
+<div class="section" id="version-1-2-1">
+<h2>Version 1.2.1<a class="headerlink" href="#version-1-2-1" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Dockerfile added;</li>
+<li>Documentation improved.</li>
+</ul>
+</div>
+<div class="section" id="version-1-2-0">
+<h2>Version 1.2.0<a class="headerlink" href="#version-1-2-0" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Hits output file option added to <code class="docutils literal"><span class="pre">micca.api.msa.nast()</span></code> (<code class="docutils literal"><span class="pre">hits_fn</span></code>
+option) and to the <code class="docutils literal"><span class="pre">msa</span></code> command (<code class="docutils literal"><span class="pre">--nast-hits</span></code> option);</li>
+<li>setup.py improved.</li>
+</ul>
+</div>
+<div class="section" id="version-1-1-0">
+<h2>Version 1.1.0<a class="headerlink" href="#version-1-1-0" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Strand option added in <code class="docutils literal"><span class="pre">classify</span></code> (consensus-based classifier), <code class="docutils literal"><span class="pre">msa</span></code>
+(NAST) and <code class="docutils literal"><span class="pre">otu</span></code> (closed-reference and open reference OTU picking protolcols)
+commands. Now these commands search both strand (default) instead the plus
+strand only.</li>
+</ul>
+</div>
+<div class="section" id="version-1-0-0">
+<h2>Version 1.0.0<a class="headerlink" href="#version-1-0-0" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>micca 1.0.0 includes: VSEARCH v1.9.5, MUSCLE v3.8.31, FastTree v2.1.8.</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="commands/classify.html" class="btn btn-neutral float-right" title="classify" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="formats.html" class="btn btn-neutral" title="Supported file formats" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, micca development team.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.5.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

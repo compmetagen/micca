@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Picking OTUs for use in PICRUSt &mdash; micca 1.5.0 documentation</title>
+  <title>Picking OTUs for use in PICRUSt &mdash; micca 1.6.0 documentation</title>
   
 
   
@@ -30,7 +30,10 @@
   
 
   
-    <link rel="top" title="micca 1.5.0 documentation" href="index.html"/>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="micca 1.6.0 documentation" href="index.html"/>
         <link rel="next" title="Quality filtering strategy in micca" href="filtering.html"/>
         <link rel="prev" title="Compute basic OTU table statistics, rarefy and summarize OTU tables by taxa using micca" href="table.html"/> 
 
@@ -60,7 +63,7 @@
             
             
               <div class="version">
-                1.5.0
+                1.6
               </div>
             
           
@@ -100,7 +103,7 @@
 <li class="toctree-l1"><a class="reference internal" href="filtering.html">Quality filtering strategy in micca</a></li>
 <li class="toctree-l1"><a class="reference internal" href="otu.html">OTU picking in micca</a></li>
 <li class="toctree-l1"><a class="reference internal" href="formats.html">Supported file formats</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changes.html">CHANGES</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html">Changes</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Command reference</span></p>
 <ul>
@@ -156,7 +159,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="_sources/picrust.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/picrust.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -191,7 +194,7 @@ tar -zxvf gg_2013_05.tar.gz
 </pre></div>
 </div>
 <p>Run the micca closed-reference protocol:</p>
-<div class="highlight-sh"><div class="highlight"><pre><span></span>micca otu -m closed_ref -i filtered.fasta -o closed_ref_otus -r 97_otus.fasta -d 0.97 -t 4
+<div class="highlight-sh"><div class="highlight"><pre><span></span>micca otu -m closed_ref -i filtered.fasta -o closed_ref_otus -r 97_otus.fasta -d <span class="m">0</span>.97 -t <span class="m">4</span>
 <span class="nb">cd</span> closed_ref_otus
 </pre></div>
 </div>
@@ -200,15 +203,15 @@ tar -zxvf gg_2013_05.tar.gz
 head tablestats/tablestats_samplesumm.txt
 
 Sample       Depth   NOTU    NSingle
-Mw_03        <span class="m">1084</span>    <span class="m">132</span>     39
-Mw_06        <span class="m">1387</span>    <span class="m">122</span>     27
-Mw_11        <span class="m">1485</span>    <span class="m">155</span>     44
-Mw_07        <span class="m">1528</span>    <span class="m">150</span>     36
-Mw_01        <span class="m">1537</span>    <span class="m">143</span>     35
-Mw_15        <span class="m">1565</span>    <span class="m">144</span>     35
-Mw_14        <span class="m">1610</span>    <span class="m">149</span>     42
-Mw_02        <span class="m">1670</span>    <span class="m">143</span>     43
-Mw_12        <span class="m">1710</span>    <span class="m">153</span>     54
+Mw_03        <span class="m">1084</span>    <span class="m">132</span>     <span class="m">39</span>
+Mw_06        <span class="m">1387</span>    <span class="m">122</span>     <span class="m">27</span>
+Mw_11        <span class="m">1485</span>    <span class="m">155</span>     <span class="m">44</span>
+Mw_07        <span class="m">1528</span>    <span class="m">150</span>     <span class="m">36</span>
+Mw_01        <span class="m">1537</span>    <span class="m">143</span>     <span class="m">35</span>
+Mw_15        <span class="m">1565</span>    <span class="m">144</span>     <span class="m">35</span>
+Mw_14        <span class="m">1610</span>    <span class="m">149</span>     <span class="m">42</span>
+Mw_02        <span class="m">1670</span>    <span class="m">143</span>     <span class="m">43</span>
+Mw_12        <span class="m">1710</span>    <span class="m">153</span>     <span class="m">54</span>
 </pre></div>
 </div>
 <p>Rarefy the OTU table for the PICRUSt analysis is always a good idea
@@ -216,7 +219,7 @@ Mw_12        <span class="m">1710</span>    <span class="m">153</span>     54
 <a class="reference external" href="https://groups.google.com/forum/#!topic/picrust-users/ev5uZGUIPrQ">https://groups.google.com/forum/#!topic/picrust-users/ev5uZGUIPrQ</a>), so
 we will rarefy the table at 1084 sequences per sample using
 <a class="reference internal" href="commands/tablerare.html"><span class="doc">tablerare</span></a>:</p>
-<div class="highlight-sh"><div class="highlight"><pre><span></span>micca tablerare -i otutable.txt -o otutable_rare.txt -d 1084
+<div class="highlight-sh"><div class="highlight"><pre><span></span>micca tablerare -i otutable.txt -o otutable_rare.txt -d <span class="m">1084</span>
 </pre></div>
 </div>
 <p>Convert the rarefied OTU table into the BIOM format replacing the OTU
@@ -257,7 +260,7 @@ IDs with the original sequence IDs using the
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2016, micca development team.
+        &copy; Copyright 2017, micca development team.
 
     </p>
   </div>
@@ -279,7 +282,7 @@ IDs with the original sequence IDs using the
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.5.0',
+            VERSION:'1.6.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

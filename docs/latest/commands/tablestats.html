@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>tablestats &mdash; micca 1.5.0 documentation</title>
+  <title>tablestats &mdash; micca 1.6.0 documentation</title>
   
 
   
@@ -30,7 +30,10 @@
   
 
   
-    <link rel="top" title="micca 1.5.0 documentation" href="../index.html"/>
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="micca 1.6.0 documentation" href="../index.html"/>
         <link rel="next" title="tabletotax" href="tabletotax.html"/>
         <link rel="prev" title="tablerare" href="tablerare.html"/> 
 
@@ -60,7 +63,7 @@
             
             
               <div class="version">
-                1.5.0
+                1.6
               </div>
             
           
@@ -100,7 +103,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../filtering.html">Quality filtering strategy in micca</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../otu.html">OTU picking in micca</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../formats.html">Supported file formats</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../changes.html">CHANGES</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">Changes</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Command reference</span></p>
 <ul class="current">
@@ -156,7 +159,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/commands/tablestats.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/commands/tablestats.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -168,40 +171,39 @@
             
   <div class="section" id="tablestats">
 <h1>tablestats<a class="headerlink" href="#tablestats" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-text"><div class="highlight"><pre><span></span>$ micca tablestats --help
-usage: micca tablestats [-h] -i FILE [-o DIR] [-t STEP] [-r] [-s SEED]
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">usage: micca tablestats [-h] -i FILE [-o DIR] [-t STEP] [-r] [-s SEED]</span>
 
-micca tablestats reports a sample summary, an OTU summary and
-the rarefaction curves for the input OTU table. The
-rarefaction curves are evaluated using the interval of &#39;step&#39;
-(-t/--step) sample depths, always including 1 and the total
-sample size.
+<span class="go">micca tablestats reports a sample summary, an OTU summary and</span>
+<span class="go">the rarefaction curves for the input OTU table. The</span>
+<span class="go">rarefaction curves are evaluated using the interval of &#39;step&#39;</span>
+<span class="go">(-t/--step) sample depths, always including 1 and the total</span>
+<span class="go">sample size.</span>
 
-micca filterstats returns in the output directory 4 files:
+<span class="go">micca filterstats returns in the output directory 4 files:</span>
 
-* tablestats_samplesumm.txt: samples summary;
-* tablestats_otusumm.txt: OTUs summary;
-* tablestats_rarecurve.txt: rarefaction curves in text format.
-* tablestats_rarecurve_plot.txt: rarefaction curves in png format.
+<span class="go">* tablestats_samplesumm.txt: samples summary;</span>
+<span class="go">* tablestats_otusumm.txt: OTUs summary;</span>
+<span class="go">* tablestats_rarecurve.txt: rarefaction curves in text format.</span>
+<span class="go">* tablestats_rarecurve_plot.txt: rarefaction curves in png format.</span>
 
-optional arguments:
-  -h, --help            show this help message and exit
+<span class="go">optional arguments:</span>
+<span class="go">-h, --help            show this help message and exit</span>
 
-arguments:
-  -i FILE, --input FILE
-                        input FASTQ file, Sanger/Illumina 1.8+ format
-                        (phred+33) (required).
-  -o DIR, --output DIR  output directory (default .).
-  -t STEP, --step STEP  sample depth interval (for rarefaction curves, default
-                        500).
-  -r, --replace         subsample with replacement (for rarefaction curves).
-  -s SEED, --seed SEED  random seed (for rarefaction curves, default 0).
+<span class="go">arguments:</span>
+<span class="go">-i FILE, --input FILE</span>
+<span class="go">                        input FASTQ file, Sanger/Illumina 1.8+ format</span>
+<span class="go">                        (phred+33) (required).</span>
+<span class="go">-o DIR, --output DIR  output directory (default .).</span>
+<span class="go">-t STEP, --step STEP  sample depth interval (for rarefaction curves, default</span>
+<span class="go">                        500).</span>
+<span class="go">-r, --replace         subsample with replacement (for rarefaction curves).</span>
+<span class="go">-s SEED, --seed SEED  random seed (for rarefaction curves, default 0).</span>
 
-Examples
+<span class="go">Examples</span>
 
-Compute OTU table statistics on otutable.txt:
+<span class="go">Compute OTU table statistics on otutable.txt:</span>
 
-    micca tablestats -i otutable.txt -o tablestats
+<span class="go">    micca tablestats -i otutable.txt -o tablestats</span>
 </pre></div>
 </div>
 </div>
@@ -225,7 +227,7 @@ Compute OTU table statistics on otutable.txt:
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2016, micca development team.
+        &copy; Copyright 2017, micca development team.
 
     </p>
   </div>
@@ -247,7 +249,7 @@ Compute OTU table statistics on otutable.txt:
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.5.0',
+            VERSION:'1.6.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

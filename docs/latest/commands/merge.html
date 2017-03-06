@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>merge &mdash; micca 1.5.0 documentation</title>
+  <title>merge &mdash; micca 1.6.0 documentation</title>
   
 
   
@@ -30,7 +30,10 @@
   
 
   
-    <link rel="top" title="micca 1.5.0 documentation" href="../index.html"/>
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="micca 1.6.0 documentation" href="../index.html"/>
         <link rel="next" title="mergepairs" href="mergepairs.html"/>
         <link rel="prev" title="filterstats" href="filterstats.html"/> 
 
@@ -60,7 +63,7 @@
             
             
               <div class="version">
-                1.5.0
+                1.6
               </div>
             
           
@@ -100,7 +103,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../filtering.html">Quality filtering strategy in micca</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../otu.html">OTU picking in micca</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../formats.html">Supported file formats</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../changes.html">CHANGES</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">Changes</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Command reference</span></p>
 <ul class="current">
@@ -156,7 +159,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/commands/merge.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/commands/merge.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -168,37 +171,36 @@
             
   <div class="section" id="merge">
 <h1>merge<a class="headerlink" href="#merge" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-text"><div class="highlight"><pre><span></span>$ micca merge --help
-usage: micca merge [-h] -i FILE [FILE ...] -o FILE [-s SEP] [-f {fastq,fasta}]
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">usage: micca merge [-h] -i FILE [FILE ...] -o FILE [-s SEP] [-f {fastq,fasta}]</span>
 
-micca merge merges several FASTQ or FASTA files in a single file.
-Different samples will be merged in a single file and sample names
-will be appended to the sequence identifier
-(e.g. &gt;SEQID;sample=SAMPLENAME). Sample names are defined as the
-leftmost part of the file name splitted by the first occurence of &#39;.&#39;
-(-s/--sep option). Whitespace characters in names will be replaced
-with a single character underscore (&#39;_&#39;).
+<span class="go">micca merge merges several FASTQ or FASTA files in a single file.</span>
+<span class="go">Different samples will be merged in a single file and sample names</span>
+<span class="go">will be appended to the sequence identifier</span>
+<span class="go">(e.g. &gt;SEQID;sample=SAMPLENAME). Sample names are defined as the</span>
+<span class="go">leftmost part of the file name splitted by the first occurence of &#39;.&#39;</span>
+<span class="go">(-s/--sep option). Whitespace characters in names will be replaced</span>
+<span class="go">with a single character underscore (&#39;_&#39;).</span>
 
-optional arguments:
-  -h, --help            show this help message and exit
+<span class="go">optional arguments:</span>
+<span class="go">-h, --help            show this help message and exit</span>
 
-arguments:
-  -i FILE [FILE ...], --input FILE [FILE ...]
-                        input FASTQ/FASTA file(s) (required).
-  -o FILE, --output FILE
-                        output FASTQ/FASTA file (required).
-  -s SEP, --sep SEP     Sample names are defined as the leftmost part of the
-                        file name splitted by the first occurence of &#39;SEP&#39;
-                        (default .)
-  -f {fastq,fasta}, --format {fastq,fasta}
-                        file format (default fastq).
+<span class="go">arguments:</span>
+<span class="go">-i FILE [FILE ...], --input FILE [FILE ...]</span>
+<span class="go">                        input FASTQ/FASTA file(s) (required).</span>
+<span class="go">-o FILE, --output FILE</span>
+<span class="go">                        output FASTQ/FASTA file (required).</span>
+<span class="go">-s SEP, --sep SEP     Sample names are defined as the leftmost part of the</span>
+<span class="go">                        file name splitted by the first occurence of &#39;SEP&#39;</span>
+<span class="go">                        (default .)</span>
+<span class="go">-f {fastq,fasta}, --format {fastq,fasta}</span>
+<span class="go">                        file format (default fastq).</span>
 
-Examples
+<span class="go">Examples</span>
 
-Merge files in FASTA format:
+<span class="go">Merge files in FASTA format:</span>
 
-    micca merge -i in1.fasta in2.fasta in3.fasta -o merged.fasta \
-    -f fasta
+<span class="go">    micca merge -i in1.fasta in2.fasta in3.fasta -o merged.fasta \</span>
+<span class="go">    -f fasta</span>
 </pre></div>
 </div>
 </div>
@@ -222,7 +224,7 @@ Merge files in FASTA format:
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2016, micca development team.
+        &copy; Copyright 2017, micca development team.
 
     </p>
   </div>
@@ -244,7 +246,7 @@ Merge files in FASTA format:
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.5.0',
+            VERSION:'1.6.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

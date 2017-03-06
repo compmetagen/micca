@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>split &mdash; micca 1.5.0 documentation</title>
+  <title>split &mdash; micca 1.6.0 documentation</title>
   
 
   
@@ -30,7 +30,10 @@
   
 
   
-    <link rel="top" title="micca 1.5.0 documentation" href="../index.html"/>
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="micca 1.6.0 documentation" href="../index.html"/>
         <link rel="next" title="stats" href="stats.html"/>
         <link rel="prev" title="root" href="root.html"/> 
 
@@ -60,7 +63,7 @@
             
             
               <div class="version">
-                1.5.0
+                1.6
               </div>
             
           
@@ -100,7 +103,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../filtering.html">Quality filtering strategy in micca</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../otu.html">OTU picking in micca</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../formats.html">Supported file formats</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../changes.html">CHANGES</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">Changes</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Command reference</span></p>
 <ul class="current">
@@ -156,7 +159,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/commands/split.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/commands/split.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -168,59 +171,58 @@
             
   <div class="section" id="split">
 <h1>split<a class="headerlink" href="#split" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-text"><div class="highlight"><pre><span></span>$ micca split --help
-usage: micca split [-h] -i FILE -o FILE -b FILE [-n FILE] [-c FILE] [-s N]
-                   [-e MAXE] [-t] [-f {fastq,fasta}]
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">usage: micca split [-h] -i FILE -o FILE -b FILE [-n FILE] [-c FILE] [-s N]</span>
+<span class="go">                [-e MAXE] [-t] [-f {fastq,fasta}]</span>
 
-micca split assign the multiplexed reads to samples based on their 5&#39;
-nucleotide barcode (demultiplexing) provided by the FASTA file
-(--barcode). micca split creates a single FASTQ or FASTA file with
-sample information (e.g. &gt;SEQID;sample=SAMPLENAME) appended to the
-sequence identifier. Barcode and the sequence preceding it is removed
-by default, e.g.:
+<span class="go">micca split assign the multiplexed reads to samples based on their 5&#39;</span>
+<span class="go">nucleotide barcode (demultiplexing) provided by the FASTA file</span>
+<span class="go">(--barcode). micca split creates a single FASTQ or FASTA file with</span>
+<span class="go">sample information (e.g. &gt;SEQID;sample=SAMPLENAME) appended to the</span>
+<span class="go">sequence identifier. Barcode and the sequence preceding it is removed</span>
+<span class="go">by default, e.g.:</span>
 
-Barcode file:        Input file:
+<span class="go">Barcode file:        Input file:</span>
 
-&gt;SAMPLE1             &gt;SEQ1
-TCAGTCAG             TCAGTCAGGCCACGGCTAACTAC...
-...                  ...
+<span class="gp">&gt;</span>SAMPLE1             &gt;SEQ1
+<span class="go">TCAGTCAG             TCAGTCAGGCCACGGCTAACTAC...</span>
+<span class="go">...                  ...</span>
 
-the output will be:
+<span class="go">the output will be:</span>
 
-&gt;SEQ1;sample=SAMPLE1
-GCCACGGCTAACTAC...
-...
+<span class="gp">&gt;</span>SEQ1<span class="p">;</span><span class="nv">sample</span><span class="o">=</span>SAMPLE1
+<span class="go">GCCACGGCTAACTAC...</span>
+<span class="go">...</span>
 
-optional arguments:
-  -h, --help            show this help message and exit
+<span class="go">optional arguments:</span>
+<span class="go">-h, --help            show this help message and exit</span>
 
-arguments:
-  -i FILE, --input FILE
-                        input FASTQ/FASTA file (required).
-  -o FILE, --output FILE
-                        output FASTQ/FASTA file (required).
-  -b FILE, --barcode FILE
-                        barcode file in FASTA format (required).
-  -n FILE, --notmatched FILE
-                        write reads in which no barcode was found.
-  -c FILE, --counts FILE
-                        write barcode counts in a tab-delimited file.
-  -s N, --skip N        skip N bases before barcode matching (e.g. if your
-                        sequences start with the control sequence &#39;TCAG&#39;
-                        followed by the barcode, set to 4) (&gt;=0, default 0).
-  -e MAXE, --maxe MAXE  maximum number of allowed errors (&gt;=0, default 1).
-  -t, --notrim          do not trim barcodes and the sequence preceding it
-                        from sequences.
-  -f {fastq,fasta}, --format {fastq,fasta}
-                        file format (default fastq).
+<span class="go">arguments:</span>
+<span class="go">-i FILE, --input FILE</span>
+<span class="go">                        input FASTQ/FASTA file (required).</span>
+<span class="go">-o FILE, --output FILE</span>
+<span class="go">                        output FASTQ/FASTA file (required).</span>
+<span class="go">-b FILE, --barcode FILE</span>
+<span class="go">                        barcode file in FASTA format (required).</span>
+<span class="go">-n FILE, --notmatched FILE</span>
+<span class="go">                        write reads in which no barcode was found.</span>
+<span class="go">-c FILE, --counts FILE</span>
+<span class="go">                        write barcode counts in a tab-delimited file.</span>
+<span class="go">-s N, --skip N        skip N bases before barcode matching (e.g. if your</span>
+<span class="go">                        sequences start with the control sequence &#39;TCAG&#39;</span>
+<span class="go">                        followed by the barcode, set to 4) (&gt;=0, default 0).</span>
+<span class="go">-e MAXE, --maxe MAXE  maximum number of allowed errors (&gt;=0, default 1).</span>
+<span class="go">-t, --notrim          do not trim barcodes and the sequence preceding it</span>
+<span class="go">                        from sequences.</span>
+<span class="go">-f {fastq,fasta}, --format {fastq,fasta}</span>
+<span class="go">                        file format (default fastq).</span>
 
-Examples
+<span class="go">Examples</span>
 
-Split &#39;reads.fastq&#39; and write the notmatched sequences in the
-file &#39;notmatched.fastq&#39;:
+<span class="go">Split &#39;reads.fastq&#39; and write the notmatched sequences in the</span>
+<span class="go">file &#39;notmatched.fastq&#39;:</span>
 
-    micca split -i input.fastq -o splitted.fastq -b barcode.fasta \
-    -n notmatched.fastq
+<span class="go">    micca split -i input.fastq -o splitted.fastq -b barcode.fasta \</span>
+<span class="go">    -n notmatched.fastq</span>
 </pre></div>
 </div>
 </div>
@@ -244,7 +246,7 @@ file &#39;notmatched.fastq&#39;:
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2016, micca development team.
+        &copy; Copyright 2017, micca development team.
 
     </p>
   </div>
@@ -266,7 +268,7 @@ file &#39;notmatched.fastq&#39;:
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.5.0',
+            VERSION:'1.6.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
