@@ -1,6 +1,10 @@
 Changes
 =======
 
+Version 1.6.1 (bug fix release)
+-------------------------------
+* Fix the "new-line error" in classify
+
 Version 1.6.0
 -------------
 * swarm updated to version 2.1.12;
