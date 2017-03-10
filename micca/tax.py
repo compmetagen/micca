@@ -58,7 +58,7 @@ def read(input_fn):
     """
 
     tax_dict = dict()
-    with open(input_fn, 'rb') as input_handle:
+    with open(input_fn, 'rU') as input_handle:
         taxreader = TaxReader(input_handle)
         for seqid, tax in taxreader:
             tax_dict[seqid] = tax
