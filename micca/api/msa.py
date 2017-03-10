@@ -108,7 +108,7 @@ def _nast_core(template, template_aln, candidate_aln):
 def _msa_count_columns(input_fn):
     """Count columns in a MSA in FASTA format.
     """
-    with open(input_fn, "rb") as input_handle:
+    with open(input_fn, "r") as input_handle:
         parser = SimpleFastaParser(input_handle)
         try:
             title, seq = parser.next()
@@ -127,7 +127,7 @@ def _msa_remove_gaps(input_fn, output_fn):
     """Write a new file without gap characters (-).
     """
 
-    input_handle = open(input_fn, "rb")
+    input_handle = open(input_fn, "r")
     output_handle = open(output_fn, "wb")
 
     for title, seq in SimpleFastaParser(input_handle):
@@ -313,7 +313,7 @@ def nast(input_fn, template_fn, output_fn, notaligned_fn=None, hits_fn=None,
     if nofilter:
         os.rename(output_temp_fn, output_fn)
     else:
-        output_temp_handle = open(output_temp_fn, "rb")
+        output_temp_handle = open(output_temp_fn, "r")
         output_handle = open(output_fn, "wb")
         for title, seq in SimpleFastaParser(output_temp_handle):
             seqout = "".join(np.array(list(seq))[msa_cov > 0])

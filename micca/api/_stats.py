@@ -41,7 +41,7 @@ def _stats(input_fn, topn=None):
     qual_sum = np.array([], dtype=np.int, order='C')
     eerate_sum = np.array([], dtype=np.float, order='C')
 
-    with open(input_fn, "rb") as input_handle:
+    with open(input_fn, "r") as input_handle:
         for title, seq, qualstr in FastqGeneralIterator(input_handle):
 
             seqlen = len(seq)

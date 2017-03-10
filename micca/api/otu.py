@@ -46,7 +46,7 @@ def _rename_seqids(input_fn, otuids_fn, prefix=""):
     output_dir = os.path.dirname(input_fn)
 
     tmp_fn = micca.ioutils.make_tempfile(output_dir)
-    input_handle = open(input_fn, "rb")
+    input_handle = open(input_fn, "r")
     otuids_handle = open(otuids_fn, "wb")
     tmp_handle = open(tmp_fn, "wb")
 

@@ -65,7 +65,7 @@ def tobiom(input_fn, output_fn, tax_fn=None, sampledata_fn=None,
 
     # replace the OTU ids with the original sequence ids when found in otuids
     if otuids_fn is not None:
-        with open(otuids_fn, "rb") as otuids_handle:
+        with open(otuids_fn, "rU") as otuids_handle:
             otuids_reader = csv.reader(otuids_handle, delimiter="\t")
             otuids = dict([(row[0], row[1]) for row in otuids_reader])
             

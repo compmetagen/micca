@@ -131,7 +131,7 @@ def rdp(input_fn, output_fn, gene="16srrna", maxmem=2, minconf=0.8):
     queryids = [record.id for record in SeqIO.parse(input_fn, "fasta")]
 
     rdp_temp_dict = dict()
-    with open(rdp_temp_fn, 'rb') as rdp_temp_handle:
+    with open(rdp_temp_fn, 'rU') as rdp_temp_handle:
         rdp_temp_reader = csv.reader(rdp_temp_handle, delimiter='\t')
 
         for row in rdp_temp_reader:
@@ -170,7 +170,7 @@ def otuid(input_fn, ref_tax_fn, output_fn):
 
     tax_dict = micca.tax.read(ref_tax_fn)
 
-    input_handle = open(input_fn, 'rb')
+    input_handle = open(input_fn, 'rU')
     input_reader = csv.reader(input_handle, delimiter='\t')
 
     output_handle = open(output_fn, 'wb')
