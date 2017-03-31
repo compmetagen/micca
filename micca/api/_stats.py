@@ -134,14 +134,14 @@ def _plot_len_dist(values, output_fn):
 
     ax1 = plt.subplot(311)
     plt.bar(values["L"]-0.5, values["N"], width=1, log=False,
-            linewidth=0.5, color="white")
+            linewidth=0.5, color="white", edgecolor="black")
     ax1.yaxis.set_major_formatter(mtick.FormatStrFormatter('%.1e'))
     plt.ylabel("# of reads")
     ax1.grid(True)
 
     ax2 = plt.subplot(312, sharex=ax1)
     plt.bar(values["L"]-0.5, values["NPct"], width=1, log=False,
-            linewidth=0.5, color="white")
+            linewidth=0.5, color="white", edgecolor="black")
     plt.ylabel("# of reads %")
     ax2.grid(True)
 
@@ -161,14 +161,14 @@ def _plot_qual_dist(values, output_fn):
 
     ax1 = plt.subplot(311)
     plt.bar(values["Q"]-0.5, values["N"], width=1, log=False,
-            linewidth=0.5, color="white")
+            linewidth=0.5, color="white", edgecolor="black")
     ax1.yaxis.set_major_formatter(mtick.FormatStrFormatter('%.1e'))
     plt.ylabel("# of bases")
     ax1.grid(True)
 
     ax2 = plt.subplot(312, sharex=ax1)
     plt.bar(values["Q"]-0.5, values["NPct"], width=1, log=False,
-            linewidth=0.5, color="white")
+            linewidth=0.5, color="white", edgecolor="black")
     plt.ylabel("# of bases %")
     ax2.grid(True)
 
