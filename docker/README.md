@@ -13,6 +13,8 @@ software version by typing ``echo $RDPPATH``
 ## Available Tags/Versions
 
 - latest: GitHub snapshot (master)
+- 1.6.2: micca 1.6.2 (RDP Classifier release 2.11 included)
+- 1.6.1: micca 1.6.1 (RDP Classifier release 2.11 included)
 - 1.6.0: micca 1.6.0 (RDP Classifier release 2.11 included)
 - 1.5.0: micca 1.5.0 (RDP Classifier release 2.11 included)
 - 1.4.0: micca 1.4.0 (RDP Classifier release 2.11 included)
