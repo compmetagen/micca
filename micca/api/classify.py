@@ -90,7 +90,7 @@ def cons(input_fn, ref_fn, ref_tax_fn, output_fn, ident=0.90,
         os.remove(hits_temp_fn)
         raise
 
-    with open(hits_temp_fn, 'rb') as hits_temp_handle:
+    with open(hits_temp_fn, 'rU') as hits_temp_handle:
         with open(output_fn, 'wb') as output_handle:
             hits_temp_reader = csv.reader(hits_temp_handle, delimiter='\t')
             output_writer = csv.writer(

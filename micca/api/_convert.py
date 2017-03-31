@@ -49,9 +49,9 @@ def convert(input_fn, output_fn, qual_fn=None, input_fmt="fastq",
                          "quality file")
 
     # parse records
-    input_handle = open(input_fn, 'r')
+    input_handle = open(input_fn, 'rU')
     if input_fmt == "fasta-qual":
-        qual_handle = open(qual_fn, 'r')
+        qual_handle = open(qual_fn, 'rU')
         records = PairedFastaQualIterator(input_handle, qual_handle)
     else:
         records = SeqIO.parse(input_handle, input_fmt)

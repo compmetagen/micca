@@ -46,7 +46,7 @@ def _rename_seqids(input_fn, otuids_fn, prefix=""):
     output_dir = os.path.dirname(input_fn)
 
     tmp_fn = micca.ioutils.make_tempfile(output_dir)
-    input_handle = open(input_fn, "r")
+    input_handle = open(input_fn, "rU")
     otuids_handle = open(otuids_fn, "wb")
     tmp_handle = open(tmp_fn, "wb")
 
@@ -65,14 +65,14 @@ def _rename_seqids(input_fn, otuids_fn, prefix=""):
 
 def _hits_to_otutable(hits_fn, otuids_fn, otutable_fn):
 
-    with open(otuids_fn, 'rb') as otuids_handle:
+    with open(otuids_fn, 'rU') as otuids_handle:
         otuids_reader = csv.reader(otuids_handle, delimiter='\t')
         otuids = [(row[1], row[0]) for row in otuids_reader]
     ordered_otuids = [otuid[1] for otuid in otuids]
     otuids_dict = dict(otuids)
 
     otutable_dict = {}
-    with open(hits_fn, 'rb') as hits_handle:
+    with open(hits_fn, 'rU') as hits_handle:
         hits_reader = csv.reader(hits_handle, delimiter='\t')
         for row in hits_reader:
             match = re.search("(^|;)sample=([^;]+)", row[0])
@@ -97,7 +97,7 @@ def _uc_to_hitssqlite(uc_fn, sqlite_fn):
     cur = con.cursor()
     cur.execute('CREATE TABLE hits (query text, target text, ident real)')
 
-    with open(uc_fn, 'rb') as uc_handle:
+    with open(uc_fn, 'rU') as uc_handle:
         uc_reader = csv.reader(uc_handle, delimiter='\t')
         for row in uc_reader:
             rtype, ident, query, target = row[0], row[3], row[8], row[9]
@@ -343,15 +343,15 @@ def open_ref(input_fn, ref_fn, output_dir, ident=0.97, threads=1, mincov=0.75,
             raise
 
         with open(otus_fn, 'a') as otus_handle:
-            with open(denovo_otus_fn, 'r') as denovo_otus_handle:
+            with open(denovo_otus_fn, 'rU') as denovo_otus_handle:
                 otus_handle.write(denovo_otus_handle.read())
 
         with open(otuids_fn, 'a') as otuids_handle:
-            with open(denovo_otuids_fn, 'r') as denovo_otuids_handle:
+            with open(denovo_otuids_fn, 'rU') as denovo_otuids_handle:
                 otuids_handle.write(denovo_otuids_handle.read())
 
         with open(hits_fn, 'a') as hits_handle:
-            with open(denovo_hits_fn, 'r') as denovo_hits_handle:
+            with open(denovo_hits_fn, 'rU') as denovo_hits_handle:
                 hits_handle.write(denovo_hits_handle.read())
 
         os.remove(denovo_otus_fn)
@@ -462,7 +462,7 @@ def denovo_swarm(input_fn, output_dir, differences=1, fastidious=True,
 
     # write the OTUs file and store the OTU ids
     otuids = []
-    otus_nochim_handle = open(otus_nochim_fn, "rb")
+    otus_nochim_handle = open(otus_nochim_fn, "rU")
     otus_handle = open(otus_fn, "wb")
     for i, (title, seq) in enumerate(SimpleFastaParser(otus_nochim_handle)):
         otuid = strip_size(title.split()[0])
@@ -474,7 +474,7 @@ def denovo_swarm(input_fn, output_dir, differences=1, fastidious=True,
     os.remove(otus_nochim_fn)
 
     # write the hits file
-    swarms_temp_handle = open(swarms_temp_fn, 'rb')
+    swarms_temp_handle = open(swarms_temp_fn, 'rU')
     swarms_temp_reader = csv.reader(swarms_temp_handle, delimiter=' ')
     hits_handle = open(hits_fn, 'wb')
     hits_writer = csv.writer(hits_handle, delimiter='\t', lineterminator='\n')

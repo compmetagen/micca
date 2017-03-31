@@ -39,7 +39,7 @@ def _stats(input_fn, topn=None, maxeerates=[0.25, 0.5, 0.75, 1, 1.25, 1.5],
     eerate_minlen = np.array([], dtype=np.int, order='C')
     eerate_trunclen = np.array([], dtype=np.int, order='C')
 
-    with open(input_fn, "r") as input_handle:
+    with open(input_fn, "rU") as input_handle:
         for title, seq, qualstr in FastqGeneralIterator(input_handle):
             seqlen = len(seq)
             if (seqlen < 1):
