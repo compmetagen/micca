@@ -1,6 +1,11 @@
 Changes
 =======
 
+Version 1.6.2 (bug fix release)
+-------------------------------
+* Definitely fix the "new-line error" in classify
+* Fix bar plots in "stats"
+
 Version 1.6.1 (bug fix release)
 -------------------------------
 * Fix the "new-line error" in classify

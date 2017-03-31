@@ -16,6 +16,6 @@ import os
 # Dev branch marker is: 'X.Y.dev' or 'X.Y.devN' where N is an integer.
 # 'X.Y.dev0' is the canonical version of 'X.Y.dev'
 #
-__version__ = "1.6.1"
+__version__ = "1.6.2"
 
 THIRDPARTY_BIN_PATH = os.path.join(os.path.dirname(__file__), "thirdparty_bin")
