@@ -51,7 +51,7 @@ def derep_fulllength(input_fn, output_fn, uc_fn=None, sizein=False,
 
 
 def uchime_denovo(input_fn, chimeras_fn=None, nonchimeras_fn=None,
-                  abskew=16.0, sizeout=False, xsize=False):
+                  abskew=2.0, sizeout=False, xsize=False):
 
     params = ["--uchime_denovo", input_fn,
               "--abskew", str(abskew)]
