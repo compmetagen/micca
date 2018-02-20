@@ -66,6 +66,24 @@ def uchime_denovo(input_fn, chimeras_fn=None, nonchimeras_fn=None,
     _vsearch_cmd(params)
 
 
+def uchime3_denovo(input_fn, chimeras_fn=None, nonchimeras_fn=None,
+                   abskew=16.0, sizeout=False, xsize=False):
+
+    params = ["--uchime3_denovo", input_fn,
+              "--abskew", str(abskew)]
+    
+    if chimeras_fn is not None:
+        params.extend(["--chimeras", chimeras_fn])
+    if nonchimeras_fn is not None:
+        params.extend(["--nonchimeras", nonchimeras_fn])
+    if sizeout:
+        params.append("--sizeout")
+    if xsize:
+        params.append("--xsize")
+
+    _vsearch_cmd(params)
+
+
 def cluster_smallmem(input_fn, centroids_fn=None, ident=0.97, threads=1,
                      maxaccepts=1, maxrejects=32, sizeorder=False,
                      dbmask='dust', qmask='dust', usersort=False,
@@ -74,6 +92,36 @@ def cluster_smallmem(input_fn, centroids_fn=None, ident=0.97, threads=1,
     params = ["--cluster_smallmem", input_fn, "--id", str(ident), "--maxaccepts",
               str(maxaccepts), "--maxrejects", str(maxrejects), "--threads",
               str(threads), "--dbmask", dbmask, "--qmask", qmask]
+
+    if centroids_fn is not None:
+        params.extend(["--centroids", centroids_fn])
+    if sizeorder:
+        params.append("--sizeorder")
+    if sizein:
+        params.append("--sizein")
+    if sizeout:
+        params.append("--sizeout")
+    if xsize:
+        params.append("--xsize")
+    if usersort:
+        params.append("--usersort")
+
+    _vsearch_cmd(params)
+
+
+def cluster_unoise(input_fn, centroids_fn=None, minsize=8, unoise_alpha=2.0,
+                   maxaccepts=1, maxrejects=32, sizeorder=False, dbmask='dust', 
+                   qmask='dust', usersort=False, sizein=False, sizeout=False,
+                   xsize=False, threads=1):
+
+    params = ["--cluster_smallmem", input_fn,
+              "--minsize", str(minsize),
+              "--unoise_alpha", str(unoise_alpha),
+              "--maxaccepts", str(maxaccepts), 
+              "--maxrejects", str(maxrejects), 
+              "--dbmask", dbmask,
+              "--qmask", qmask,
+              "--threads", str(threads)]
 
     if centroids_fn is not None:
         params.extend(["--centroids", centroids_fn])

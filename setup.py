@@ -52,6 +52,7 @@ def _build_vsearch():
     _untar(tar_fn, _THIRDPARTY_TEMP)
     tar_dir = glob.glob(os.path.join(_THIRDPARTY_TEMP, "vsearch*/"))[0]
     os.chdir(tar_dir)
+    _system_call(["./autogen.sh"])
     _system_call(["./configure", "--disable-zlib", "--disable-bzip2",
                   "--disable-pdfman"])
     _system_call(["make"])
