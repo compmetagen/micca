@@ -4,10 +4,11 @@ otu
 .. code-block:: console
 
     usage: micca otu [-h] -i FILE [-o DIR] [-r FILE]
-                    [-m {denovo_greedy,denovo_swarm,closed_ref,open_ref}] [-d ID]
-                    [-n MINCOV] [-t THREADS] [-c] [-g {dgc,agc}] [-s MINSIZE]
-                    [-a {both,plus}] [--swarm-differences SWARM_DIFFERENCES]
-                    [--swarm-fastidious]
+                    [-m {denovo_greedy,denovo_unoise,denovo_swarm,closed_ref,open_ref}]
+                    [-d ID] [-n MINCOV] [-t THREADS] [-g {dgc,agc}] [-s MINSIZE]
+                    [-a {both,plus}] [-c] [-S CHIM_ABSKEW]
+                    [--swarm-differences SWARM_DIFFERENCES] [--swarm-fastidious]
+                    [--unoise-alpha UNOISE_ALPHA]
 
     micca otu assigns similar sequences (marker genes such as 16S rRNA and
     the fungal ITS region) to operational taxonomic units (OTUs).
@@ -25,9 +26,14 @@ otu
     * de novo greedy clustering (denovo_greedy): sequences are clustered
     without relying on an external reference database, using an
     approach similar to the UPARSE pipeline (doi: 10.1038/nmeth.2604):
-    i) predict sequence abundances of each sequence by dereplication; ii)
-    greedy clustering; iii) remove chimeric sequences (de novo, optional)
-    from the representatives; iv) map sequences to the representatives.
+    i) dereplication; ii) OTU picking greedy clustering; iii) chimera
+    filtering (UCHIME, optional) on the OTU representatives; iv) map
+    sequences to the representatives.
+
+    * de novo unoise (denovo_unoise): denoise Illumina sequences using
+    the UNOISE3 protocol: i) dereplication; ii) denoising; iii) chimera
+    filtering (UCHIME3, optional) on the ZOTUs (zero-radius OTUs) iv)
+    mapping sequences to ZOTUs.
 
     * de novo swarm (denovo_swarm): sequences are clustered without relying
     on an external reference database, using swarm (doi:
@@ -76,35 +82,42 @@ otu
     -o DIR, --output DIR  output directory (default .).
     -r FILE, --ref FILE   reference sequences in fasta format, required for
                             'closed_ref' and 'open_ref' clustering methods.
-    -m {denovo_greedy,denovo_swarm,closed_ref,open_ref}, --method {denovo_greedy,denovo_swarm,closed_ref,open_ref}
+    -m {denovo_greedy,denovo_unoise,denovo_swarm,closed_ref,open_ref}, --method {denovo_greedy,denovo_unoise,denovo_swarm,closed_ref,open_ref}
                             clustering method (default denovo_greedy)
     -d ID, --id ID        sequence identity threshold (for 'denovo_greedy',
                             'closed_ref' and 'open_ref', 0.0 to 1.0, default
                             0.97).
     -n MINCOV, --mincov MINCOV
                             reject sequence if the fraction of alignment to the
-                            reference sequence is lower than MINCOV. This
-                            parameter prevents low-coverage alignments at the end
-                            of the sequences (for 'closed_ref' and 'open_ref'
-                            clustering methods, default 0.75).
+                            reference sequence is lower than MINCOV (for
+                            'closed_ref' and 'open_ref' clustering methods,
+                            default 0.75).
     -t THREADS, --threads THREADS
                             number of threads to use (1 to 256, default 1).
-    -c, --rmchim          remove chimeric sequences (for 'denovo_greedy',
-                            'denovo_swarm' and 'open_ref' OTU picking methods).
     -g {dgc,agc}, --greedy {dgc,agc}
                             greedy clustering strategy, distance (DGC) or
                             abundance-based (AGC) (for 'denovo_greedy' and
                             'open_ref' clustering methods) (default dgc).
     -s MINSIZE, --minsize MINSIZE
                             discard sequences with an abundance value smaller than
-                            MINSIZE after dereplication (>=1, default 2).
-                            Recommended value is 2 (i.e. discard singletons) for
-                            'denovo_greedy' and 'open_ref', 1 (do not discard
-                            anything) for 'denovo_swarm'.
+                            MINSIZE after dereplication (>=1, default values are 2
+                            for 'denovo_greedy' and 'open_ref', 1 for
+                            'denovo_swarm' and 8 for 'denovo_unoise').
     -a {both,plus}, --strand {both,plus}
                             search both strands or the plus strand only (for
                             'closed_ref' and 'open_ref' clustering methods,
                             default both).
+
+    Chimera removal specific options:
+    -c, --rmchim          remove chimeric sequences (ignored in method
+                            'closed_ref'
+    -S CHIM_ABSKEW, --chim-abskew CHIM_ABSKEW
+                            abundance skew. It is used to distinguish in a three-
+                            way alignment which sequence is the chimera and which
+                            are the parents. If CHIM_ABSKEW=2.0, the parents
+                            should be at least 2 times more abundant than their
+                            chimera (defaults values are 16.0 for 'denovo_unoise',
+                            2.0 otherwise).
 
     Swarm specific options:
     --swarm-differences SWARM_DIFFERENCES
@@ -115,6 +128,10 @@ otu
     --swarm-fastidious    when working with SWARM_DIFFERENCES=1, perform a
                             second clustering pass to reduce the number of small
                             OTUs (recommended option).
+
+    UNOISE specific options:
+    --unoise-alpha UNOISE_ALPHA
+                            specify the alpha parameter (default 2.0).
 
     Examples
 

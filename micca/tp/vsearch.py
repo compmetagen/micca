@@ -116,7 +116,7 @@ def cluster_unoise(input_fn, centroids_fn=None, minsize=8, unoise_alpha=2.0,
                    qmask='dust', usersort=False, sizein=False, sizeout=False,
                    xsize=False, threads=1):
 
-    params = ["--cluster_smallmem", input_fn,
+    params = ["--cluster_unoise", input_fn,
               "--minsize", str(minsize),
               "--unoise_alpha", str(unoise_alpha),
               "--maxaccepts", str(maxaccepts), 

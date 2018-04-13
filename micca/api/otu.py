@@ -32,7 +32,8 @@ from Bio import SeqIO
 import micca.ioutils
 import micca.tp
 
-__all__ = ["denovo_greedy", "denovo_swarm", "open_ref", "closed_ref"]
+__all__ = ["denovo_greedy", "denovo_unoise", "denovo_swarm", "open_ref",
+           "closed_ref"]
 
 
 _OTUTABLE_FN = "otutable.txt"
@@ -116,8 +117,8 @@ def _uc_to_hitssqlite(uc_fn, sqlite_fn):
 
 
 def _denovo_greedy(input_fn, otus_fn, otuids_fn, hits_fn, otuschim_fn,
-                   otutable_fn=None, ident=0.97, threads=1, rmchim=False,
-                   greedy="dgc", minsize=1):
+                   otutable_fn=None, ident=0.97, threads=1, greedy="dgc",
+                   minsize=2, rmchim=False, chim_abskew=2.0):
 
     if greedy == "dgc":
         maxaccepts = 1
@@ -185,6 +186,94 @@ def _denovo_greedy(input_fn, otus_fn, otuids_fn, hits_fn, otuschim_fn,
                 input_fn=otus_temp_fn,
                 chimeras_fn=otuschim_fn,
                 nonchimeras_fn=otus_nochim_fn,
+                xsize=True,
+                abskew=chim_abskew)
+        except:
+            os.remove(otus_nochim_fn)
+            raise
+        finally:
+            os.remove(otus_temp_fn)
+
+        if os.stat(otus_nochim_fn).st_size == 0:
+            os.remove(otus_nochim_fn)
+            return
+    else:
+        otus_nochim_fn = otus_temp_fn
+
+    # map sequences to the representatives
+    try:
+        micca.tp.vsearch.usearch_global(
+            input_fn=input_fn,
+            db_fn=otus_nochim_fn,
+            userout_fn=hits_fn,
+            ident=0.97,
+            threads=threads,
+            userfields="query+target+id",
+            dbmatched_fn=otus_fn)
+    finally:
+        os.remove(otus_nochim_fn)
+
+    _rename_seqids(otus_fn, otuids_fn, prefix="DENOVO")
+
+    if otutable_fn is not None:
+        _hits_to_otutable(hits_fn, otuids_fn, otutable_fn)
+
+
+def denovo_unoise(input_fn, output_dir, threads=1, minsize=8, unoise_alpha=2.0,
+                  rmchim=False, chim_abskew=16.0):
+
+    if not os.path.isdir(output_dir):
+        raise ValueError("directory {} does not exist".format(output_dir))
+
+    otus_fn = os.path.join(output_dir, _OTUS_FN)
+    otuids_fn = os.path.join(output_dir, _OTUIDS_FN)
+    hits_fn = os.path.join(output_dir, _HITS_FN)
+    otuschim_fn = os.path.join(output_dir, _OTUSCHIM_FN)
+    otutable_fn = os.path.join(output_dir, _OTUTABLE_FN)
+
+    # dereplication
+    derep_fn = micca.ioutils.make_tempfile(output_dir)
+    try:
+        micca.tp.vsearch.derep_fulllength(input_fn, derep_fn, sizeout=True)
+    except:
+        os.remove(derep_fn)
+        raise
+
+    if os.stat(derep_fn).st_size == 0:
+        os.remove(derep_fn)
+        return
+
+    # unoise
+    otus_temp_fn = micca.ioutils.make_tempfile(output_dir)
+    try:
+        micca.tp.vsearch.cluster_unoise(
+            input_fn=derep_fn,
+            centroids_fn=otus_temp_fn,
+            minsize=minsize,
+            unoise_alpha=unoise_alpha,
+            maxaccepts=1,
+            maxrejects=32,
+            sizeorder=False,
+            usersort=True,
+            sizein=True,
+            sizeout=rmchim,
+            xsize=not rmchim,
+            threads=threads)
+    except:
+        os.remove(otus_temp_fn)
+        raise
+    finally:
+        os.remove(derep_fn)
+
+    # remove chimeras
+    if rmchim:
+        otus_nochim_fn = micca.ioutils.make_tempfile(output_dir)
+        try:
+            micca.tp.vsearch.uchime3_denovo(
+                input_fn=otus_temp_fn,
+                chimeras_fn=otuschim_fn,
+                nonchimeras_fn=otus_nochim_fn,
+                abskew=chim_abskew,
                 xsize=True)
         except:
             os.remove(otus_nochim_fn)
@@ -204,7 +293,7 @@ def _denovo_greedy(input_fn, otus_fn, otuids_fn, hits_fn, otuschim_fn,
             input_fn=input_fn,
             db_fn=otus_nochim_fn,
             userout_fn=hits_fn,
-            ident=ident,
+            ident=0.97,
             threads=threads,
             userfields="query+target+id",
             dbmatched_fn=otus_fn)
@@ -238,8 +327,8 @@ def _closed_ref(input_fn, ref_fn, otus_fn, otuids_fn, hits_fn,
         _hits_to_otutable(hits_fn, otuids_fn, otutable_fn)
 
 
-def denovo_greedy(input_fn, output_dir, ident=0.97, threads=1, rmchim=False,
-                  greedy="dgc", minsize=2):
+def denovo_greedy(input_fn, output_dir, ident=0.97, threads=1, greedy="dgc",
+                  minsize=2, rmchim=False, chim_abskew=2.0):
 
     if not os.path.isdir(output_dir):
         raise ValueError("directory {} does not exist".format(output_dir))
@@ -259,9 +348,10 @@ def denovo_greedy(input_fn, output_dir, ident=0.97, threads=1, rmchim=False,
         otutable_fn=otutable_fn,
         ident=ident,
         threads=threads,
-        rmchim=rmchim,
         greedy=greedy,
-        minsize=minsize)
+        minsize=minsize,
+        rmchim=rmchim,
+        chim_abskew=chim_abskew)
 
 
 def closed_ref(input_fn, ref_fn, output_dir, ident=0.97, threads=1,
@@ -289,7 +379,8 @@ def closed_ref(input_fn, ref_fn, output_dir, ident=0.97, threads=1,
 
 
 def open_ref(input_fn, ref_fn, output_dir, ident=0.97, threads=1, mincov=0.75,
-             rmchim=False, greedy="dgc", minsize=1, strand="both"):
+             greedy="dgc", minsize=1, strand="both", rmchim=False,
+             chim_abskew=2):
 
     if not os.path.isdir(output_dir):
         raise ValueError("directory {} does not exist".format(output_dir))
@@ -333,9 +424,10 @@ def open_ref(input_fn, ref_fn, output_dir, ident=0.97, threads=1, mincov=0.75,
                 otutable_fn=None,
                 ident=ident,
                 threads=threads,
-                rmchim=rmchim,
                 greedy=greedy,
-                minsize=minsize)
+                minsize=minsize,
+                rmchim=rmchim,
+                chim_abskew=chim_abskew)
         except:
             os.remove(denovo_otus_fn)
             os.remove(denovo_otuids_fn)

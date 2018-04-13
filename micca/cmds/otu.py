@@ -46,9 +46,14 @@ def main(argv):
         * de novo greedy clustering (denovo_greedy): sequences are clustered
           without relying on an external reference database, using an
           approach similar to the UPARSE pipeline (doi: 10.1038/nmeth.2604):
-          i) predict sequence abundances of each sequence by dereplication; ii)
-          greedy clustering; iii) remove chimeric sequences (de novo, optional)
-          from the representatives; iv) map sequences to the representatives.
+          i) dereplication; ii) OTU picking greedy clustering; iii) chimera 
+          filtering (UCHIME, optional) on the OTU representatives; iv) map 
+          sequences to the representatives.
+
+        * de novo unoise (denovo_unoise): denoise Illumina sequences using
+          the UNOISE3 protocol: i) dereplication; ii) denoising; iii) chimera 
+          filtering (UCHIME3, optional) on the ZOTUs (zero-radius OTUs) iv)
+          mapping sequences to ZOTUs.
 
         * de novo swarm (denovo_swarm): sequences are clustered without relying
           on an external reference database, using swarm (doi:
@@ -129,8 +134,8 @@ def main(argv):
                        help="reference sequences in fasta format, required "
                        "for 'closed_ref' and 'open_ref' clustering methods.")
     group.add_argument('-m', '--method', default="denovo_greedy",
-                       choices=["denovo_greedy", "denovo_swarm", "closed_ref",
-                       "open_ref"],
+                       choices=["denovo_greedy", "denovo_unoise", 
+                       "denovo_swarm", "closed_ref", "open_ref"],
                        help="clustering method (default %(default)s)")
     group.add_argument('-d', '--id', default=0.97, type=float,
                        help="sequence identity threshold (for 'denovo_greedy', "
@@ -138,32 +143,42 @@ def main(argv):
                        "default %(default)s).")
     group.add_argument('-n', '--mincov', default=0.75, type=float,
                        help="reject sequence if the fraction of alignment "
-                       "to the reference sequence is lower than MINCOV. "
-                       "This parameter prevents low-coverage alignments at "
-                       "the end of the sequences (for 'closed_ref' and "
-                       "'open_ref' clustering methods, default %(default)s).")
+                       "to the reference sequence is lower than MINCOV "
+                       "(for 'closed_ref' and 'open_ref' clustering methods, "
+                       "default %(default)s).")
     group.add_argument('-t', '--threads', default=1, type=int,
                         help="number of threads to use (1 to 256, default "
-                        "%(default)s).")
-    group.add_argument('-c', '--rmchim', default=False, action="store_true",
-                        help="remove chimeric sequences (for 'denovo_greedy', "
-                        "'denovo_swarm' and 'open_ref' OTU picking methods).")
+                        "%(default)s).")   
     group.add_argument('-g', '--greedy', default="dgc", choices=["dgc", "agc"],
                         help="greedy clustering strategy, distance (DGC) or "
                         "abundance-based (AGC) (for 'denovo_greedy' and "
                         "'open_ref' clustering methods) (default %(default)s).")
-    group.add_argument('-s', '--minsize', default=2, type=int,
+    group.add_argument('-s', '--minsize', type=int,
                         help="discard sequences with an abundance value "
                         "smaller than MINSIZE after dereplication (>=1, "
-                        "default %(default)s). Recommended value is 2 (i.e. "
-                        "discard singletons) for 'denovo_greedy' and "
-                        "'open_ref', 1 (do not discard anything) for "
-                        "'denovo_swarm'.")
+                        "default values are 2 for 'denovo_greedy' and "
+                        "'open_ref', 1 for 'denovo_swarm' and 8 for "
+                        "'denovo_unoise').")
     group.add_argument('-a', '--strand', default="both",
                         choices=["both", "plus"],
                         help="search both strands or the plus strand only "
                         "(for 'closed_ref' and 'open_ref' clustering methods, "
                         "default %(default)s).")
+
+    # chimeras
+    group_chim = parser.add_argument_group("Chimera removal specific options")
+    group_chim.add_argument('-c', '--rmchim', default=False, 
+                            action="store_true",
+                            help="remove chimeric sequences (ignored in method "
+                            "'closed_ref'")
+    group_chim.add_argument('-S', '--chim-abskew', type=float,
+                            help="abundance skew. It is used to distinguish in "
+                            "a three-way alignment which sequence is the "
+                            "chimera and which are the parents. If "
+                            "CHIM_ABSKEW=2.0, the parents should be at least 2 "
+                            "times more abundant than their chimera (defaults "
+                            "values are 16.0 for 'denovo_unoise', 2.0 "
+                            "otherwise).")  
 
     # swarm options
     group_swarm = parser.add_argument_group("Swarm specific options")
@@ -178,6 +193,12 @@ def main(argv):
                              "perform a second clustering pass to reduce the "
                              "number of small OTUs (recommended option).")
 
+    # unoise options
+    group_unoise = parser.add_argument_group("UNOISE specific options")
+    group_unoise.add_argument('--unoise-alpha', type=float, default=2.0,
+                              help="specify the alpha parameter (default "
+                              "%(default)s).")
+
     args = parser.parse_args(argv)
 
 
@@ -185,6 +206,24 @@ def main(argv):
         parser.error("%s OTU picking method requires reference sequences "
                      "(--ref)" % args.method)
 
+    if args.minsize is None:
+        if args.method in ["denovo_greedy", "open_ref"]:
+            minsize = 2
+        elif args.method == "denovo_swarm":
+            minsize = 1
+        else: # args.method == "denovo_unoise"
+            minsize = 8
+    else:
+        minsize = args.minsize
+
+    if args.chim_abskew is None:
+        if args.method == "denovo_unoise":
+            chim_abskew = 16.0
+        else:
+            chim_abskew = 2.0
+    else:
+        chim_abskew = args.chim_abskew
+        
     try:
         if args.method == "denovo_greedy":
             micca.api.otu.denovo_greedy(
@@ -192,9 +231,20 @@ def main(argv):
                 output_dir=args.output,
                 ident=args.id,
                 threads=args.threads,
-                rmchim=args.rmchim,
                 greedy=args.greedy,
-                minsize=args.minsize)
+                minsize=minsize,
+                rmchim=args.rmchim,
+                chim_abskew=chim_abskew)
+
+        elif args.method == "denovo_unoise":
+            micca.api.otu.denovo_unoise(
+                input_fn=args.input,
+                output_dir=args.output,
+                threads=args.threads,
+                minsize=minsize,
+                unoise_alpha=args.unoise_alpha,
+                rmchim=args.rmchim,
+                chim_abskew=chim_abskew)
 
         elif args.method == "denovo_swarm":
             micca.api.otu.denovo_swarm(
@@ -204,7 +254,7 @@ def main(argv):
                 fastidious=args.swarm_fastidious,
                 threads=args.threads,
                 rmchim=args.rmchim,
-                minsize=args.minsize)
+                minsize=minsize)
 
         elif args.method == "closed_ref":
             micca.api.otu.closed_ref(
@@ -224,10 +274,11 @@ def main(argv):
                 ident=args.id,
                 threads=args.threads,
                 mincov=args.mincov,
-                rmchim=args.rmchim,
                 greedy=args.greedy,
-                minsize=args.minsize,
-                strand=args.strand)
+                minsize=minsize,
+                strand=args.strand,
+                rmchim=args.rmchim,
+                chim_abskew=chim_abskew)
     except Exception as err:
         sys.stderr.write("Error: {}\n".format(err))
         sys.exit(1)
