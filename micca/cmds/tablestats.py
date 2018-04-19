@@ -41,7 +41,7 @@ def main(argv):
         * tablestats_samplesumm.txt: samples summary;
         * tablestats_otusumm.txt: OTUs summary;
         * tablestats_rarecurve.txt: rarefaction curves in text format.
-        * tablestats_rarecurve_plot.txt: rarefaction curves in png format.
+        * tablestats_rarecurve_plot.png: rarefaction curves in png format.
     ''')
 
     epilog = textwrap.dedent('''\

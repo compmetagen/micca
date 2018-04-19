@@ -1,11 +1,10 @@
 Picking OTUs for use in PICRUSt
 ===============================
 
-`PICRUSt <http://picrust.github.io/picrust/>`_ (doi: 10.1038/nbt.2676)
-is a software designed to predict metagenome functional content from
-marker gene (e.g., 16S rRNA) surveys and full genomes. This tutorial
-covers how to pick OTUs from 16S rRNA sequences data to use with
-PICRUSt.
+`PICRUSt <http://picrust.github.io/picrust/>`_ (doi: 10.1038/nbt.2676) is a
+software designed to predict metagenome functional content from marker gene
+(e.g., 16S rRNA) surveys and full genomes. This tutorial covers how to pick OTUs
+from 16S rRNA sequences data to use with PICRUSt.
 
 .. Note::
 
@@ -16,10 +15,9 @@ PICRUSt.
    install biom-format==1.3.1``, for more information see
    http://biom-format.org/).
 
-PICRUSt requires an :ref:`otu-closed_reference` OTU table computed
-against the Greengenes reference (clustered at 97% identity).
-Download the reference database (Greengenes, version 2013/05),
-clustered at 97% identity:
+PICRUSt requires an :ref:`otu-closed_reference` OTU table computed against the
+Greengenes reference (clustered at 97% identity). Download the reference
+database (Greengenes, version 2013/05), clustered at 97% identity:
 
 .. code-block:: sh
 
@@ -51,36 +49,34 @@ Report the sample summary:
    Mw_02	1670	143	43
    Mw_12	1710	153	54
 
-Rarefy the OTU table for the PICRUSt analysis is always a good idea
-(see
-https://groups.google.com/forum/#!topic/picrust-users/ev5uZGUIPrQ), so
-we will rarefy the table at 1084 sequences per sample using
-:doc:`commands/tablerare`:
+Rarefy the OTU table for the PICRUSt analysis is always a good idea (see
+https://groups.google.com/forum/#!topic/picrust-users/ev5uZGUIPrQ), so we will
+rarefy the table at 1084 sequences per sample using :doc:`commands/tablerare`:
 
 .. code-block:: sh
 
    micca tablerare -i otutable.txt -o otutable_rare.txt -d 1084
 
-Convert the rarefied OTU table into the BIOM format replacing the OTU
-IDs with the original sequence IDs using the
-:doc:`commands/tobiom` command:
+Convert the rarefied OTU table into the BIOM format replacing the OTU IDs with
+the original sequence IDs using the :doc:`commands/tobiom` command:
 
 .. code-block:: sh
 
    micca tobiom -i otutable_rare.txt -o tables.biom -u otuids.txt
 
-Normalize the OTU table by dividing each OTU by the known/predicted
-16S copy number abundance:
+Normalize the OTU table by dividing each OTU by the known/predicted 16S copy
+number abundance using the PICRUSt script ``normalize_by_copy_number.py``:
 
 .. code-block:: sh
 
    normalize_by_copy_number.py -i tables.biom -o normalized_otus.biom
 
-Create the final metagenome functional predictions:
+Create the final metagenome functional predictions using the PICRUSt script
+``predict_metagenomes.py``:
 
 .. code-block:: sh
 
    predict_metagenomes.py -i normalized_otus.biom -o metagenome_predictions.biom
 
-Now you can analyze the PICRUSt predicted metagenome:
+Now you can analyze the PICRUSt predicted metagenome as described in
 http://picrust.github.io/picrust/tutorials/downstream_analysis.html#downstream-analysis-guide.

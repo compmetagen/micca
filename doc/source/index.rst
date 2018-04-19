@@ -10,15 +10,15 @@
    :caption: Getting Started
 
    install
-   run
    databases
 
 .. toctree::
    :maxdepth: 1
    :caption: Tutorials
 
+   pairedend_97
+   denoising_illumina
    singleend
-   pairedend
    phyloseq
    table
    picrust
@@ -27,7 +27,6 @@
    :maxdepth: 1
    :caption: In Depth
 
-   filtering
    otu
    formats
    changes

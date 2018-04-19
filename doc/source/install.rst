@@ -48,6 +48,8 @@ which all the software has already been installed, configured and tested.
 Using pip
 ---------
 
+At the moment, only Python 2.7 is supported.
+
 On Ubuntu >= 12.04 and Debian >=7
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -182,11 +184,9 @@ Testing the installation
 Install RDP classifier (optional)
 ---------------------------------
 
-The RDP Classifier is a naive bayesian classifier for
-taxonomic assignments
-(http://sourceforge.net/projects/rdp-classifier/). The RDP classifier
-can be used in the :doc:`/commands/classify` command (option
-``-m/--method rdp``).
+The RDP Classifier is a naive bayesian classifier for taxonomic assignments
+(http://sourceforge.net/projects/rdp-classifier/). The RDP classifier can be
+used in the :doc:`/commands/classify` command (option ``-m/--method rdp``).
 
 .. warning::
 
