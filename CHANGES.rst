@@ -1,14 +1,22 @@
 Changes
 =======
 
+Version 1.7.0
+-------------
+* VSEARCH updated to version 2.7.1;
+* Denoising protocol added to the otu command for Illumina reads (UNOISE);
+* -S/--chim-abskew option added to micca otu command;
+* Documentation updated;
+* multithread option added to the mergepairs command.
+
 Version 1.6.2 (bug fix release)
 -------------------------------
-* Definitely fix the "new-line error" in classify
-* Fix bar plots in "stats"
+* Definitely fix the "new-line error" in classify;
+* Fix bar plots in "stats".
 
 Version 1.6.1 (bug fix release)
 -------------------------------
-* Fix the "new-line error" in classify
+* Fix the "new-line error" in classify.
 
 Version 1.6.0
 -------------
