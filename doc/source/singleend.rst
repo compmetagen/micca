@@ -58,7 +58,7 @@ will be included into the sequence indentifiers.
 .. Note::
 
    In the case of overlapping paired-end reads go to :doc:`/pairedend_97` or 
-   :doc:`/denoiseing_illumina`.
+   :doc:`/denoising_illumina`.
 
 .. _singleend-primer_trimming:
 
@@ -105,7 +105,7 @@ Quality filtering
 
 Producing high-quality OTUs requires high-quality reads. The
 :doc:`/commands/filter` command filters sequences according to the maximum
-allowed expected error (EE) rate % (see :doc:`/filtering`). We recommend values
+allowed expected error (EE) rate %. We recommend values
 <=1%. Moreover, to obtain good results in clustering (see :doc:`/commands/otu`),
 reads should be **truncated at the same length** when they cover partial
 amplicons or if quality deteriorates towards the end (common when you have long

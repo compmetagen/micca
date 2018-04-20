@@ -50,7 +50,8 @@ def main(argv):
         * de novo unoise (denovo_unoise): denoise Illumina sequences using
           the UNOISE3 protocol;
 
-        * de novo swarm (denovo_swarm): a robust and fast clustering method;
+        * de novo swarm (denovo_swarm): a robust and fast clustering method 
+          (deprecated, it will be removed in version 1.8.0);
 
         * closed-reference clustering (closed_ref): sequences are clustered
           against an external reference database and reads that could not be
@@ -67,21 +68,15 @@ def main(argv):
 
         * otus.fasta: FASTA file containing the representative sequences (OTUs);
 
-        * otuids.txt: OTU ids to original sequence ids (tab-delimited text file)
+        * otuids.txt: OTU ids to original sequence ids (tab-delimited text
+          file);
 
-        * hits.txt: three-columns, TAB-separated file:
-
-          1. matching sequence
-          2. representative (seed)
-          3. identity (if available, else '*'), defined as:
-
-                      matching columns
-             -------------------------------- ;
-             alignment length - terminal gaps
+        * hits.txt: three-columns, TAB-separated file with matching sequence,
+          representative (seed) and identity (if available, else '*');
 
         * otuschim.fasta (only for 'denovo_greedy', 'denovo_swarm' and
           'open_ref' when --rmchim is specified): FASTA file containing the
-          chimeric otus;
+          chimeric otus.
     ''')
 
     epilog = textwrap.dedent('''\

@@ -130,8 +130,8 @@ Quality filtering
 -----------------
 
 Producing high-quality OTUs requires high-quality reads. :doc:`/commands/filter`
-filters sequences according to the maximum allowed expected error (EE) rate %
-(see :doc:`/filtering`). We recommend values <=1%.
+filters sequences according to the maximum allowed expected error (EE) rate %.
+We recommend values <=1%.
 
 For paired-end reads, we recommend to merge pairs first, then quality filter
 using a maximum EE threshold with **no length truncation**.

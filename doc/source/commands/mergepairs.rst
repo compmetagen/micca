@@ -6,7 +6,7 @@ mergepairs
     usage: micca mergepairs [-h] -i FILE [FILE ...] -o FILE [-r FILE]
                             [-l MINOVLEN] [-d MAXDIFFS] [-p PATTERN] [-e REPL]
                             [-s SEP] [-n] [--notmerged-fwd FILE]
-                            [--notmerged-rev FILE]
+                            [--notmerged-rev FILE] [-t THREADS]
 
     micca mergepairs merges paired-end sequence reads into one sequence.
 
@@ -75,6 +75,8 @@ mergepairs
                             not included in the merged sequence.
     --notmerged-fwd FILE  write not merged forward reads.
     --notmerged-rev FILE  write not merged reverse reads.
+    -t THREADS, --threads THREADS
+                            number of threads to use (1 to 256, default 1).
 
     Examples
 
