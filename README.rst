@@ -9,7 +9,7 @@ processing of amplicon sequencing data, **from raw sequences** to
 **OTU tables**, **taxonomy classification** and **phylogenetic tree**
 inference. The pipeline can be applied to a range of highly conserved
 genes/spacers, such as **16S rRNA gene**, **Internal Transcribed
-Spacer (ITS)** and **28S rRNA**. micca is an open-source, GPLv3-licensed
+Spacer (ITS)** **18S** and **28S rRNA**. micca is an open-source, GPLv3-licensed
 software.
 
 * `Homepage <http://micca.org/>`_
@@ -23,6 +23,7 @@ Key features:
   Torrent) and **overlapping paired-end** reads (Illumina MiSeq/HiSeq);
 * **multithread** de novo greedy, closed-reference, open-reference and swarm OTU
   picking protocols;
+* multithread denoising of Illumina reads;
 * **state-of-the-art taxonomic classification** algorithms (RDP and 
   consensus-based classifier);
 * fast and and memory efficient **NAST** multiple sequence alignment (MSA);

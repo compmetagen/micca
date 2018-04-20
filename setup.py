@@ -21,7 +21,6 @@ _classifiers = [
     'Intended Audience :: Science/Research',
     'License :: OSI Approved :: GNU General Public License (GPL)',
     'Programming Language :: Python :: 2',
-    'Programming Language :: Python :: 3',
     'Programming Language :: C',
     'Programming Language :: C++',
     'Topic :: Scientific/Engineering :: Bio-Informatics',

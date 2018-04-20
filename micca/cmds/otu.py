@@ -150,20 +150,20 @@ def main(argv):
                         help="number of threads to use (1 to 256, default "
                         "%(default)s).")   
     group.add_argument('-g', '--greedy', default="dgc", choices=["dgc", "agc"],
-                        help="greedy clustering strategy, distance (DGC) or "
-                        "abundance-based (AGC) (for 'denovo_greedy' and "
-                        "'open_ref' clustering methods) (default %(default)s).")
+                       help="greedy clustering strategy, distance (DGC) or "
+                       "abundance-based (AGC) (for 'denovo_greedy' and "
+                       "'open_ref' clustering methods) (default %(default)s).")
     group.add_argument('-s', '--minsize', type=int,
-                        help="discard sequences with an abundance value "
-                        "smaller than MINSIZE after dereplication (>=1, "
-                        "default values are 2 for 'denovo_greedy' and "
-                        "'open_ref', 1 for 'denovo_swarm' and 8 for "
-                        "'denovo_unoise').")
+                       help="discard sequences with an abundance value "
+                       "smaller than MINSIZE after dereplication (>=1, "
+                       "default values are 2 for 'denovo_greedy' and "
+                       "'open_ref', 1 for 'denovo_swarm' and 8 for "
+                       "'denovo_unoise').")
     group.add_argument('-a', '--strand', default="both",
-                        choices=["both", "plus"],
-                        help="search both strands or the plus strand only "
-                        "(for 'closed_ref' and 'open_ref' clustering methods, "
-                        "default %(default)s).")
+                       choices=["both", "plus"],
+                       help="search both strands or the plus strand only "
+                       "(for 'closed_ref' and 'open_ref' clustering methods, "
+                       "default %(default)s).")
 
     # chimeras
     group_chim = parser.add_argument_group("Chimera removal specific options")

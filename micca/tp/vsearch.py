@@ -227,11 +227,12 @@ def fastq_mergepairs(forward_fn, reverse_fn, fastaout_fn=None, fastqout_fn=None,
                      fastaout_notmerged_fwd_fn=None, fastaout_notmerged_rev_fn=None,
                      fastqout_notmerged_fwd_fn=None, fastqout_notmerged_rev_fn=None,
                      fastq_minovlen=10, fastq_maxdiffs=5,
-                     fastq_allowmergestagger=False, fastq_nostagger=True):
+                     fastq_allowmergestagger=False, fastq_nostagger=True,
+                     threads=1):
 
     params = ["--fastq_mergepairs", forward_fn, "--reverse", reverse_fn,
               "--fastq_maxdiffs", str(fastq_maxdiffs), "--fastq_minovlen",
-              str(fastq_minovlen)]
+              str(fastq_minovlen), "--threads", str(threads)]
 
     if fastaout_fn is not None:
         params.extend(["--fastaout", fastaout_fn])

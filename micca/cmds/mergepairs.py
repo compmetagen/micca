@@ -129,6 +129,9 @@ def main(argv):
                        help="write not merged forward reads.")
     group.add_argument('--notmerged-rev', metavar="FILE",
                        help="write not merged reverse reads.")
+    group.add_argument('-t', '--threads', default=1, type=int,
+                       help="number of threads to use (1 to 256, default "
+                       "%(default)s).")   
 
     args = parser.parse_args(argv)
 
@@ -147,7 +150,8 @@ def main(argv):
             pattern=args.pattern,
             repl=args.repl,
             sep=args.sep,
-            nostagger=args.nostagger)
+            nostagger=args.nostagger,
+            threads=args.threads)
     except Exception as err:
         sys.stderr.write("Error: {}\n".format(err))
         sys.exit(1)

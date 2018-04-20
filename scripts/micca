@@ -69,12 +69,12 @@ def main():
         stats         Report sequences stats
         filterstats   Report sequences stats relative to quality filtering
         filter        Filter sequences according to the expected error rate %%
-        otu           Assign similar sequences to OTUs (OTUs)
+        otu           Assign similar sequences to OTUs or SVs
         classify      Assign taxonomy
         msa           Multiple sequence alignment (MSA)
-        tree          Infer phylogenetic trees from alignments
+        tree          Infer phylogenetic trees from multiple alignments
         root          Reroot phylogenetic trees
-        tobiom        Convert micca output files into the BIOM format
+        tobiom        Convert micca output files into the BIOM (v1.0) format
         tablestats    Report OTU table summaries
         tablerare     Rarefy OTU tables
         tabletotax    Build tables for each taxonomic level
