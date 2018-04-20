@@ -23,7 +23,7 @@ Key features:
   Torrent) and **overlapping paired-end** reads (Illumina MiSeq/HiSeq);
 * **multithread** de novo greedy, closed-reference, open-reference and swarm OTU
   picking protocols;
-* multithread denoising of Illumina reads;
+* **denoising** of Illumina reads;
 * **state-of-the-art taxonomic classification** algorithms (RDP and 
   consensus-based classifier);
 * fast and and memory efficient **NAST** multiple sequence alignment (MSA);

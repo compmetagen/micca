@@ -31,7 +31,8 @@ def main(argv):
 
     description = textwrap.dedent('''\
         micca otu assigns similar sequences (marker genes such as 16S rRNA and
-        the fungal ITS region) to operational taxonomic units (OTUs).
+        the fungal ITS region) to operational taxonomic units (OTUs) or sequence 
+        variants (SVs).
 
         Trimming the sequences to a fixed position before clustering is
         *strongly recommended* when they cover partial amplicons or if quality
@@ -43,24 +44,13 @@ def main(argv):
 
         micca otu provides the following protocols:
 
-        * de novo greedy clustering (denovo_greedy): sequences are clustered
-          without relying on an external reference database, using an
-          approach similar to the UPARSE pipeline (doi: 10.1038/nmeth.2604):
-          i) dereplication; ii) OTU picking greedy clustering; iii) chimera 
-          filtering (UCHIME, optional) on the OTU representatives; iv) map 
-          sequences to the representatives.
+        * de novo greedy clustering (denovo_greedy): useful for for the 
+          identification of 97% OTUs; 
 
         * de novo unoise (denovo_unoise): denoise Illumina sequences using
-          the UNOISE3 protocol: i) dereplication; ii) denoising; iii) chimera 
-          filtering (UCHIME3, optional) on the ZOTUs (zero-radius OTUs) iv)
-          mapping sequences to ZOTUs.
+          the UNOISE3 protocol;
 
-        * de novo swarm (denovo_swarm): sequences are clustered without relying
-          on an external reference database, using swarm (doi:
-          10.7717/peerj.593, doi: 10.7717/peerj.1420,
-          https://github.com/torognes/swarm): i) predict sequence abundances of
-          each sequence by dereplication; ii) swarm clustering; iii) remove
-          chimeric sequences (de novo, optional) from the representatives.
+        * de novo swarm (denovo_swarm): a robust and fast clustering method;
 
         * closed-reference clustering (closed_ref): sequences are clustered
           against an external reference database and reads that could not be
@@ -109,9 +99,7 @@ def main(argv):
             micca otu -i input.fasta --method open_ref --threads 8 --id 0.97 \\
             --ref greengenes_2013_05/rep_set/97_otus.fasta
 
-        De novo swarm clustering with the protocol suggested by the authors
-        using 4 threads (see https://github.com/torognes/swarm and
-        https://github.com/torognes/swarm/wiki):
+        De novo swarm clustering with the protocol using 4 threads:
 
             micca otu -i input.fasta --method denovo_swarm --threads 4 \\
             --swarm-fastidious --rmchim --minsize 1
