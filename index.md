@@ -3,15 +3,16 @@ layout: default
 ---
 
 micca (MICrobial Community Analysis) is a software pipeline for the processing
-of amplicon sequencing data, from raw sequences to OTU tables,taxonomy
-classification and phylogenetic tree inference. The pipeline can be applied to a
-range of highly conserved genes/spacers, such as 16S rRNA gene, Internal
-Transcribed Spacer (ITS) and 28S rRNA. micca is an open-source, GPLv3-licensed
-software.
+of **amplicon sequencing data**, from raw sequences to **OTU tables**,
+**taxonomic classification** and **phylogenetic tree inference**. The pipeline
+can be applied to a range of highly conserved genes/spacers, such as **16S rRNA
+gene**, **Internal Transcribed Spacer (ITS)** and **28S rRNA**. micca is an
+**open-source**, GPLv3-licensed software.
 
 ```bash
-# Example: dereplication, denoising and chimera filtering (4 threads)
-micca otu -m denovo_unoise -i input.fasta -o outdir -t 4 -c
+# Example: dereplication, denoising and chimera filtering in one step
+# (4 threads)
+$ micca otu -m denovo_unoise -i input.fasta -o outdir -t 4 -c
 ```
 
 Key features:
