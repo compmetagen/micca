@@ -1,0 +1,319 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>mergepairs &mdash; micca 1.2.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="micca 1.2.0 documentation" href="../index.html"/>
+        <link rel="next" title="msa" href="msa.html"/>
+        <link rel="prev" title="merge" href="merge.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> micca
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.2.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Download and install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../run.html">Run micca in 6 steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../databases.html">Supported databases</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../singleend.html">Single-end sequencing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pairedend.html">Paired-end sequencing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../phyloseq.html">Import and analyze the data into R and phyloseq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../table.html">Compute basic OTU table statistics, rarefy and summarize OTU tables by taxa using micca</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../picrust.html">Picking OTUs for use in PICRUSt</a></li>
+</ul>
+<p class="caption"><span class="caption-text">In Depth</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../filtering.html">Quality filtering strategy in micca</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../otu.html">OTU picking in micca</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formats.html">Supported file formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">CHANGES</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Command reference</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="classify.html">classify</a></li>
+<li class="toctree-l1"><a class="reference internal" href="convert.html">convert</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filter.html">filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filterstats.html">filterstats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="merge.html">merge</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">mergepairs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="msa.html">msa</a></li>
+<li class="toctree-l1"><a class="reference internal" href="otu.html">otu</a></li>
+<li class="toctree-l1"><a class="reference internal" href="root.html">root</a></li>
+<li class="toctree-l1"><a class="reference internal" href="split.html">split</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stats.html">stats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tablebar.html">tablebar</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tablerare.html">tablerare</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tablestats.html">tablestats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tabletotax.html">tabletotax</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tobiom.html">tobiom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tree.html">tree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="trim.html">trim</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">micca</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>mergepairs</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/commands/mergepairs.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="mergepairs">
+<h1>mergepairs<a class="headerlink" href="#mergepairs" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-text"><div class="highlight"><pre>$ micca mergepairs --help
+usage: micca mergepairs [-h] -i FILE [FILE ...] -o FILE [-r FILE]
+                        [-l MINOVLEN] [-d MAXDIFFS] [-p PATTERN] [-e REPL]
+                        [-s SEP] [--notmerged-fwd FILE] [--notmerged-rev FILE]
+
+micca mergepairs merges paired-end sequence reads into one sequence.
+
+A single merging of a pair of FASTQ files can be simply performed
+using both -i/--input and -r/--reverse options.
+
+When the option -r/--reverse is not specified:
+
+1. you can indicate several forward files (with the option -i/--input);
+
+2. the reverse file name will be constructed by replacing the string
+   &#39;_R1&#39; in the forward file name with &#39;_R2&#39; (typical in Illumina
+   file names, see options -p/--pattern and -e/--repl);
+
+3. after the merging of the paired reads, different samples will be
+   merged in a single file and sample names will be appended to the
+   sequence identifier (e.g. &gt;SEQID;sample=SAMPLENAME), as in &#39;micca
+   merge&#39; and &#39;micca split&#39;. Sample names are defined as the leftmost
+   part of the file name splitted by the first occurence of &#39;_&#39;
+   (-s/--sep option). Whitespace characters in names will be replaced
+   with a single character underscore (&#39;_&#39;).
+
+micca mergepairs wraps VSEARCH (https://github.com/torognes/vsearch).
+Statistical testing of significance is performed in a way similar to
+PEAR (doi: 10.1093/bioinformatics/btt593). The quality of merged bases
+is computed as in USEARCH (doi: 10.1093/bioinformatics/btv401).
+
+optional arguments:
+  -h, --help            show this help message and exit
+
+arguments:
+  -i FILE [FILE ...], --input FILE [FILE ...]
+                        forward FASTQ file(s), Sanger/Illumina 1.8+ format
+                        (phred+33) (required).
+  -o FILE, --output FILE
+                        output FASTQ file (required).
+  -r FILE, --reverse FILE
+                        reverse FASTQ file, Sanger/Illumina 1.8+ format
+                        (phred+33).
+  -l MINOVLEN, --minovlen MINOVLEN
+                        minimum overlap length (default 32).
+  -d MAXDIFFS, --maxdiffs MAXDIFFS
+                        maximum number of allowed mismatches in the overlap
+                        region (default 8).
+  -p PATTERN, --pattern PATTERN
+                        when the reverse filename is not specified, it will be
+                        constructed by replacing &#39;PATTERN&#39; in the forward file
+                        name with &#39;REPL&#39; (default _R1).
+  -e REPL, --repl REPL  when the reverse filename is not specified, it will be
+                        constructed by replacing &#39;PATTERN&#39; in the forward file
+                        name with &#39;REPL&#39; (default _R2).
+  -s SEP, --sep SEP     when the reverse file name is not specified, sample
+                        names are appended to the sequence identifier (e.g.
+                        &gt;SEQID;sample=SAMPLENAME). Sample names are defined as
+                        the leftmost part of the file name splitted by the
+                        first occurence of &#39;SEP&#39; (default _)
+  --notmerged-fwd FILE  write not merged forward reads.
+  --notmerged-rev FILE  write not merged reverse reads.
+
+Examples
+
+Merge reads with a minimum overlap length of 50 and maximum number
+of allowed mismatches of 3:
+
+    micca mergepairs -i reads1.fastq -r reads2.fastq -o merged.fastq \
+    -l 50 -d 3
+
+Merge several illumina paired reads (typically named *_R1*.fastq and 
+*_R2*.fastq):
+
+    micca mergepairs -i *_R1*.fastq -o merged.fastq --notmerged-fwd \
+    notmerged_fwd.fastq --notmerged-rev notmerged_rev.fastq
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="msa.html" class="btn btn-neutral float-right" title="msa" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="merge.html" class="btn btn-neutral" title="merge" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, micca development team.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.2.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

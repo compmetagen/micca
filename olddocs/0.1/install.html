@@ -1,0 +1,233 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Install &mdash; micca 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="micca 0.1 documentation" href="index.html" />
+    <link rel="next" title="Tutorials" href="tutorials.html" />
+    <link rel="prev" title="Welcome to micca’s documentation!" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="tutorials.html" title="Tutorials"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to micca’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">micca 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="install">
+<h1>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h1>
+<p>micca is composed by several executable Python scripts and wraps lots of external
+applications.</p>
+<div class="section" id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<p>micca requires Python (<a class="reference external" href="http://www.python.org/">http://www.python.org/</a>) &gt;= 2.7.</p>
+<div class="section" id="external-applications">
+<h3>External Applications<a class="headerlink" href="#external-applications" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first">SICKLE (&gt;=1.29)- A windowed adaptive trimming tool for FASTQ files using
+quality. (<a class="reference external" href="http://github.com/najoshi/sickle/releases">http://github.com/najoshi/sickle/releases</a>)</p>
+</li>
+<li><p class="first">UCHIME - Chimeric sequences detection, public domain version
+(<a class="reference external" href="http://drive5.com/uchime/uchime_download.html">http://drive5.com/uchime/uchime_download.html</a>)</p>
+</li>
+<li><p class="first">DNACLUST - Tool for clustering millions of short DNA sequences
+(<a class="reference external" href="http://dnaclust.sourceforge.net">http://dnaclust.sourceforge.net</a> <a class="reference external" href="http://sourceforge.net/projects/dnaclust/files/release_2/dnaclust_src.tar.gz/download">Download Release 2</a>)</p>
+</li>
+<li><p class="first">BLAST+ - The Basic Local Alignment Search Tool
+(<a class="reference external" href="http://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&amp;DOC_TYPE=Download">BLAST+ executables</a>)</p>
+</li>
+<li><p class="first">RDP Classifier (&gt;=2.6) - Naive Bayesian classifier for taxonomic
+assignments
+(<a class="reference external" href="http://sourceforge.net/projects/rdp-classifier/">http://sourceforge.net/projects/rdp-classifier/</a>). <strong>After the
+installation set the environment variable ``RDPPATH`` by typing</strong>:</p>
+<div class="highlight-python"><pre>$ export RDPPATH=/path-to-rdp-classifier/</pre>
+</div>
+<p>(e.g. <tt class="docutils literal"><span class="pre">export</span> <span class="pre">RDPPATH=/Users/Pippo/rdp_classifier_2.5</span></tt>).
+In order to export the variable permanently add the command at the
+bottom of your <cite>.bashrc</cite> file.</p>
+</li>
+<li><p class="first">PyNAST - NAST sequence aligner (<a class="reference external" href="http://biocore.github.io/pynast/">http://biocore.github.io/pynast/</a>)</p>
+</li>
+<li><p class="first">MUSCLE - Multiple Sequence Alignment (<a class="reference external" href="http://www.drive5.com/muscle/">http://www.drive5.com/muscle/</a>)</p>
+</li>
+<li><p class="first">T-Coffee - Simple MSA (<a class="reference external" href="http://tcoffee.crg.cat/apps/tcoffee">http://tcoffee.crg.cat/apps/tcoffee</a>)</p>
+</li>
+<li><p class="first">FastTree - Approximately-maximum-likelihood phylogenetic trees.
+** Download and install the binary or source from the website,
+do not use the package manager of your OS (e.g. apt-get install fasttree)**
+(<a class="reference external" href="http://www.microbesonline.org/fasttree/">http://www.microbesonline.org/fasttree/</a>)</p>
+</li>
+</ul>
+</div>
+<div class="section" id="python-modules">
+<h3>Python Modules<a class="headerlink" href="#python-modules" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>NumPy (<a class="reference external" href="http://scipy.org/">http://scipy.org/</a>)</li>
+<li>SciPy (<a class="reference external" href="http://scipy.org/">http://scipy.org/</a>)</li>
+<li>matplotlib (<a class="reference external" href="http://matplotlib.org/">http://matplotlib.org/</a>)</li>
+<li>pandas (<a class="reference external" href="http://pandas.pydata.org/">http://pandas.pydata.org/</a>)</li>
+<li>Biopython (<a class="reference external" href="http://biopython.org/">http://biopython.org/</a>)</li>
+<li>cutadapt (<a class="reference external" href="https://code.google.com/p/cutadapt/">https://code.google.com/p/cutadapt/</a>)</li>
+<li>DendroPy (<a class="reference external" href="http://pythonhosted.org/DendroPy/">http://pythonhosted.org/DendroPy/</a>)</li>
+</ul>
+<p>The easiest way to install the Python dependencies is by using pip:</p>
+<div class="highlight-python"><pre>$ pip install numpy scipy matplotlib pandas biopython cutadapt dendropy</pre>
+</div>
+</div>
+</div>
+<div class="section" id="install-micca">
+<h2>Install micca<a class="headerlink" href="#install-micca" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Untar <tt class="docutils literal"><span class="pre">micca-X.Y.tar.gz</span></tt>, creating <tt class="docutils literal"><span class="pre">micca-X.Y</span></tt> folder (where
+<tt class="docutils literal"><span class="pre">X.Y</span></tt> is the current version of micca)</p>
+</li>
+<li><p class="first">Go into <tt class="docutils literal"><span class="pre">micca-X.Y</span></tt> folder and from a terminal run:</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sudo python setup.py install
+</pre></div>
+</div>
+</li>
+<li><p class="first">If you don&#8217;t have root access, installing micca in a local
+directory by specifying the <tt class="docutils literal"><span class="pre">--prefix</span></tt> argument. Then you need to
+set <tt class="docutils literal"><span class="pre">PYTHONPATH</span></tt>:</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>python setup.py install --prefix<span class="o">=</span>/path/to/modules
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">PYTHONPATH</span><span class="o">=</span><span class="nv">$PYTHONPATH</span>:/path/to/modules/lib/python<span class="o">{</span>version<span class="o">}</span>/site-packages
+</pre></div>
+</div>
+</li>
+<li><p class="first">Test the installation. From the command line run:</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>micca-test
+</pre></div>
+</div>
+<p>If all the required software is installed, you should see something like
+this:</p>
+<div class="highlight-python"><pre>Checking for dependencies...
+DNACLUST... OK
+BLAST+... OK
+CUTADAPT... OK
+PyNAST... OK
+T-Coffee... OK
+MUSCLE... OK
+SICKLE... OK
+FastTree... OK
+UCHIME... OK
+Biopython... OK
+matplotlib... OK
+SciPy... OK
+DendroPy... OK
+NumPy... OK
+pandas... OK
+RDP Classifier... OK</pre>
+</div>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/micca_logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Install</a><ul>
+<li><a class="reference internal" href="#requirements">Requirements</a><ul>
+<li><a class="reference internal" href="#external-applications">External Applications</a></li>
+<li><a class="reference internal" href="#python-modules">Python Modules</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#install-micca">Install micca</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to micca&#8217;s documentation!</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="tutorials.html"
+                        title="next chapter">Tutorials</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/install.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="tutorials.html" title="Tutorials"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to micca’s documentation!"
+             >previous</a> |</li>
+        <li><a href="index.html">micca 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Davide Albanese, Paolo Fontana, Claudio Donati.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

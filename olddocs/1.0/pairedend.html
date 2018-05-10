@@ -1,0 +1,383 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Paired-end sequencing &mdash; micca 1.0.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="micca 1.0.0 documentation" href="index.html"/>
+        <link rel="next" title="Import and analyze the data into R and phyloseq" href="phyloseq.html"/>
+        <link rel="prev" title="Single-end sequencing" href="singleend.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> micca
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Download and install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run.html">Run micca in 6 steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="databases.html">Supported databases</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="singleend.html">Single-end sequencing</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Paired-end sequencing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#dataset-download">Dataset download</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#merge-paired-end-sequences">Merge paired-end sequences</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#primer-trimming">Primer trimming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quality-filtering">Quality filtering</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#choosing-parameters-for-filtering">Choosing parameters for filtering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#filter-sequences">Filter sequences</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#otu-picking-taxonomy-assignment-phylogenetic-tree-inference-and-downstream-analysis">OTU picking, taxonomy assignment, phylogenetic tree inference and downstream analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="phyloseq.html">Import and analyze the data into R and phyloseq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="table.html">Compute basic OTU table statistics, rarefy and summarize OTU tables by taxa using micca</a></li>
+<li class="toctree-l1"><a class="reference internal" href="picrust.html">Picking OTUs for use in PICRUSt</a></li>
+</ul>
+<p class="caption"><span class="caption-text">In Depth</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="filtering.html">Quality filtering strategy in micca</a></li>
+<li class="toctree-l1"><a class="reference internal" href="otu.html">OTU picking in micca</a></li>
+<li class="toctree-l1"><a class="reference internal" href="formats.html">Supported file formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html">CHANGES</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Command reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="commands/classify.html">classify</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/convert.html">convert</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/filter.html">filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/filterstats.html">filterstats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/merge.html">merge</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/mergepairs.html">mergepairs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/msa.html">msa</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/otu.html">otu</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/root.html">root</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/split.html">split</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/stats.html">stats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/tablebar.html">tablebar</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/tablerare.html">tablerare</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/tablestats.html">tablestats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/tabletotax.html">tabletotax</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/tobiom.html">tobiom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/tree.html">tree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/trim.html">trim</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">micca</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Paired-end sequencing</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/pairedend.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="paired-end-sequencing">
+<h1>Paired-end sequencing<a class="headerlink" href="#paired-end-sequencing" title="Permalink to this headline">¶</a></h1>
+<p>This tutorial describes a standard micca pipeline for the analysis of
+overlapping paired-end Illumina data. This pipeline is intended for
+different platforms, such as <strong>Illumina MiSeq</strong> and <strong>Illumina
+HiSeq</strong>. Although this tutorial explains how to apply the pipeline to
+<strong>16S rRNA</strong> amplicons, it can be adapted to others markers
+gene/spacers, e.g. <strong>Internal Transcribed Spacer (ITS)</strong> or <strong>28S</strong>.</p>
+<div class="contents local topic" id="table-of-contents">
+<p class="topic-title first">Table of Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#dataset-download" id="id1">Dataset download</a></li>
+<li><a class="reference internal" href="#merge-paired-end-sequences" id="id2">Merge paired-end sequences</a></li>
+<li><a class="reference internal" href="#primer-trimming" id="id3">Primer trimming</a></li>
+<li><a class="reference internal" href="#quality-filtering" id="id4">Quality filtering</a></li>
+<li><a class="reference internal" href="#otu-picking-taxonomy-assignment-phylogenetic-tree-inference-and-downstream-analysis" id="id5">OTU picking, taxonomy assignment, phylogenetic tree inference and downstream analysis</a></li>
+</ul>
+</div>
+<div class="section" id="dataset-download">
+<h2><a class="toc-backref" href="#id1">Dataset download</a><a class="headerlink" href="#dataset-download" title="Permalink to this headline">¶</a></h2>
+<p>This paired-end 16S rRNA dataset contains <strong>3 samples</strong> in FASTQ
+format (V3-V4 region, 341-Forward 5&#8217;-CCTACGGGNGGCWGCAG-3&#8217;, 805-Reverse
+5&#8217;-GACTACNVGGGTWTCTAATCC-3&#8217;). The 300-bp paired-end sequencing was
+carried out on an Illumina MiSeq.</p>
+<p>Open a terminal, download the data and prepare the working directory:</p>
+<div class="highlight-sh"><div class="highlight"><pre>wget ftp://ftp.fmach.it/metagenomics/micca/examples/pairedend.tar.gz
+tar -zxvf pairedend.tar.gz
+<span class="nb">cd</span> pairedend
+</pre></div>
+</div>
+</div>
+<div class="section" id="merge-paired-end-sequences">
+<h2><a class="toc-backref" href="#id2">Merge paired-end sequences</a><a class="headerlink" href="#merge-paired-end-sequences" title="Permalink to this headline">¶</a></h2>
+<p>Now the paired sequences must be merged to obtain consensus sequences
+(sometimes called <cite>assembly</cite>). This operation can be performed with
+the <a class="reference internal" href="commands/mergepairs.html"><em>mergepairs</em></a> command. After the merging of the
+paired reads, the <a class="reference internal" href="commands/mergepairs.html"><em>mergepairs</em></a> command merges the
+different samples in a single file where sample names are appended to
+the sequence identifier, as in <a class="reference internal" href="commands/merge.html"><em>merge</em></a> and
+<a class="reference internal" href="commands/split.html"><em>split</em></a>. Passing the forward files only reverse file
+names will be constructed by replacing the string <code class="docutils literal"><span class="pre">_R1</span></code> in the
+forward file name with <code class="docutils literal"><span class="pre">_R2</span></code> (typical in Illumina file names, see
+options <code class="docutils literal"><span class="pre">-p/--pattern</span></code> and <code class="docutils literal"><span class="pre">-e/--repl</span></code>).</p>
+<p>Since the sequenced region is about of 464-bp (805-341) and the reads
+are of 300-bp, the overlap region is quite large (~136 bp), so we set
+a minimum overlap length of 100 and maximum number of allowed
+mismatches of 32:</p>
+<div class="highlight-sh"><div class="highlight"><pre>micca mergepairs -i fastq/*_R1*.fastq -o merged.fastq -l <span class="m">100</span> -d 32
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><a class="reference internal" href="commands/mergepairs.html"><em>mergepairs</em></a> works with FASTQ files only.</p>
+</div>
+</div>
+<div class="section" id="primer-trimming">
+<h2><a class="toc-backref" href="#id3">Primer trimming</a><a class="headerlink" href="#primer-trimming" title="Permalink to this headline">¶</a></h2>
+<p>Segments which match PCR primers should be now removed. For Illumina
+paired-end (already merged) reads, we recommend to <strong>trim both forward
+and reverse primers and discard reads that do not contain the forward
+OR the reverse primer</strong>. Moreover, sequence preceding (for the
+forward) or succeding (for the reverse) primers should be removed:</p>
+<img alt="_images/readpaired.png" class="align-center" src="_images/readpaired.png" />
+<p>These operations can be performed with the <a class="reference internal" href="commands/trim.html"><em>trim</em></a> command:</p>
+<div class="highlight-sh"><div class="highlight"><pre>micca trim -i merged.fastq -o trimmed.fastq -w CCTACGGGNGGCWGCAG -r GACTACNVGGGTWTCTAATCC -W -R -c
+</pre></div>
+</div>
+<p>The option <code class="docutils literal"><span class="pre">-W/--duforward</span></code> and <code class="docutils literal"><span class="pre">-R/--dureverse</span></code> ensures that
+reads that do not contain the forward or the reverse primer will be
+discarded. With the option <code class="docutils literal"><span class="pre">-c/--searchrc</span></code> the command searches
+reverse complement primers too.</p>
+</div>
+<div class="section" id="quality-filtering">
+<h2><a class="toc-backref" href="#id4">Quality filtering</a><a class="headerlink" href="#quality-filtering" title="Permalink to this headline">¶</a></h2>
+<p>Producing high-quality OTUs requires high-quality reads.
+<a class="reference internal" href="commands/filter.html"><em>filter</em></a> filters sequences according to the maximum
+allowed expected error (EE) rate % (see <a class="reference internal" href="filtering.html"><em>Quality filtering strategy in micca</em></a>). We
+recommend values &lt;=1%.</p>
+<p>For paired-end reads, we recommend to merge pairs first, then quality filter
+using a maximum EE threshold with <strong>no length truncation</strong>.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Parameters for the <a class="reference internal" href="commands/filter.html"><em>filter</em></a> command should be chosen
+using the tool <a class="reference internal" href="commands/filterstats.html"><em>filterstats</em></a>.</p>
+</div>
+<div class="section" id="choosing-parameters-for-filtering">
+<h3>Choosing parameters for filtering<a class="headerlink" href="#choosing-parameters-for-filtering" title="Permalink to this headline">¶</a></h3>
+<p>The command <a class="reference internal" href="commands/filterstats.html"><em>filterstats</em></a> reports the fraction of reads
+that would pass for each specified maximum expected error (EE) rate %:</p>
+<div class="highlight-sh"><div class="highlight"><pre>micca filterstats -i trimmed.fastq -o filterstats
+</pre></div>
+</div>
+<p>Open the PNG file <code class="docutils literal"><span class="pre">filterstats/stats_plot.png</span></code>:</p>
+<img alt="_images/filterstatspaired.png" class="align-center" src="_images/filterstatspaired.png" />
+<p>In this case we are interested in the plot on top (minimum length
+filtering only). A truncation length of <strong>400</strong> and a maximum error
+rate of <strong>0.5%</strong> seems to be a good compromise between the expected
+error rate and the number of reads remaining. Inspecting the file
+<code class="docutils literal"><span class="pre">filterstats/minlen_stats.txt</span></code>, you can see that more than <strong>73%</strong>
+reads will pass the filter:</p>
+<div class="highlight-python"><div class="highlight"><pre>L       0.25    0.5     0.75    1.0     1.25    1.5
+...
+399  54.801  73.016  83.476  90.107  94.312  96.917
+400  54.799  73.013  83.473  90.104  94.309  96.914
+401  54.781  72.993  83.452  90.080  94.285  96.890
+...
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">To obtain general sequencing statistics, run
+<a class="reference internal" href="commands/stats.html"><em>stats</em></a>.</p>
+</div>
+</div>
+<div class="section" id="filter-sequences">
+<h3>Filter sequences<a class="headerlink" href="#filter-sequences" title="Permalink to this headline">¶</a></h3>
+<p>Now we can run the <a class="reference internal" href="commands/filter.html"><em>filter</em></a> command with
+the selected parameters:</p>
+<div class="highlight-sh"><div class="highlight"><pre>micca filter -i trimmed.fastq -o filtered.fasta -e 0.5 -m 400
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The maximum number of allowed Ns after truncation can be also
+specified in <a class="reference internal" href="commands/filterstats.html"><em>filterstats</em></a> and in
+<a class="reference internal" href="commands/filter.html"><em>filter</em></a>.</p>
+</div>
+</div>
+</div>
+<div class="section" id="otu-picking-taxonomy-assignment-phylogenetic-tree-inference-and-downstream-analysis">
+<h2><a class="toc-backref" href="#id5">OTU picking, taxonomy assignment, phylogenetic tree inference and downstream analysis</a><a class="headerlink" href="#otu-picking-taxonomy-assignment-phylogenetic-tree-inference-and-downstream-analysis" title="Permalink to this headline">¶</a></h2>
+<p>See <a class="reference internal" href="singleend.html"><em>Single-end sequencing</em></a> starting from <a class="reference internal" href="singleend.html#singleend-otu-picking"><span>OTU picking</span></a>.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="phyloseq.html" class="btn btn-neutral float-right" title="Import and analyze the data into R and phyloseq" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="singleend.html" class="btn btn-neutral" title="Single-end sequencing" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, micca development team.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

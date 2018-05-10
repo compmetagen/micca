@@ -1,0 +1,322 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Supported file formats &mdash; micca 1.2.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="micca 1.2.0 documentation" href="index.html"/>
+        <link rel="next" title="CHANGES" href="changes.html"/>
+        <link rel="prev" title="OTU picking in micca" href="otu.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> micca
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.2.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Download and install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run.html">Run micca in 6 steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="databases.html">Supported databases</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="singleend.html">Single-end sequencing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pairedend.html">Paired-end sequencing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="phyloseq.html">Import and analyze the data into R and phyloseq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="table.html">Compute basic OTU table statistics, rarefy and summarize OTU tables by taxa using micca</a></li>
+<li class="toctree-l1"><a class="reference internal" href="picrust.html">Picking OTUs for use in PICRUSt</a></li>
+</ul>
+<p class="caption"><span class="caption-text">In Depth</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="filtering.html">Quality filtering strategy in micca</a></li>
+<li class="toctree-l1"><a class="reference internal" href="otu.html">OTU picking in micca</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Supported file formats</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#sequence-files">Sequence files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#taxonomy-files">Taxonomy files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#otu-table-and-taxonomy-tables">OTU table and taxonomy tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sample-data">Sample data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#phylogenetic-tree">Phylogenetic tree</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html">CHANGES</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Command reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="commands/classify.html">classify</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/convert.html">convert</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/filter.html">filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/filterstats.html">filterstats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/merge.html">merge</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/mergepairs.html">mergepairs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/msa.html">msa</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/otu.html">otu</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/root.html">root</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/split.html">split</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/stats.html">stats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/tablebar.html">tablebar</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/tablerare.html">tablerare</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/tablestats.html">tablestats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/tabletotax.html">tabletotax</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/tobiom.html">tobiom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/tree.html">tree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/trim.html">trim</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">micca</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Supported file formats</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/formats.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="supported-file-formats">
+<h1>Supported file formats<a class="headerlink" href="#supported-file-formats" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="sequence-files">
+<h2>Sequence files<a class="headerlink" href="#sequence-files" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/FASTA_format">FASTA</a> and <a class="reference external" href="https://en.wikipedia.org/wiki/FASTQ_format">FASTQ</a> Sanger/Illumina 1.8+
+format (phred+33) formats are supported. micca provides the
+<a class="reference internal" href="commands/convert.html"><em>convert</em></a> command to convert between sequence file
+formats.</p>
+</div>
+<div class="section" id="taxonomy-files">
+<h2>Taxonomy files<a class="headerlink" href="#taxonomy-files" title="Permalink to this headline">¶</a></h2>
+<p>Taxonomy files map sequence IDs to taxonomy. Input taxonomy files must
+be TAB-delimited files where rows are either in the form:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><code class="docutils literal"><span class="pre">SEQID[TAB]k__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__;g__;</span></code></li>
+<li><code class="docutils literal"><span class="pre">SEQID[TAB]Bacteria;Firmicutes;Clostridia;Clostridiales;;;</span></code></li>
+<li><code class="docutils literal"><span class="pre">SEQID[TAB]Bacteria;Firmicutes;Clostridia;Clostridiales</span></code></li>
+</ol>
+</div></blockquote>
+<p>Compatible taxonomy files are in Greengenes
+(<a class="reference external" href="http://greengenes.secondgenome.com/downloads">http://greengenes.secondgenome.com/downloads</a>), QIIME-formatted SILVA
+(<a class="reference external" href="https://www.arb-silva.de/download/archive/qiime/">https://www.arb-silva.de/download/archive/qiime/</a>) and UNITE
+(<a class="reference external" href="https://unite.ut.ee/repository.php">https://unite.ut.ee/repository.php</a>) databases.</p>
+<p>The output taxonomy file returned by <a class="reference internal" href="commands/classify.html"><em>classify</em></a> is a
+TAB-delimited file where each row is always in the format:</p>
+<div class="highlight-python"><div class="highlight"><pre>SEQID[TAB]Bacteria;Firmicutes;Clostridia;Clostridiales
+</pre></div>
+</div>
+</div>
+<div class="section" id="otu-table-and-taxonomy-tables">
+<h2>OTU table and taxonomy tables<a class="headerlink" href="#otu-table-and-taxonomy-tables" title="Permalink to this headline">¶</a></h2>
+<p>The OTU table returned by <a class="reference internal" href="commands/otu.html"><em>otu</em></a> is an OTU x sample,
+TAB-delimited text file, containing the number of times an OTU is
+found in each sample:</p>
+<div class="highlight-python"><div class="highlight"><pre>OTU     Mw_01 Mw_02 Mw_03 ...
+DENOVO1 151   178   177   ...
+DENOVO2 339   181   142   ...
+DENOVO3 533   305   63    ...
+DENOVO4 166   299   115   ...
+...     ...   ...   ...   ...
+</pre></div>
+</div>
+<p>The <a class="reference internal" href="commands/tabletotax.html"><em>tabletotax</em></a> command returns the &#8220;taxonomy tables&#8221;
+for each taxonomic level, e.g.:</p>
+<div class="highlight-python"><div class="highlight"><pre>OTU                                Mw_01 Mw_02 Mw_03 ...
+Bacteria;Bacteroidetes             1363  1543  1168  ...
+Bacteria;Cyanobacteria/Chloroplast 0     0     0     ...
+Bacteria;Firmicutes                6257  5780  6761  ...
+Bacteria;Lentisphaerae             0     1     0     ...
+...                                ...   ...   ...   ...
+</pre></div>
+</div>
+</div>
+<div class="section" id="sample-data">
+<span id="formats-sample-data"></span><h2>Sample data<a class="headerlink" href="#sample-data" title="Permalink to this headline">¶</a></h2>
+<p>The sample data file contains all of the information about the
+samples. In QIIME this file is called <a class="reference external" href="http://qiime.org/tutorials/tutorial.html#mapping-file-tab-delimited-txt">Mapping File</a>.
+In micca, the sample data file must be a TAB-delimited text file (a
+row for each sample). The first column must be the sample identifier
+(assigned in <a class="reference internal" href="commands/merge.html"><em>merge</em></a>, <a class="reference internal" href="commands/split.html"><em>split</em></a> or
+<a class="reference internal" href="commands/mergepairs.html"><em>mergepairs</em></a>):</p>
+<div class="highlight-python"><div class="highlight"><pre>ID    Group Altitude
+Mw_01 Mw1   492
+Mw_02 Mw1   492
+Mw_09 Mw1   492
+Mw_12 Mw1   492
+...   ...   ...
+</pre></div>
+</div>
+</div>
+<div class="section" id="phylogenetic-tree">
+<h2>Phylogenetic tree<a class="headerlink" href="#phylogenetic-tree" title="Permalink to this headline">¶</a></h2>
+<p>Only the <a class="reference external" href="https://en.wikipedia.org/wiki/Newick_format">Newick format</a> is
+supported.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="changes.html" class="btn btn-neutral float-right" title="CHANGES" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="otu.html" class="btn btn-neutral" title="OTU picking in micca" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, micca development team.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.2.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

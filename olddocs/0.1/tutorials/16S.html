@@ -1,0 +1,327 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>16S Amplicon Reads Tutorial &mdash; micca 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="micca 0.1 documentation" href="../index.html" />
+    <link rel="up" title="Tutorials" href="../tutorials.html" />
+    <link rel="next" title="Importing micca outputs in R and phyloseq" href="phyloseq.html" />
+    <link rel="prev" title="Tutorials" href="../tutorials.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="phyloseq.html" title="Importing micca outputs in R and phyloseq"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../tutorials.html" title="Tutorials"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">micca 0.1 documentation</a> &raquo;</li>
+          <li><a href="../tutorials.html" accesskey="U">Tutorials</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="s-amplicon-reads-tutorial">
+<h1>16S Amplicon Reads Tutorial<a class="headerlink" href="#s-amplicon-reads-tutorial" title="Permalink to this headline">¶</a></h1>
+<p>This tutorial covers a full micca workflow. Given three samples of 16S
+raw data (Roche 454 in this case) we will perform preprocessing, OTU
+picking, taxonomy assignment and phylogenetic profiling.</p>
+<p>The data used in this tutorial is a small subset of <a class="reference internal" href="#defilippo2010">[DeFilippo2010]</a>.</p>
+<div class="section" id="input-files">
+<h2>Input files<a class="headerlink" href="#input-files" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Demultiplexed raw FASTQ files with Sanger (Phred+33) quality scores.
+In the case of multiplexed reads you can you can perform a
+demultiplexing step by using FASTX-Toolkit
+(<a class="reference external" href="http://hannonlab.cshl.edu/fastx_toolkit/">http://hannonlab.cshl.edu/fastx_toolkit/</a>).</li>
+</ul>
+<p>In the case of Roche 454&#8217;s SFF files, you can perform demultiplexing
+by using the Roche&#8217;s tool <tt class="docutils literal"><span class="pre">sfffile</span></tt> and convert to FASTQ using the
+micca tool <a class="reference internal" href="../command_ref/micca_sff2fastq.html"><em>micca-sff2fastq</em></a>.</p>
+<p>Files you need to complete this tutorial (<tt class="docutils literal"><span class="pre">sample1.fastq</span></tt>,
+<tt class="docutils literal"><span class="pre">sample2.fastq</span></tt>, <tt class="docutils literal"><span class="pre">sample3.fastq</span></tt>) are located in <tt class="docutils literal"><span class="pre">examples/16S</span></tt>.</p>
+</div>
+<div class="section" id="preprocessing">
+<h2>Preprocessing<a class="headerlink" href="#preprocessing" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="../command_ref/micca_preproc.html"><em>micca-preproc</em></a> command performs:</p>
+<ul class="simple">
+<li>primer trimming both in the 5&#8217; and 3&#8217; ends of reads using semi-global
+alignments</li>
+<li>quality filtering using sliding windows</li>
+<li>ending Ns trimming</li>
+<li>minimum length filtering</li>
+</ul>
+<p>Parameters for the <a class="reference internal" href="../command_ref/micca_preproc.html"><em>micca-preproc</em></a> command should
+be chosen by examining the distribution of read length and quality
+scores. <a class="reference internal" href="../command_ref/micca_preproc_check.html"><em>micca-preproc-check</em></a> tries different
+combinations of length and quality thresholds and reports the
+percentage of reads passing the filter</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>micca-preproc-check sample1.fastq sample1_check.png <span class="se">\</span>
+    -f AGGATTAGATACCCTGGTA -r GTCGTCAGCTCGTGYYG <span class="se">\</span>
+    -q 14 16 18 20 22 24
+</pre></div>
+</div>
+<p>where the parameter <tt class="docutils literal"><span class="pre">-f</span></tt> and <tt class="docutils literal"><span class="pre">-r</span></tt> indicates forward and reverse
+primers respectively. <tt class="docutils literal"><span class="pre">-q</span></tt> indicates the quality thresholds you want
+to check.</p>
+<p>The command will build a <tt class="docutils literal"><span class="pre">.png</span></tt> file (<tt class="docutils literal"><span class="pre">sample1_check.png</span></tt>):</p>
+<div class="figure align-center">
+<img alt="../_images/sample1_check.png" src="../_images/sample1_check.png" />
+</div>
+<p>The length threshold 200 and quality threshold 16 values (black point)
+are selected as a compromise between quality filtering and minimum
+reads length.</p>
+<p>Using the chosen parameters, run the following command on all the
+samples:</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>micca-preproc *.fastq -f AGGATTAGATACCCTGGTA
+  -r GTCGTCAGCTCGTGYYG -o preprocessed
+</pre></div>
+</div>
+<p>The command produces a <tt class="docutils literal"><span class="pre">preprocessed</span></tt> folder which contains the
+preprocessed FASTQ files and a <tt class="docutils literal"><span class="pre">preproc.log</span></tt>.</p>
+</div>
+<div class="section" id="denovo-otu-picking-and-taxonomy-assignment">
+<h2>Denovo OTU picking and taxonomy assignment<a class="headerlink" href="#denovo-otu-picking-and-taxonomy-assignment" title="Permalink to this headline">¶</a></h2>
+<p>After the preprocesing step, run the
+<a class="reference internal" href="../command_ref/micca_otu_denovo.html"><em>micca-otu-denovo</em></a> command:</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>micca-otu-denovo preprocessed/*.fastq -c -t rdp -o otu_rdp
+</pre></div>
+</div>
+<p>All of the preprocessed sequences from all of the samples are
+clustered (by <a class="reference internal" href="../otuclust.html"><em>OTUCLUST</em></a>) into Operational Taxonomic Units
+(OTUs) based on their sequence similarity (by default 97%). Moreover,
+chimeras are removed by UCHIME (<tt class="docutils literal"><span class="pre">-c</span></tt> parameter) and taxonomy is
+assigned to the representative sequences by the RDP classifier (<tt class="docutils literal"><span class="pre">-t</span>
+<span class="pre">rdp</span></tt>).</p>
+<p>You can speed-up the clustering step setting the <tt class="docutils literal"><span class="pre">--derep-fast</span></tt> and
+<tt class="docutils literal"><span class="pre">--derep-fast-len</span></tt> parameters (useful when you have more than 200000
+seqs):</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>micca-otu-denovo preprocessed/*.fastq -c -t rdp -o otu_rdp <span class="se">\</span>
+  --derep-fast --derep-fast-len 200
+</pre></div>
+</div>
+<p>The command produces a <tt class="docutils literal"><span class="pre">otu_rdp</span></tt> folder which contains the
+following:</p>
+<dl class="docutils">
+<dt><strong>clusters.txt</strong></dt>
+<dd><p class="first">a tab-delimited file where each row contains the sequence
+identifiers assigned to the cluster. The first id corresponds to a
+representative sequence. Sequence identifiers are coded as
+<tt class="docutils literal"><span class="pre">SAMPLE_NAME||SEQ_ID</span></tt>:</p>
+<div class="last highlight-python"><pre>sample1||F4HTPAO07H4B1Q sample1||F4HTPAO07ILHKH sample1||F4HTPAO07H8VJE  ...
+sample3||F4HTPAO05FO0LC sample2||F4HTPAO02BVI74 sample3||F4HTPAO05FQCOF ...
+...</pre>
+</div>
+</dd>
+<dt><strong>otu_table.txt</strong></dt>
+<dd><p class="first">a tab-delimited file containing the number of times an OTU is
+found in each sample. The first column contains the representative
+sequence id:</p>
+<div class="last highlight-python"><pre>OTU                     sample1 sample2 sample3
+sample1||F4HTPAO07H4B1Q 12      5       4
+sample3||F4HTPAO05FO0LC 2       6       6
+...</pre>
+</div>
+</dd>
+<dt><strong>representatives.fasta</strong></dt>
+<dd><p class="first">a FASTA file containing the representative sequence for each OTU:</p>
+<div class="highlight-python"><pre>&gt;sample1||F4HTPAO07H4B1Q</pre>
+</div>
+<p class="last">GTCCACGCCGTAAACGGTGGATGCTGGATGTGGGGCCCGTTCCACGGGTTCCGTGTCGGA
+GCTAACGCGTTAAGCATCCCGCCTGGGGAGTACGGCCGCAAGGCTAAAACTCAAAGAAAT
+TGACGGGGCCCGCACAAGCGGCGGAGCATGCGGATTAATTCGATGCAACGCGAAGAACCT
+TACCTGGGCTTGACATGTTCCCGACGGTCGTAGAGATACGGCTTCCCTTCGGGGCGGGTT
+CACAGGTGGTGCATGGTC
+&gt;sample3||F4HTPAO05FO0LC
+GTCCACGCCGTAAACGATGAATACTAGGTGTTGGGAAGCATTGCTTCTCGGTGCCGTCGC
+AAACGCAGTAAGTATTCCACCTGGGGAGTACGTTCGCAAGAATGAAACTCAAAGGAATTG
+ACGGGGACCCGCACAAGCGGTGGAGCATGTGGTTTAATTCGAAGCAACGCGAAGAACCTT
+ACCAAGTCTTGACATCCTTCTGACCGGTACTTAACCGTACCTTCTCTTCGGAGCAGGAGT
+GACAGGTGGTGCATGGTT
+...</p>
+</dd>
+<dt><strong>taxonomy.txt</strong></dt>
+<dd><p class="first">a two-columns, tab-delimited file containing the taxonomy assigned
+to each OTU:</p>
+<div class="last highlight-python"><pre>sample1||F4HTPAO07H4B1Q Bacteria;Actinobacteria;Actinobact...
+sample3||F4HTPAO05FO0LC Bacteria;Firmicutes;Clostridia;Clost...
+...</pre>
+</div>
+</dd>
+<dt><strong>otu.log</strong></dt>
+<dd>the log file.</dd>
+</dl>
+<div class="section" id="optional-taxonomy-assigment-using-blast">
+<h3>[Optional] - Taxonomy assigment using BLAST<a class="headerlink" href="#optional-taxonomy-assigment-using-blast" title="Permalink to this headline">¶</a></h3>
+<p><tt class="docutils literal"><span class="pre">micca</span></tt> supports QIIME-formatted databases. A QIIME-formatted
+database is composed of two files:</p>
+<ul>
+<li><p class="first">a FASTA file containing the representative database sequences
+clustered at some level of identity</p>
+</li>
+<li><p class="first">the corresponding two-columns, tab-delimited taxonomy file in the
+form:</p>
+<div class="highlight-python"><pre>SEQ_ID k__Bacteria;p__Bacteroidetes;c__Flavobacteriia;o__Flavo...</pre>
+</div>
+<p>or, without the taxonomy prefix:</p>
+<div class="highlight-python"><pre>SEQ_ID Bacteria;Bacteroidetes;Flavobacteriia;Flavo...</pre>
+</div>
+</li>
+</ul>
+<p>For the 16S you can use:</p>
+<ul class="simple">
+<li>Greengenes (<a class="reference external" href="http://greengenes.secondgenome.com">http://greengenes.secondgenome.com</a>, under <tt class="docutils literal"><span class="pre">gg_13_5_otus.tar.gz</span></tt>)</li>
+<li>Silva (<a class="reference external" href="ftp://thebeast.colorado.edu/pub/QIIME_nonstandard_referencedb/Silva_111.tgz">Release 111</a>)</li>
+</ul>
+<p>The command will be:</p>
+<div class="highlight-sh"><div class="highlight"><pre>micca-otu-denovo preprocessed/*.fastq -c -t blast -o otu_rdp <span class="se">\</span>
+    --blast-ref greengenes_2013_05/rep_set/97_otus.fasta <span class="se">\</span>
+        --blast-ref-taxonomy greengenes_2013_05/taxonomy/97_otu_taxonomy.txt
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="building-the-phylogenetic-tree">
+<h2>Building the phylogenetic tree<a class="headerlink" href="#building-the-phylogenetic-tree" title="Permalink to this headline">¶</a></h2>
+<p>The command <a class="reference internal" href="../command_ref/micca_phylogeny.html"><em>micca-phylogeny</em></a> produces a Multiple
+Sequence Alignment (MSA) through MUSCLE (denovo), T-Coffe (denovo) or
+PyNAST (template) and a phylogenetic tree using FastTree (references
+in <a class="reference internal" href="../install.html"><em>Install</em></a>). In this tutorial we perform MSA using PyNAST:</p>
+<div class="highlight-sh"><div class="highlight"><pre>micca-phylogeny otu_rdp/representatives.fasta -o phylo_pynast --alignment<span class="o">=</span>template <span class="se">\</span>
+    --template-file<span class="o">=</span>greengenes_2013_05/rep_set_aligned/97_otus.fasta
+</pre></div>
+</div>
+<p>where <tt class="docutils literal"><span class="pre">greengenes_2013_05/rep_set_aligned/97_otus.fasta</span></tt> is the
+Greengenes MSA at 97% identity used as template. You can obtain the
+latest Greengenes MSAs at <a class="reference external" href="http://greengenes.secondgenome.com">http://greengenes.secondgenome.com</a> under
+<tt class="docutils literal"><span class="pre">gg_13_5_otus.tar.gz</span></tt>.</p>
+<p>The command produces a <tt class="docutils literal"><span class="pre">phylo_pynast</span></tt> folder which contains the following:</p>
+<dl class="docutils">
+<dt><strong>alignment.fasta</strong></dt>
+<dd>MSA of the representatives sequences in FASTA format.</dd>
+<dt><strong>tree.tre</strong></dt>
+<dd>Phylogenetic tree in <tt class="docutils literal"><span class="pre">newick</span></tt> format.</dd>
+<dt><strong>phylogeny.log</strong></dt>
+<dd>the log file.</dd>
+</dl>
+<p>You can perform a midpoint rooting of the tree by
+<a class="reference internal" href="../command_ref/micca_midpoint_root.html"><em>micca-midpoint-root</em></a>:</p>
+<div class="highlight-sh"><div class="highlight"><pre>micca-midpoint-root phylo_pynast/tree.tre phylo_pynast/tree_rooted.tre
+</pre></div>
+</div>
+<table class="docutils citation" frame="void" id="defilippo2010" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[DeFilippo2010]</a></td><td>De Filippo et al. Impact of diet in shaping gut microbiota revealed by
+a comparative study in children from Europe and rural Africa. Proceedings of the
+National Academy of Sciences, 2010.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/micca_logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">16S Amplicon Reads Tutorial</a><ul>
+<li><a class="reference internal" href="#input-files">Input files</a></li>
+<li><a class="reference internal" href="#preprocessing">Preprocessing</a></li>
+<li><a class="reference internal" href="#denovo-otu-picking-and-taxonomy-assignment">Denovo OTU picking and taxonomy assignment</a><ul>
+<li><a class="reference internal" href="#optional-taxonomy-assigment-using-blast">[Optional] - Taxonomy assigment using BLAST</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#building-the-phylogenetic-tree">Building the phylogenetic tree</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../tutorials.html"
+                        title="previous chapter">Tutorials</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="phyloseq.html"
+                        title="next chapter">Importing micca outputs in R and <tt class="docutils literal"><span class="pre">phyloseq</span></tt></a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/tutorials/16S.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="phyloseq.html" title="Importing micca outputs in R and phyloseq"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../tutorials.html" title="Tutorials"
+             >previous</a> |</li>
+        <li><a href="../index.html">micca 0.1 documentation</a> &raquo;</li>
+          <li><a href="../tutorials.html" >Tutorials</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Davide Albanese, Paolo Fontana, Claudio Donati.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

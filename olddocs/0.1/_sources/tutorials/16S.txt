@@ -1,0 +1,219 @@
+16S Amplicon Reads Tutorial
+===========================
+
+This tutorial covers a full micca workflow. Given three samples of 16S
+raw data (Roche 454 in this case) we will perform preprocessing, OTU
+picking, taxonomy assignment and phylogenetic profiling.
+
+The data used in this tutorial is a small subset of [DeFilippo2010]_.
+
+Input files
+-----------
+
+* Demultiplexed raw FASTQ files with Sanger (Phred+33) quality scores.
+  In the case of multiplexed reads you can you can perform a
+  demultiplexing step by using FASTX-Toolkit
+  (http://hannonlab.cshl.edu/fastx_toolkit/).
+
+In the case of Roche 454's SFF files, you can perform demultiplexing
+by using the Roche's tool ``sfffile`` and convert to FASTQ using the
+micca tool :doc:`../command_ref/micca_sff2fastq`.
+
+Files you need to complete this tutorial (``sample1.fastq``,
+``sample2.fastq``, ``sample3.fastq``) are located in ``examples/16S``.
+
+
+Preprocessing
+-------------
+
+The :doc:`../command_ref/micca_preproc` command performs:
+
+* primer trimming both in the 5' and 3' ends of reads using semi-global
+  alignments
+* quality filtering using sliding windows
+* ending Ns trimming
+* minimum length filtering
+
+Parameters for the :doc:`../command_ref/micca_preproc` command should
+be chosen by examining the distribution of read length and quality
+scores. :doc:`../command_ref/micca_preproc_check` tries different
+combinations of length and quality thresholds and reports the
+percentage of reads passing the filter
+
+.. code-block:: sh
+    
+    $ micca-preproc-check sample1.fastq sample1_check.png \
+        -f AGGATTAGATACCCTGGTA -r GTCGTCAGCTCGTGYYG \
+        -q 14 16 18 20 22 24
+
+where the parameter ``-f`` and ``-r`` indicates forward and reverse
+primers respectively. ``-q`` indicates the quality thresholds you want
+to check. 
+
+The command will build a ``.png`` file (``sample1_check.png``):
+
+.. figure:: ../../images/sample1_check.png
+      :align: center
+
+The length threshold 200 and quality threshold 16 values (black point)
+are selected as a compromise between quality filtering and minimum
+reads length.
+
+Using the chosen parameters, run the following command on all the
+samples:
+
+.. code-block:: sh
+
+    $ micca-preproc *.fastq -f AGGATTAGATACCCTGGTA
+      -r GTCGTCAGCTCGTGYYG -o preprocessed
+
+The command produces a ``preprocessed`` folder which contains the
+preprocessed FASTQ files and a ``preproc.log``.
+
+Denovo OTU picking and taxonomy assignment
+------------------------------------------
+
+After the preprocesing step, run the
+:doc:`../command_ref/micca_otu_denovo` command:
+
+.. code-block:: sh
+
+    $ micca-otu-denovo preprocessed/*.fastq -c -t rdp -o otu_rdp
+
+All of the preprocessed sequences from all of the samples are
+clustered (by :doc:`../otuclust`) into Operational Taxonomic Units
+(OTUs) based on their sequence similarity (by default 97%). Moreover,
+chimeras are removed by UCHIME (``-c`` parameter) and taxonomy is
+assigned to the representative sequences by the RDP classifier (``-t
+rdp``). 
+
+You can speed-up the clustering step setting the ``--derep-fast`` and
+``--derep-fast-len`` parameters (useful when you have more than 200000
+seqs):
+
+.. code-block:: sh
+
+    $ micca-otu-denovo preprocessed/*.fastq -c -t rdp -o otu_rdp \
+      --derep-fast --derep-fast-len 200
+
+The command produces a ``otu_rdp`` folder which contains the
+following:
+
+**clusters.txt**
+    a tab-delimited file where each row contains the sequence
+    identifiers assigned to the cluster. The first id corresponds to a
+    representative sequence. Sequence identifiers are coded as
+    ``SAMPLE_NAME||SEQ_ID``::
+
+        sample1||F4HTPAO07H4B1Q sample1||F4HTPAO07ILHKH sample1||F4HTPAO07H8VJE  ...
+        sample3||F4HTPAO05FO0LC sample2||F4HTPAO02BVI74 sample3||F4HTPAO05FQCOF ...
+        ...
+
+**otu_table.txt**
+    a tab-delimited file containing the number of times an OTU is
+    found in each sample. The first column contains the representative
+    sequence id::
+
+        OTU                     sample1 sample2 sample3
+        sample1||F4HTPAO07H4B1Q 12      5       4
+        sample3||F4HTPAO05FO0LC 2       6       6
+        ...
+
+**representatives.fasta**
+    a FASTA file containing the representative sequence for each OTU::
+    
+    >sample1||F4HTPAO07H4B1Q
+    GTCCACGCCGTAAACGGTGGATGCTGGATGTGGGGCCCGTTCCACGGGTTCCGTGTCGGA
+    GCTAACGCGTTAAGCATCCCGCCTGGGGAGTACGGCCGCAAGGCTAAAACTCAAAGAAAT
+    TGACGGGGCCCGCACAAGCGGCGGAGCATGCGGATTAATTCGATGCAACGCGAAGAACCT
+    TACCTGGGCTTGACATGTTCCCGACGGTCGTAGAGATACGGCTTCCCTTCGGGGCGGGTT
+    CACAGGTGGTGCATGGTC
+    >sample3||F4HTPAO05FO0LC
+    GTCCACGCCGTAAACGATGAATACTAGGTGTTGGGAAGCATTGCTTCTCGGTGCCGTCGC
+    AAACGCAGTAAGTATTCCACCTGGGGAGTACGTTCGCAAGAATGAAACTCAAAGGAATTG
+    ACGGGGACCCGCACAAGCGGTGGAGCATGTGGTTTAATTCGAAGCAACGCGAAGAACCTT
+    ACCAAGTCTTGACATCCTTCTGACCGGTACTTAACCGTACCTTCTCTTCGGAGCAGGAGT
+    GACAGGTGGTGCATGGTT
+    ...
+
+**taxonomy.txt**
+    a two-columns, tab-delimited file containing the taxonomy assigned
+    to each OTU::
+
+        sample1||F4HTPAO07H4B1Q	Bacteria;Actinobacteria;Actinobact...
+        sample3||F4HTPAO05FO0LC	Bacteria;Firmicutes;Clostridia;Clost...
+        ...
+
+**otu.log**
+    the log file.
+
+[Optional] - Taxonomy assigment using BLAST
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+``micca`` supports QIIME-formatted databases. A QIIME-formatted
+database is composed of two files:
+
+* a FASTA file containing the representative database sequences
+  clustered at some level of identity
+* the corresponding two-columns, tab-delimited taxonomy file in the
+  form::
+
+      SEQ_ID k__Bacteria;p__Bacteroidetes;c__Flavobacteriia;o__Flavo...
+
+  or, without the taxonomy prefix::
+  
+      SEQ_ID Bacteria;Bacteroidetes;Flavobacteriia;Flavo...    
+
+For the 16S you can use:
+
+* Greengenes (http://greengenes.secondgenome.com, under ``gg_13_5_otus.tar.gz``)
+* Silva (`Release 111 <ftp://thebeast.colorado.edu/pub/QIIME_nonstandard_referencedb/Silva_111.tgz>`_)
+
+The command will be:
+
+.. code-block:: sh
+
+    micca-otu-denovo preprocessed/*.fastq -c -t blast -o otu_rdp \
+        --blast-ref greengenes_2013_05/rep_set/97_otus.fasta \
+	    --blast-ref-taxonomy greengenes_2013_05/taxonomy/97_otu_taxonomy.txt
+
+
+Building the phylogenetic tree
+------------------------------
+
+The command :doc:`../command_ref/micca_phylogeny` produces a Multiple
+Sequence Alignment (MSA) through MUSCLE (denovo), T-Coffe (denovo) or
+PyNAST (template) and a phylogenetic tree using FastTree (references
+in :doc:`../install`). In this tutorial we perform MSA using PyNAST:
+
+.. code-block:: sh
+
+    micca-phylogeny otu_rdp/representatives.fasta -o phylo_pynast --alignment=template \
+        --template-file=greengenes_2013_05/rep_set_aligned/97_otus.fasta
+
+where ``greengenes_2013_05/rep_set_aligned/97_otus.fasta`` is the
+Greengenes MSA at 97% identity used as template. You can obtain the
+latest Greengenes MSAs at http://greengenes.secondgenome.com under
+``gg_13_5_otus.tar.gz``.
+
+The command produces a ``phylo_pynast`` folder which contains the following:
+
+**alignment.fasta**
+    MSA of the representatives sequences in FASTA format.
+
+**tree.tre**
+    Phylogenetic tree in ``newick`` format.
+
+**phylogeny.log**
+    the log file.
+
+You can perform a midpoint rooting of the tree by
+:doc:`../command_ref/micca_midpoint_root`:
+
+.. code-block:: sh
+
+    micca-midpoint-root phylo_pynast/tree.tre phylo_pynast/tree_rooted.tre
+
+
+.. [DeFilippo2010] De Filippo et al. Impact of diet in shaping gut microbiota revealed by
+                   a comparative study in children from Europe and rural Africa. Proceedings of the
+                   National Academy of Sciences, 2010.
