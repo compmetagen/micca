@@ -9,14 +9,6 @@ can be applied to a range of highly conserved genes/spacers, such as **16S rRNA
 gene**, **Internal Transcribed Spacer (ITS)** and **28S rRNA**. micca is an
 **open-source**, GPLv3-licensed software.
 
-```bash
-# Example: dereplication, denoising and chimera filtering in one step
-# (4 threads)
-$ micca otu -m denovo_unoise -i input.fasta -o outdir -t 4 -c
-```
-
-Key features:
-
 * supports **single-end** (Roche 454, Illumina MiSeq/HiSeq ,Ion Torrent) and
   **overlapping paired-end** reads (Illumina MiSeq/HiSeq);
 * multithread **de novo greedy**, **closed-reference**, **open-reference** and 
@@ -29,6 +21,12 @@ Key features:
   error (EE) rate %**;
 * runs on Linux, Mac OS X and MS Windows (through **Docker** containers);
 * **simple, easy to use**.
+
+```bash
+# Example: dereplication, denoising and chimera filtering in one step
+# (4 threads)
+$ micca otu -m denovo_unoise -i input.fasta -o outdir -t 4 -c
+```
 
 
 Site under maintenance. [Documentation](http://micca.readthedocs.io).
