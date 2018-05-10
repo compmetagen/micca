@@ -11,6 +11,7 @@ gene**, **Internal Transcribed Spacer (ITS)** and **28S rRNA**. micca is an
 
 
 [![alt text](/assets/images/python_logo.png)](https://pypi.org/project/micca/) `pip install micca`
+
 [![alt text](/assets/images/python_logo.png)](https://pypi.org/project/micca/) `pip install micca`
 
 * supports **single-end** (Roche 454, Illumina MiSeq/HiSeq ,Ion Torrent) and
