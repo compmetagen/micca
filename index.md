@@ -1,1 +1,1 @@
-Site under maintainance. [Documentation](http://micca.readthedocs.io).
+Site under maintenance. [Documentation](http://micca.readthedocs.io).
