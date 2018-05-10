@@ -9,6 +9,10 @@ can be applied to a range of highly conserved genes/spacers, such as **16S rRNA
 gene**, **Internal Transcribed Spacer (ITS)** and **28S rRNA**. micca is an
 **open-source**, GPLv3-licensed software.
 
+
+[![alt text]](/assets/images/python_logo.png)](https://pypi.org/project/micca/) `pip install micca`
+
+
 * supports **single-end** (Roche 454, Illumina MiSeq/HiSeq ,Ion Torrent) and
   **overlapping paired-end** reads (Illumina MiSeq/HiSeq);
 * multithread **de novo greedy**, **closed-reference**, **open-reference** and 
