@@ -10,9 +10,11 @@ gene**, **Internal Transcribed Spacer (ITS)** and **28S rRNA**. micca is an
 **open-source**, GPLv3-licensed software.
 
 
-[![alt text](/assets/images/python_logo.png)](https://pypi.org/project/micca/) `pip install micca`
+[![alt text](/assets/images/python_logo.png)](https://pypi.org/project/micca/) `$ pip install micca`
 
-[![alt text](/assets/images/python_logo.png)](https://pypi.org/project/micca/) `pip install micca`
+[![alt text](/assets/images/docker_logo.png)](https://hub.docker.com/r/compmetagen/micca/) `$ docker pull compmetagen/micca`
+
+[![alt text](/assets/images/github_logo.png)](https://github.com/compmetagen/micca/releases) `$ python setup.py install`
 
 * supports **single-end** (Roche 454, Illumina MiSeq/HiSeq ,Ion Torrent) and
   **overlapping paired-end** reads (Illumina MiSeq/HiSeq);
