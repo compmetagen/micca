@@ -1,1 +1,6 @@
 theme: jekyll-theme-slate
+
+include: 
+  - olddocs/*/_images
+  - olddocs/*/_sources
+  - olddocs/*/_static
