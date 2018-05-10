@@ -11,18 +11,18 @@ software.
 
 Key features:
 
-* supports single-end (Roche 454, Illumina MiSeq/HiSeq ,Ion Torrent) and
-  overlapping paired-end reads (Illumina MiSeq/HiSeq);
-* multithread de novo greedy, closed-reference, open-reference and swarm OTU
-  picking protocols; 
-* denoising of Illumina reads;
-* state-of-the-art taxonomic classification algorithms (RDP and consensus-based
-  classifier);
-* fast and and memory efficient NAST multiple sequence alignment (MSA); 
-* filters low quality sequences according to the maximum allowed expected
-  error (EE) rate %;
-* runs on Linux, Mac OS X and MS Windows (through Docker containers);
-* simple, easy to use.
+* supports **single-end** (Roche 454, Illumina MiSeq/HiSeq ,Ion Torrent) and
+  **overlapping paired-end** reads (Illumina MiSeq/HiSeq);
+* multithread **de novo greedy**, **closed-reference**, **open-reference** and 
+  **swarm** OTU picking protocols; 
+* **denoising** of Illumina reads;
+* state-of-the-art taxonomic classification algorithms (**RDP** and
+  **consensus-based** classifier);
+* fast and and **memory efficient NAST** multiple sequence alignment (MSA); 
+* filters low quality sequences according to the **maximum allowed expected
+  error (EE) rate %**;
+* runs on Linux, Mac OS X and MS Windows (through **Docker** containers);
+* **simple, easy to use**.
 
 
 Site under maintenance. [Documentation](http://micca.readthedocs.io).
