@@ -1,4 +1,4 @@
 theme: jekyll-theme-slate
 
 include:
-    - olddocs/1.5/_images/*
+    - "olddocs/1.5/_images/*"
