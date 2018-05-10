@@ -36,6 +36,8 @@ $ micca otu -m denovo_unoise -i input.fasta -o outdir -t 4 -c
 ```
 
 
-Site under maintenance. [Documentation](http://micca.readthedocs.io).
+Site under maintenance. 
+
+[Documentation](http://micca.readthedocs.io).
 
 [Old documentation (0.1->1.6.0)](ftp://ftp.fmach.it/metagenomics/micca/olddocs/index.html)
