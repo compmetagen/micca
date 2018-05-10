@@ -9,6 +9,11 @@ range of highly conserved genes/spacers, such as 16S rRNA gene, Internal
 Transcribed Spacer (ITS) and 28S rRNA. micca is an open-source, GPLv3-licensed
 software.
 
+```bash
+# Example: dereplication, denoising and chimera filtering (4 threads)
+micca otu -m denovo_unoise -i input.fasta -o outdir -t 4 -c
+```
+
 Key features:
 
 * supports **single-end** (Roche 454, Illumina MiSeq/HiSeq ,Ion Torrent) and
