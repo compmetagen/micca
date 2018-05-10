@@ -1,4 +1,4 @@
 theme: jekyll-theme-slate
 
-include:
+exclude:
     - olddocs
