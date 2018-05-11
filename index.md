@@ -17,14 +17,12 @@ and **Internal Transcribed Spacer (ITS)**.
  * [Github page](https://github.com/compmetagen/micca)
 
 ## Main features
-* **single-end** (Roche 454, Illumina MiSeq/HiSeq) and
-  **overlapping paired-end** reads support;
+* **single-end** (454, Illumina MiSeq/HiSeq) and **overlapping paired-end** reads;
 * state-of-the-art **OTU picking** protocols; 
 * **denoising** of Illumina reads;
 * taxonomic classification (**RDP** and  **consensus-based** classifier);
 * fast and **memory efficient NAST** multiple sequence alignment (MSA); 
-* filters low quality sequences according to the **maximum allowed expected
-  error (EE) rate %**;
+* **maximum allowed expected error (EE) rate %** filtering;
 * runs on Linux, Mac OS X and MS Windows (through **Docker** containers);
 * **simple, easy to use**.
 
