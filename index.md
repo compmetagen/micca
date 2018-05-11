@@ -2,15 +2,20 @@
 layout: default
 ---
 
-Stable version: 1.7.0 (2018/04/20)
+`Stable version: 1.7.0 (2018/04/20)`
 
-micca is a software pipeline for the processing
-of **amplicon sequencing data**, from raw sequences to **OTU tables**,
-**taxonomic classification** and **phylogenetic tree inference**. The pipeline
-can be applied to a range of highly conserved genes/spacers, such as **16S rRNA
-gene**, **Internal Transcribed Spacer (ITS)** and **28S rRNA**. micca is an
-**open-source**, GPLv3-licensed software.
+micca is a software pipeline for the processing of **amplicon sequencing data**,
+from raw sequences to **OTU tables**, **taxonomic classification** and
+**phylogenetic tree inference**. The pipeline can be applied to a range of
+highly conserved genes/spacers, such as **16S rRNA gene**, **Internal
+Transcribed Spacer (ITS)** and **28S rRNA**. micca is an **open-source**,
+GPLv3-licensed software.
 
+ * [Documentation (1.6.1-latest)](micca.readthedocs.io)
+ * [Old documentation (0.1-1.6.0)](ftp://ftp.fmach.it/metagenomics/micca/olddocs/index.html))
+ * [Issues](https://github.com/compmetagen/micca/issues)
+ * [Users forum](https://groups.google.com/d/forum/micca-users)
+ * [Github page](https://github.com/compmetagen/micca)
 
 ### Main features
 * supports **single-end** (Roche 454, Illumina MiSeq/HiSeq ,Ion Torrent) and
@@ -28,18 +33,20 @@ gene**, **Internal Transcribed Spacer (ITS)** and **28S rRNA**. micca is an
 
 ### Install
 
-[![alt text](/assets/images/python_logo.png)](https://pypi.org/project/micca/) `$ pip install micca`
-
-[![alt text](/assets/images/docker_logo.png)](https://hub.docker.com/r/compmetagen/micca/) `$ docker pull compmetagen/micca`
-
-[![alt text](/assets/images/github_logo.png)](https://github.com/compmetagen/micca/releases) `$ python setup.py install`
+* [Using PIP](https://pypi.org/project/micca/) `$ pip install micca`
+* [Docker](https://hub.docker.com/r/compmetagen/micca/) `$ docker pull compmetagen/micca`
+* [From sources](https://github.com/compmetagen/micca/releases) `$ python setup.py install`
 
 ### Examples
 Dereplication, denoising and chimera filtering in one step, using 4 threads:
 
 ```bash
-
 $ micca otu -m denovo_unoise -i input.fasta -o outdir -t 4 -c
+```
+
+Discard reads with expected error rate >0.5% and shorter than 300 bp:
+```bash
+micca filter -i input.fastq -o output.fasta -e 0.5 -m 300
 ```
 
 
