@@ -4,12 +4,11 @@ layout: default
 
 `Stable version: 1.7.0 (2018/04/20)`
 
-micca is a command-line software for the processing of **amplicon sequencing
-data**, from raw sequences to **OTU tables**, **taxonomic classification** and
-**phylogenetic tree inference**. The pipeline can be applied to a range of
-highly conserved genes/spacers, such as **16S rRNA gene**, **Internal
-Transcribed Spacer (ITS)** and **28S rRNA**. micca is an **open-source**,
-GPLv3-licensed software.
+micca is an open-source, command-line software for the processing of **amplicon
+sequencing data**, from raw sequences to **OTU tables**, **taxonomic
+classification** and **phylogenetic tree inference**. The pipeline can be
+applied to a range of highly conserved genes/spacers, such as **16S rRNA gene**
+and **Internal Transcribed Spacer (ITS)**.
 
  * [Documentation (1.6.1-latest)](https://micca.readthedocs.io)
  * [Old documentation (0.1-1.6.0)](ftp://ftp.fmach.it/metagenomics/micca/olddocs/index.html))
