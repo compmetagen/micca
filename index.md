@@ -2,7 +2,7 @@
 layout: default
 ---
 
-micca (MICrobial Community Analysis) is a software pipeline for the processing
+micca is a software pipeline for the processing
 of **amplicon sequencing data**, from raw sequences to **OTU tables**,
 **taxonomic classification** and **phylogenetic tree inference**. The pipeline
 can be applied to a range of highly conserved genes/spacers, such as **16S rRNA
