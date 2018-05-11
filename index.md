@@ -2,6 +2,8 @@
 layout: default
 ---
 
+Stable version: 1.7.0 (2018/04/20)
+
 micca is a software pipeline for the processing
 of **amplicon sequencing data**, from raw sequences to **OTU tables**,
 **taxonomic classification** and **phylogenetic tree inference**. The pipeline
@@ -10,12 +12,7 @@ gene**, **Internal Transcribed Spacer (ITS)** and **28S rRNA**. micca is an
 **open-source**, GPLv3-licensed software.
 
 
-[![alt text](/assets/images/python_logo.png)](https://pypi.org/project/micca/) `$ pip install micca`
-
-[![alt text](/assets/images/docker_logo.png)](https://hub.docker.com/r/compmetagen/micca/) `$ docker pull compmetagen/micca`
-
-[![alt text](/assets/images/github_logo.png)](https://github.com/compmetagen/micca/releases) `$ python setup.py install`
-
+### Main features
 * supports **single-end** (Roche 454, Illumina MiSeq/HiSeq ,Ion Torrent) and
   **overlapping paired-end** reads (Illumina MiSeq/HiSeq);
 * multithread **de novo greedy**, **closed-reference**, **open-reference** and 
@@ -29,9 +26,19 @@ gene**, **Internal Transcribed Spacer (ITS)** and **28S rRNA**. micca is an
 * runs on Linux, Mac OS X and MS Windows (through **Docker** containers);
 * **simple, easy to use**.
 
+### Install
+
+[![alt text](/assets/images/python_logo.png)](https://pypi.org/project/micca/) `$ pip install micca`
+
+[![alt text](/assets/images/docker_logo.png)](https://hub.docker.com/r/compmetagen/micca/) `$ docker pull compmetagen/micca`
+
+[![alt text](/assets/images/github_logo.png)](https://github.com/compmetagen/micca/releases) `$ python setup.py install`
+
+### Examples
+Dereplication, denoising and chimera filtering in one step, using 4 threads:
+
 ```bash
-# Example: dereplication, denoising and chimera filtering in one step
-# (4 threads)
+
 $ micca otu -m denovo_unoise -i input.fasta -o outdir -t 4 -c
 ```
 
