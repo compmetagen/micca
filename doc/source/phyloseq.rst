@@ -26,7 +26,7 @@ file.
 
     > library("phyloseq")
     > library("ggplot2")
-    > library(vegan)
+    > library("vegan")
     > setwd("denovo_greedy_otus") # set the working directory
     > ps = import_biom("tables.biom", treefilename="tree_rooted.tree", refseqfilename="otus.fasta")
     > sample_data(ps)$Month <- as.numeric(sample_data(ps)$Month)
