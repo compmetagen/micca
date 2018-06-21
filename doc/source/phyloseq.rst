@@ -11,7 +11,7 @@ An introduction to the downstream analysis with R and phyloseq
    <https://joey711.github.io/phyloseq/>`_ ggplot2 and vegan (tested on R v3.4
    and phyloseq v1.22.3) to be installed in your system.
 
-Import data and rarefaction
+Import data and preparation
 ---------------------------
 
 We can import the micca processed data (the BIOM file, the phylogenetic tree and
@@ -58,6 +58,8 @@ Now, we can rarefy in order to bring the samples to the same depth:
 Plot abundances
 ---------------
 
+Plot the abundances and color each OTU according its classified phylum (Rank2):
+
 .. code-block:: R
 
     > plot_bar(ps.rarefied, fill="Rank2") + facet_wrap(~Season, scales = "free_x", nrow = 1)
@@ -70,7 +72,8 @@ Plot abundances
 Alpha diversity
 ---------------
 
-Now we can plot the number of observed OTUs
+Now we can plot the number of observed OTUs in each month, coloring the values
+according to the sampling depth:
 
 .. code-block:: R
 
@@ -107,8 +110,8 @@ Now, we can plot the PCoA using the unweighted UniFrac as distance:
     :align: center
     :scale: 75%
 
-Now we test whether the seasons differ significantly from each other using the 
-permutational ANOVA (PERMANOVA) analysis:
+At this point, we test whether the seasons differ significantly from each other
+using the permutational ANOVA (PERMANOVA) analysis:
 
 .. code-block:: R
 
