@@ -90,6 +90,8 @@ object:
 
 Now we can make the new bar plot at the class level:
 
+.. code-block:: R
+
     > plot_bar(ps.phylum, fill="Rank2") + facet_wrap(~Season, scales = "free_x", nrow = 1)
 
 Alpha diversity
