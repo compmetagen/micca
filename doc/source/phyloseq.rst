@@ -77,6 +77,8 @@ Plot the abundances and color each OTU according its classified phylum (Rank2):
 Alternatively, we can merge the OTU at the phylum level and build a new phyloseq
 object:
 
+.. code-block:: R
+
     > ps.phylum = tax_glom(ps.rarefied, taxrank = "Rank2", NArm = F)
     > ps.phylum
     phyloseq-class experiment-level object
