@@ -38,7 +38,12 @@ file.
     phy_tree()    Phylogenetic Tree: [ 529 tips and 528 internal nodes ]
     refseq()      DNAStringSet:      [ 529 reference sequences ]
 
-At this point we can plot the rarefaction curves using vegan:
+In this case, the phyloseq object includes the OTU table (which contains the OTU
+counts for each sample), the sample data matrix (containing the sample
+metadata), the taxonomy table (the predicted taxonomy for each OTU), the
+phylogenetic tree, and the OTU representative sequences.
+
+Now this point we can plot the rarefaction curves using vegan:
 
 .. code-block:: R
 
@@ -48,7 +53,8 @@ At this point we can plot the rarefaction curves using vegan:
     :align: center
     :scale: 95%
 
-Now, we can rarefy in order to bring the samples to the same depth:
+Now, we can rarefy in order to bring the samples to the same depth (in this case
+is the 90% of the abundance of the sample with less reads):
 
 .. code-block:: R
 
@@ -68,6 +74,21 @@ Plot the abundances and color each OTU according its classified phylum (Rank2):
     :align: center
     :scale: 75%
 
+Alternatively, we can merge the OTU at the phylum level and build a new phyloseq
+object:
+
+    > ps.phylum = tax_glom(ps.rarefied, taxrank = "Rank2", NArm = F)
+    > ps.phylum
+    phyloseq-class experiment-level object
+    otu_table()   OTU Table:         [ 35 taxa and 34 samples ]
+    sample_data() Sample Data:       [ 34 samples by 4 sample variables ]
+    tax_table()   Taxonomy Table:    [ 35 taxa by 6 taxonomic ranks ]
+    phy_tree()    Phylogenetic Tree: [ 35 tips and 34 internal nodes ]
+    refseq()      DNAStringSet:      [ 35 reference sequences ]
+
+Now we can make the new bar plot at the class level:
+
+    > plot_bar(ps.phylum, fill="Rank2") + facet_wrap(~Season, scales = "free_x", nrow = 1)
 
 Alpha diversity
 ---------------
