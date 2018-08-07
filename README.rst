@@ -13,7 +13,7 @@ Spacer (ITS)** **18S** and **28S rRNA**. micca is an open-source, GPLv3-licensed
 software.
 
 * `Homepage <http://micca.org/>`_
-* `Documentation (latest) <http://micca.org/docs/latest>`_
+* `Documentation (latest) <https://micca.readthedocs.io>`_
 * `Issues <https://github.com/compmetagen/micca/issues>`_
 * `Github page <https://github.com/compmetagen/micca>`_
 
