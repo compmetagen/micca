@@ -1,4 +1,4 @@
-FROM compmetagen/rdpclassifier:2.11_debian9
+FROM compmetagen/rdpclassifier:2.12_debian9
 MAINTAINER Davide Albanese <davide.albanese@gmail.com>
 
 RUN apt-get update && apt-get install -y \
