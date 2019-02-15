@@ -2,7 +2,7 @@
 layout: default
 ---
 
-`Stable version: 1.7.0 (2018/04/20)`
+`Stable version: 1.7.2 (2018/08/07)`
 
 micca is an open-source, command-line software for the processing of **amplicon
 sequencing data**, from raw sequences to **OTU tables**, **taxonomic
