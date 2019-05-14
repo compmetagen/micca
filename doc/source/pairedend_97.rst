@@ -25,7 +25,7 @@ gene/spacers, e.g. **Internal Transcribed Spacer (ITS)**, **18S** or **28S**.
 Dataset download
 ----------------
 
-The following paired-end 16S rRNA dataset contains **34 samples** from  in FASTQ
+The following paired-end 16S rRNA dataset contains **34 samples** in FASTQ
 format (V3-V4 region, 341F 5'-CCTACGGGNGGCWGCAG-3', 806Rmod
 5'-GACTACNVGGGTWTCTAATCC-3').
 
