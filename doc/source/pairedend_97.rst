@@ -162,7 +162,7 @@ In this case (overlapping paired paired-end reads) we are interested in the plot
 on top (minimum length filtering only). A minimum read length (L) of **400** and a
 maximum error rate of **0.75%** seems to be a good compromise between the
 expected error rate and the number of reads remaining. Inspecting the file
-``filterstats/minlen_stats.txt``, you can see that more than **85%** reads will
+``filterstats/filterstats_minlen.txt``, you can see that more than **85%** reads will
 pass the filter::
 
     L   0.25    0.5     0.75    1.0     1.25    1.5
