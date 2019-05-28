@@ -7,26 +7,24 @@ An introduction to the downstream analysis with R and phyloseq
 
 .. note::
 
-   This tutorial requires `R <https://www.r-project.org/>`_, `phyloseq
-   <https://joey711.github.io/phyloseq/>`_ ggplot2 and vegan (tested on R v3.4
-   and phyloseq v1.22.3) to be installed in your system.
+   This tutorial is tested with `R <https://www.r-project.org/>`_ 3.5.3,
+   `phyloseq <https://joey711.github.io/phyloseq/>`_ 1.26.1, ggplot2 3.1.0, 
+   vegan 2.5-4 and DESeq2 1.22.2.
 
 Import data and preparation
 ---------------------------
 
 We can import the micca processed data (the BIOM file, the phylogenetic tree and
 the representative sequences) into the `R <https://www.r-project.org/>`_
-environment using the `phyloseq <https://joey711.github.io/phyloseq/>`_ library.
-
-The ``import_biom()`` function allows to simultaneously import the BIOM
-file and an associated phylogenetic tree file and reference sequence
-file. 
+environment using the ``import_biom()`` function available in `phyloseq
+<https://joey711.github.io/phyloseq/>`_ library.
 
 .. code-block:: R
 
     > library("phyloseq")
     > library("ggplot2")
     > library("vegan")
+    > library("DESeq2")
     > setwd("denovo_greedy_otus") # set the working directory
     > ps = import_biom("tables.biom", treefilename="tree_rooted.tree", refseqfilename="otus.fasta")
     > sample_data(ps)$Month <- as.numeric(sample_data(ps)$Month)
@@ -38,12 +36,13 @@ file.
     phy_tree()    Phylogenetic Tree: [ 529 tips and 528 internal nodes ]
     refseq()      DNAStringSet:      [ 529 reference sequences ]
 
-In this case, the phyloseq object includes the OTU table (which contains the OTU
-counts for each sample), the sample data matrix (containing the sample
-metadata), the taxonomy table (the predicted taxonomy for each OTU), the
-phylogenetic tree, and the OTU representative sequences.
+The ``import_biom()`` function returns a phyloseq object which includes the OTU
+table (which contains the OTU counts for each sample), the sample data matrix
+(containing the metadata for each sample), the taxonomy table (the predicted
+taxonomy for each OTU), the phylogenetic tree, and the OTU representative
+sequences.
 
-Now this point we can plot the rarefaction curves using vegan:
+At this point, we can plot the rarefaction curves using vegan:
 
 .. code-block:: R
 
@@ -53,18 +52,36 @@ Now this point we can plot the rarefaction curves using vegan:
     :align: center
     :scale: 95%
 
-Now, we can rarefy in order to bring the samples to the same depth (in this case
-is the 90% of the abundance of the sample with less reads):
+Now we can rarefy the samples. Rarefaction is used to simulate even number of
+reads per sample. In this example, the rarefaction depth chosen is 90% of the
+minimum sample depth in the dataset (459 reads per sample).
 
 .. code-block:: R
 
     > # rarefy without replacement
     > ps.rarefied = rarefy_even_depth(ps, rngseed=1, sample.size=0.9*min(sample_sums(ps)), replace=F)
-   
+
+.. note::
+
+    Rarefaction can waste a lot of data and would not be necessary. See
+    https://doi.org/10.1371/journal.pcbi.1003531.
+
+.. note::
+
+    Remember to set the random seed (``rngseed``) for repeatable experiments.
+
+
+.. admonition:: Exercise
+
+    Plot the samples depth histogram before and after the rarefaction using the
+    phyloseq function ``sample_sums()``.
+
+
 Plot abundances
 ---------------
 
-Plot the abundances and color each OTU according its classified phylum (Rank2):
+Using the rarefied dataset, plot the abundances and color each OTU according its
+classified phylum (in this case ``Rank2``):
 
 .. code-block:: R
 
