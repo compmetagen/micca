@@ -139,7 +139,7 @@ setup(
         'numpy >= 1.8.0',
         'scipy >=0.14.0',
         'matplotlib >= 1.3.0',
-        'pandas >= 0.17.0',
+        'pandas >= 0.24.0',
         'biopython >= 1.50',
         'cutadapt >= 1.9',
         'biom-format >= 1.3.1'],

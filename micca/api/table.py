@@ -186,7 +186,7 @@ def stats(input_fn, output_dir, step=100, replace=False, seed=0):
 
     with plt.rc_context(rc=rc):
         fig = plt.figure(figsize=(10, 6))
-        plt.plot(rarecurve.index, rarecurve.as_matrix(), color="k")
+        plt.plot(rarecurve.index, rarecurve.to_numpy(), color="k")
         plt.xlabel("Depth")
         plt.ylabel("#OTUs")
         fig.savefig(rarecurve_plot_fn, dpi=300, bbox_inches='tight', format="png")

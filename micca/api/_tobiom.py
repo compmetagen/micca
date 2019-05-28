@@ -39,7 +39,7 @@ def tobiom(input_fn, output_fn, tax_fn=None, sampledata_fn=None,
     
     otutable = micca.table.read(input_fn)
     
-    data = otutable.as_matrix()
+    data = otutable.to_numpy()
     observation_ids = otutable.index.tolist()
     sample_ids = otutable.columns.tolist()
         
