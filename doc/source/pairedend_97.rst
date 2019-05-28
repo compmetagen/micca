@@ -25,7 +25,7 @@ gene/spacers, e.g. **Internal Transcribed Spacer (ITS)**, **18S** or **28S**.
 Dataset download
 ----------------
 
-The following paired-end 16S rRNA dataset contains **34 samples** from  in FASTQ
+The following paired-end 16S rRNA dataset contains **34 samples** in FASTQ
 format (V3-V4 region, 341F 5'-CCTACGGGNGGCWGCAG-3', 806Rmod
 5'-GACTACNVGGGTWTCTAATCC-3').
 
@@ -162,7 +162,7 @@ In this case (overlapping paired paired-end reads) we are interested in the plot
 on top (minimum length filtering only). A minimum read length (L) of **400** and a
 maximum error rate of **0.75%** seems to be a good compromise between the
 expected error rate and the number of reads remaining. Inspecting the file
-``filterstats/minlen_stats.txt``, you can see that more than **85%** reads will
+``filterstats/filterstats_minlen.txt``, you can see that more than **85%** reads will
 pass the filter::
 
     L   0.25    0.5     0.75    1.0     1.25    1.5

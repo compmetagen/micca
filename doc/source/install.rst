@@ -192,7 +192,7 @@ used in the :doc:`/commands/classify` command (option ``-m/--method rdp``).
 
    Only RDP Classifier version >2.8 is supported. Install the standard Java or
    Java compatible runtime (``sudo apt-get install default-jre`` in
-   Ubuntu/Debian or go to the `Oracle Java homepage <www.java.com>`_ for OS X)
+   Ubuntu/Debian or go to the `Oracle Java homepage <https://www.java.com>`_ for OS X)
 
 Download and unzip the file (RDP classifier 2.11 2015-09-14):
 
