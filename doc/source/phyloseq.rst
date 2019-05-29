@@ -73,9 +73,14 @@ minimum sample depth in the dataset (459 reads per sample).
 
 .. admonition:: Exercise
 
-    Plot the samples depth histogram before and after the rarefaction using the
+    Plot the samples depths histogram before and after the rarefaction using the
     phyloseq function ``sample_sums()``.
 
+
+.. warning:: Exercise
+
+    Plot the samples depths histogram before and after the rarefaction using the
+    phyloseq function ``sample_sums()``.
 
 Plot abundances
 ---------------
