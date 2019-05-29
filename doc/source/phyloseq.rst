@@ -109,7 +109,7 @@ according to the season:
     :align: center
     :scale: 75%
 
-Alternatively, we can merge the OTU at the phylum level and build a new phyloseq
+Alternatively, we can merge the OTUs at the phylum level and build a new phyloseq
 object. Given a taxonomic rank (in this case the phylum), the phyloseq function
 ``tax_glom`` merges the OTU with the same taxonomy, summing the relative
 abundance values:
@@ -132,6 +132,12 @@ Now we can make a cleaner bar plot:
 .. code-block:: R
 
     > plot_bar(ps.phylum, fill="Rank2") + facet_wrap(~Season, scales= "free_x", nrow=1)
+
+
+.. image:: /images/garda_barplot3.png
+    :align: center
+    :scale: 75%
+
 
 Alpha diversity
 ---------------
