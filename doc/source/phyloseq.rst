@@ -85,24 +85,38 @@ minimum sample depth in the dataset (459 reads per sample).
 Plot abundances
 ---------------
 
-Using the rarefied dataset, plot the abundances and color each OTU according its
-classified phylum (in this case ``Rank2``). The ```plot_bar()`` function returns
-a ggplot2 object that can be customized with additional options:
+Using the rarefied dataset, make a stacked barplot of the abundances and color
+each OTU (i.e. each bar) according its classified phylum (in this case
+``Rank2``):
 
 .. code-block:: R
 
-    > plot_bar(ps.rarefied, fill="Rank2") + facet_wrap(~Season, scales = "free_x", nrow = 1)
+    > plot_bar(ps.rarefied, fill="Rank2")
 
 .. image:: /images/garda_barplot1.png
     :align: center
     :scale: 75%
 
-Alternatively, we can merge the OTU at the phylum level and build a new phyloseq
-object:
+The ``plot_bar()`` function returns a ggplot2 object that can be customized
+with additional options, in this case we separate the samples in 4 panels
+according to the season:
 
 .. code-block:: R
 
-    > ps.phylum = tax_glom(ps.rarefied, taxrank = "Rank2", NArm = F)
+    > plot_bar(ps.rarefied, fill="Rank2") + facet_wrap(~Season, scales="free_x", nrow=1)
+
+.. image:: /images/garda_barplot2.png
+    :align: center
+    :scale: 75%
+
+Alternatively, we can merge the OTU at the phylum level and build a new phyloseq
+object. Given a taxonomic rank (in this case the phylum), the phyloseq function
+``tax_glom`` merges the OTU with the same taxonomy, summing the relative
+abundance values:
+
+.. code-block:: R
+
+    > ps.phylum = tax_glom(ps.rarefied, taxrank="Rank2", NArm=FALSE)
     > ps.phylum
     phyloseq-class experiment-level object
     otu_table()   OTU Table:         [ 35 taxa and 34 samples ]
@@ -111,11 +125,13 @@ object:
     phy_tree()    Phylogenetic Tree: [ 35 tips and 34 internal nodes ]
     refseq()      DNAStringSet:      [ 35 reference sequences ]
 
-Now we can make the new bar plot at the class level:
+The option ``NArm`` set to ``FALSE`` forces the function to keep the
+unclassified OTUs at the phylum level. In this case we obtain 35 phyla. 
+Now we can make a cleaner bar plot:
 
 .. code-block:: R
 
-    > plot_bar(ps.phylum, fill="Rank2") + facet_wrap(~Season, scales = "free_x", nrow = 1)
+    > plot_bar(ps.phylum, fill="Rank2") + facet_wrap(~Season, scales= "free_x", nrow=1)
 
 Alpha diversity
 ---------------
