@@ -1,15 +1,23 @@
 An introduction to the downstream analysis with R and phyloseq
 ==============================================================
 
-.. note::
+In this tutorial we describe what is needed to make some common analysis on the
+data processed with micca using `R <https://www.r-project.org/>`_ and `phyloseq
+<https://joey711.github.io/phyloseq/>`_. In particular, we will discuss the
+following topics:
 
-   This tutorial requires :doc:`pairedend_97` to be done.
+    - rarefaction;
+    - taxonomy and relative abundances;
+    - alpha diversity and non-parametric tests;
+    - beta diversity and PERMANOVA;
+    - differential abuncance test with DESeq2.
 
-.. note::
+.. attention::
 
-   This tutorial is tested with `R <https://www.r-project.org/>`_ 3.5.3,
-   `phyloseq <https://joey711.github.io/phyloseq/>`_ 1.26.1, ggplot2 3.1.0, 
-   vegan 2.5-4 and DESeq2 1.22.2.
+   * This tutorial requires :doc:`pairedend_97` to be done.
+   
+   * The tutorial is tested
+   with R 3.5.3, phyloseq 1.26.1, ggplot2 3.1.0, vegan 2.5-4 and DESeq2 1.22.2.
 
 Import data and preparation
 ---------------------------
@@ -61,14 +69,12 @@ minimum sample depth in the dataset (459 reads per sample).
     > # rarefy without replacement
     > ps.rarefied = rarefy_even_depth(ps, rngseed=1, sample.size=0.9*min(sample_sums(ps)), replace=F)
 
-.. note::
+.. attention::
 
-    Rarefaction can waste a lot of data and would not be necessary. See
-    https://doi.org/10.1371/journal.pcbi.1003531.
+    * Rarefaction can waste a lot of data and would not be necessary. See
+      https://doi.org/10.1371/journal.pcbi.1003531.
 
-.. note::
-
-    Remember to set the random seed (``rngseed``) for repeatable experiments.
+    * Remember to set the random seed (``rngseed``) for repeatable experiments.
 
 
 .. admonition:: Exercise
@@ -76,11 +82,6 @@ minimum sample depth in the dataset (459 reads per sample).
     Plot the samples depths histogram before and after the rarefaction using the
     phyloseq function ``sample_sums()``.
 
-
-.. warning:: Exercise
-
-    Plot the samples depths histogram before and after the rarefaction using the
-    phyloseq function ``sample_sums()``.
 
 Plot abundances
 ---------------
