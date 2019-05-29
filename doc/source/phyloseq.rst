@@ -12,20 +12,19 @@ following topics:
     - beta diversity and PERMANOVA;
     - differential abuncance test with DESeq2.
 
-.. attention::
+.. warning::
 
    * This tutorial requires :doc:`pairedend_97` to be done.
    
-   * The tutorial is tested
-   with R 3.5.3, phyloseq 1.26.1, ggplot2 3.1.0, vegan 2.5-4 and DESeq2 1.22.2.
+   * The tutorial is tested with R 3.5.3, phyloseq 1.26.1, ggplot2 3.1.0, vegan
+     2.5-4 and DESeq2 1.22.2.
 
 Import data and preparation
 ---------------------------
 
 We can import the micca processed data (the BIOM file, the phylogenetic tree and
-the representative sequences) into the `R <https://www.r-project.org/>`_
-environment using the ``import_biom()`` function available in `phyloseq
-<https://joey711.github.io/phyloseq/>`_ library.
+the representative sequences) into the R environment using the ``import_biom()``
+function available in `phyloseq <https://joey711.github.io/phyloseq/>`_ library.
 
 .. code-block:: R
 
@@ -69,7 +68,7 @@ minimum sample depth in the dataset (459 reads per sample).
     > # rarefy without replacement
     > ps.rarefied = rarefy_even_depth(ps, rngseed=1, sample.size=0.9*min(sample_sums(ps)), replace=F)
 
-.. attention::
+.. warning::
 
     * Rarefaction can waste a lot of data and would not be necessary. See
       https://doi.org/10.1371/journal.pcbi.1003531.
@@ -79,7 +78,7 @@ minimum sample depth in the dataset (459 reads per sample).
 
 .. admonition:: Exercise
 
-    Plot the samples depths histogram before and after the rarefaction using the
+    Plot the samples depths before and after the rarefaction using the
     phyloseq function ``sample_sums()``.
 
 
@@ -87,13 +86,14 @@ Plot abundances
 ---------------
 
 Using the rarefied dataset, plot the abundances and color each OTU according its
-classified phylum (in this case ``Rank2``):
+classified phylum (in this case ``Rank2``). The ```plot_bar()`` function returns
+a ggplot2 object that can be customized with additional options:
 
 .. code-block:: R
 
     > plot_bar(ps.rarefied, fill="Rank2") + facet_wrap(~Season, scales = "free_x", nrow = 1)
 
-.. image:: /images/garda_bar.png
+.. image:: /images/garda_barplot1.png
     :align: center
     :scale: 75%
 
