@@ -255,11 +255,36 @@ estimates using the phyloseq function ``estimate_richness()``
     Bar0114D2.PL1.B1      120 216.3158 34.30966 222.7492  9.064837 4.028745 0.9586721   24.19674 52.85012
     Bar0114D3.PL1.C1      116 187.8696 25.47702 221.1842  8.864324 3.932334 0.9560141   22.73454 49.98502
 
+Test whether the observed number of OTUs differs significantly between seasons.
+We make a non-parametric test, the Wilcoxon rank-sum test (Mann-Whitney):
+
+.. code-block:: R
+    
+    > metadata  = sample_data(ps.rarefied)
+    > pairwise.wilcox.test(rich$Observed, metadata$Season)
+
+        Pairwise comparisons using Wilcoxon rank sum test 
+
+    data:  rich$Observed and metadata$Season 
+
+        Fall  Spring Summer
+    Spring 0.112 -      -     
+    Summer 0.270 0.681  -     
+    Winter 1.000 0.025  0.112 
+
+    P value adjustment method: holm 
+
+By default, the function ``pairwise.wilcox.test()`` reports the pairwise
+adjusted (Holm) p-values.
+
+.. admonition:: Exercise
+
+    Repeat the test on the Shannon indexes.
 
 Beta diversity
 --------------
 
-Now, we can plot the PCoA using the unweighted UniFrac as distance:
+Plot the PCoA using the unweighted UniFrac as distance:
 
 .. code-block:: R
 
