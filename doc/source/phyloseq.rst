@@ -9,7 +9,7 @@ will discuss the following topics:
     - taxonomy and relative abundances;
     - alpha diversity and non-parametric tests;
     - beta diversity and PERMANOVA;
-    - differential abuncance test with DESeq2.
+    - differential abundance test with DESeq2.
 
 .. warning::
 
@@ -260,14 +260,13 @@ We make a non-parametric test, the Wilcoxon rank-sum test (Mann-Whitney):
 
 .. code-block:: R
     
-    > metadata  = sample_data(ps.rarefied)
-    > pairwise.wilcox.test(rich$Observed, metadata$Season)
+    > pairwise.wilcox.test(rich$Observed, sample_data(ps.rarefied)$Season)
 
         Pairwise comparisons using Wilcoxon rank sum test 
 
     data:  rich$Observed and metadata$Season 
 
-        Fall  Spring Summer
+           Fall  Spring Summer
     Spring 0.112 -      -     
     Summer 0.270 0.681  -     
     Winter 1.000 0.025  0.112 
@@ -289,7 +288,7 @@ Plot the PCoA using the unweighted UniFrac as distance:
 .. code-block:: R
 
     > # PCoA plot using the unweighted UniFrac as distance
-    > wunifrac_dist = distance(ps.rarefied, method="unifrac", weighted=F)
+    > wunifrac_dist = phyloseq::distance(ps.rarefied, method="unifrac", weighted=F)
     > ordination = ordinate(ps.rarefied, method="PCoA", distance=wunifrac_dist)
     > plot_ordination(ps.rarefied, ordination, color="Season") + theme(aspect.ratio=1)
 
@@ -297,24 +296,92 @@ Plot the PCoA using the unweighted UniFrac as distance:
     :align: center
     :scale: 75%
 
-At this point, we test whether the seasons differ significantly from each other
-using the permutational ANOVA (PERMANOVA) analysis:
+Test whether the seasons differ significantly from each other using the
+permutational ANOVA (PERMANOVA) analysis:
 
 .. code-block:: R
 
-    > adonis(wunifrac_dist~sample_data(ps.rarefied)$Season)
+    > adonis(wunifrac_dist ~ metadata$Season)
     
     Call:
-    adonis(formula = wunifrac_dist ~ sample_data(ps.rarefied)$Season) 
+    adonis(formula = wunifrac_dist ~ metadata$Season) 
 
     Permutation: free
     Number of permutations: 999
 
     Terms added sequentially (first to last)
 
-                                    Df SumsOfSqs  MeanSqs F.Model     R2 Pr(>F)    
-    sample_data(ps.rarefied)$Season  3    0.6833 0.227765  4.3451 0.3029  0.001 ***
-    Residuals                       30    1.5726 0.052419         0.6971           
-    Total                           33    2.2559                  1.0000           
+                    Df SumsOfSqs MeanSqs F.Model      R2 Pr(>F)    
+    metadata$Season  3    1.3011 0.43372  4.1604 0.29381  0.001 ***
+    Residuals       30    3.1274 0.10425         0.70619           
+    Total           33    4.4286                 1.00000           
     ---
     Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+.. admonition:: Exercise
+
+    Make the PCoA and the PERMANOVA using the Bray-Curtis dissimilarity instead.
+
+
+OTU differential abundance testing with DESeq2
+----------------------------------------------
+
+To test the differences at OTU level between seasons using DESeq2, we need to
+convert the ``Season`` column into factor. Note that we use the data without
+rarefaction (i.e. ``ps`` object):
+
+.. code-block:: R
+    
+    > sample_data(ps)$Season <- as.factor(sample_data(ps)$Season)
+
+Convert the phyloseq object to a DESeqDataSet and run DESeq2:
+
+.. code-block:: R
+
+    > ds = phyloseq_to_deseq2(ps, ~ Season)
+    > ds = DESeq(ds)
+
+Extract the result table from the ``ds`` object usind the DESeq2 function
+``results`` and filter the OTUs using a False Discovery Rate (FDR) cutoff of
+0.01. In this example we return the significantly differentially abundant OTU
+between the seasons "Spring" and "Fall":
+
+.. code-block:: R
+
+    > alpha = 0.01
+    > res = results(ds, contrast=c("Season", "Spring", "Fall"), alpha=alpha)
+    > res = res[order(res$padj, na.last=NA), ]
+    > res_sig = res[(res$padj < alpha), ]
+    > res_sig
+    log2 fold change (MLE): Season Spring vs Fall 
+    Wald test p-value: Season Spring vs Fall 
+    DataFrame with 62 rows and 6 columns
+                    baseMean    log2FoldChange             lfcSE              stat               pvalue                 padj
+                    <numeric>         <numeric>         <numeric>         <numeric>            <numeric>            <numeric>
+    DENOVO17 22.7436598625802  -4.1529844728879 0.552035702386233 -7.52303601911288 5.35186717121325e-14 1.24163318372147e-11
+    DENOVO35 10.6015033917283 -7.36751901929925  1.01933372324247 -7.22777913779147 4.90956301343594e-13  5.6950930955857e-11
+    DENOVO91 5.31287448011852 -6.51255526618412 0.947998700432628 -6.86979345352695 6.42949270405053e-12 4.97214102446574e-10
+    DENOVO2  82.4704545010533 -4.14259840011034 0.673404296938788 -6.15172552201119 7.66444402875036e-10 4.44537753667521e-08
+    DENOVO7  15.6311735008548  5.91263059667889 0.979789881740526   6.0345903819455 1.59366414316775e-09 7.39460162429838e-08
+    ...                   ...               ...               ...               ...                  ...                  ...
+    DENOVO83 3.63662006180492  1.92505847356698 0.617438877584007  3.11781221341228  0.00182198852945677  0.00728795411782707
+    DENOVO89 2.68296393708501  2.84137889985046 0.912892035548744  3.11250267195342  0.00185508334637251  0.00729456502302411
+    DENOVO72 4.86241695816352  2.71763740147229 0.895564240058129  3.03455327927775  0.00240892202480818  0.00931449849592497
+    DENOVO21  17.208142677795  -1.1266184329166 0.373108760004578 -3.01954430901804    0.002531552600065  0.00962820005270621
+    DENOVO55 6.24723247307275  2.09415598552554 0.695335908667259  3.01171845063975  0.00259773414843998  0.00972055358771089
+
+The result table reports base means across samples, log2 fold changes, standard
+errors, test statistics, p-values and adjusted p-values.
+
+Make a genus vs log2FC plot of the significant OTUs: 
+
+.. code-block:: R
+
+    > res_sig = cbind(as(res_sig, "data.frame"), as(tax_table(ps)[rownames(res_sig), ], "matrix"))
+    > ggplot(res_sig, aes(x=Rank6, y=log2FoldChange, color=Rank2)) + 
+        geom_jitter(size=3, width = 0.2) + 
+        theme(axis.text.x = element_text(angle = -90, hjust = 0, vjust=0.5))
+
+.. image:: /images/garda_deseq2.png
+    :align: center
+    :scale: 75%
