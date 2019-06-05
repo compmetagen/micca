@@ -385,3 +385,9 @@ Make a genus vs log2FC plot of the significant OTUs:
 .. image:: /images/garda_deseq2.png
     :align: center
     :scale: 85%
+
+
+.. admonition:: Exercise
+
+    Test the differences between summer and fall and compare the results with
+    those above.
