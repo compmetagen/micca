@@ -294,7 +294,7 @@ Plot the PCoA using the unweighted UniFrac as distance:
 
 .. image:: /images/garda_beta.png
     :align: center
-    :scale: 75%
+    :scale: 90%
 
 Test whether the seasons differ significantly from each other using the
 permutational ANOVA (PERMANOVA) analysis:
@@ -384,4 +384,4 @@ Make a genus vs log2FC plot of the significant OTUs:
 
 .. image:: /images/garda_deseq2.png
     :align: center
-    :scale: 75%
+    :scale: 85%
