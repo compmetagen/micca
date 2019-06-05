@@ -198,7 +198,7 @@ the sampling depth:
 
 .. image:: /images/garda_alpha.png
     :align: center
-    :scale: 75%
+    :scale: 90%
 
 Make a boxplot of the number of OTUs and the Shannon entropy grouping the
 different months by season:
@@ -264,7 +264,7 @@ We make a non-parametric test, the Wilcoxon rank-sum test (Mann-Whitney):
 
         Pairwise comparisons using Wilcoxon rank sum test 
 
-    data:  rich$Observed and metadata$Season 
+    data:  rich$Observed and metasample_data(ps.rarefied)data$Season 
 
            Fall  Spring Summer
     Spring 0.112 -      -     
@@ -301,20 +301,20 @@ permutational ANOVA (PERMANOVA) analysis:
 
 .. code-block:: R
 
-    > adonis(wunifrac_dist ~ metadata$Season)
-    
+    > adonis(wunifrac_dist ~ sample_data(ps.rarefied)$Season)
+
     Call:
-    adonis(formula = wunifrac_dist ~ metadata$Season) 
+    adonis(formula = wunifrac_dist ~ sample_data(ps.rarefied)$Season) 
 
     Permutation: free
     Number of permutations: 999
 
     Terms added sequentially (first to last)
 
-                    Df SumsOfSqs MeanSqs F.Model      R2 Pr(>F)    
-    metadata$Season  3    1.3011 0.43372  4.1604 0.29381  0.001 ***
-    Residuals       30    3.1274 0.10425         0.70619           
-    Total           33    4.4286                 1.00000           
+                                    Df SumsOfSqs MeanSqs F.Model      R2 Pr(>F)    
+    sample_data(ps.rarefied)$Season  3    1.3011 0.43372  4.1604 0.29381  0.001 ***
+    Residuals                       30    3.1274 0.10425         0.70619           
+    Total                           33    4.4286                 1.00000           
     ---
     Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
