@@ -11,7 +11,7 @@ will discuss the following topics:
     - beta diversity and PERMANOVA;
     - differential abundance testing with DESeq2.
 
-You can download the script `here <data/garda.R>`_.
+You can download the script :download:`here <data/garda.R>`.
 
 .. warning::
 
