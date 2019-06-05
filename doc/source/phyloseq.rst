@@ -9,7 +9,9 @@ will discuss the following topics:
     - taxonomy and relative abundances;
     - alpha diversity and non-parametric tests;
     - beta diversity and PERMANOVA;
-    - differential abundance test with DESeq2.
+    - differential abundance testing with DESeq2.
+
+You can download the script `here <data/garda.R>`_.
 
 .. warning::
 
