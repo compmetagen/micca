@@ -61,7 +61,7 @@ def main(argv):
         is computed as in USEARCH (doi: 10.1093/bioinformatics/btv401).
 
         By default staggered read pairs (staggered pairs are pairs where the 3'
-        end of the reverse read has an overhang to the left of the 5’ end
+        end of the reverse read has an overhang to the left of the 5' end
         of the forward read) will be merged. To override this feature (and 
         therefore to discard staggered alignments) set the -n/--nostagger 
         option.
