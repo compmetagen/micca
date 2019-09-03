@@ -21,15 +21,13 @@ You can download the script :download:`here <data/garda.R>`.
      2.5-4 and DESeq2 1.22.2.
 
 
-RStudio environment (Docker)
-----------------------------
+(Optional) Using the Dockerized RStudio environment
+---------------------------------------------------
 
-The tutorial can be run using a `Docker <https://www.docker.com>` image with 
-the required packages installed. 
-
-Run the following command line mounting the host working directory (i.e. the
-directory containing the micca output files, in this case `/Users/davide/micca`)
-into the `/home/rstudio/micca` folder:
+The tutorial can be run using a `Docker <https://www.docker.com>`_ image with
+the required packages installed. Run the following command line mounting the
+host working directory (i.e. the directory containing the micca output files, in
+this case ``/Users/davide/micca``) into the ``/home/rstudio/micca`` folder:
 
 .. code-block:: sh
     
@@ -42,7 +40,7 @@ Open a browser and go to `127.0.0.1:8787`.
 
 .. warning::
 
-    Files stored outside the micca directory will be lost when you stop the
+    Files stored outside the ``micca`` directory will be lost when you stop the
     container.
 
 You can stop (and destroy) the container using the following line:
@@ -50,6 +48,7 @@ You can stop (and destroy) the container using the following line:
 .. code-block:: sh
     
     docker stop rstudio-micca
+
 
 Import data and preparation
 ---------------------------
