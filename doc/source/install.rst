@@ -27,7 +27,7 @@ which all the software has already been installed, configured and tested.
 
        .. code-block:: sh
 
-           docker run --rm -t -i -v /Users/davide/micca:/micca -w /micca compmetagen/micca /bin/bash
+           docker run --rm -ti --user $(id -u):$(id -g) -v /Users/davide/micca:/micca -w /micca compmetagen/micca /bin/bash
 
        You need to write something like ``-v //c/Users/davide/micca:/micca`` if
        you are in Windows or ``-v /home/davide/micca:/micca`` in Linux. The
@@ -37,7 +37,7 @@ which all the software has already been installed, configured and tested.
 
        .. code-block:: sh
 
-           root@68f6784e1101:/micca# micca -h
+           name@68f6784e1101:/micca# micca -h
 
 .. note::
 
