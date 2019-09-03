@@ -20,6 +20,37 @@ You can download the script :download:`here <data/garda.R>`.
    * The tutorial is tested on R 3.5.3, phyloseq 1.26.1, ggplot2 3.1.0, vegan
      2.5-4 and DESeq2 1.22.2.
 
+
+RStudio environment (Docker)
+----------------------------
+
+The tutorial can be run using a `Docker <https://www.docker.com>` image with 
+the required packages installed. 
+
+Run the following command line mounting the host working directory (i.e. the
+directory containing the micca output files, in this case `/Users/davide/micca`)
+into the `/home/rstudio/micca` folder:
+
+.. code-block:: sh
+    
+    docker run --rm -d -p 8787:8787 -e DISABLE_AUTH=true --name rstudio-micca \
+        -v /Users/davide/micca:/home/rstudio/micca \
+        compmetagen/rstudio-micca
+
+
+Open a browser and go to `127.0.0.1:8787`.
+
+.. warning::
+
+    Files stored outside the micca directory will be lost when you stop the
+    container.
+
+You can stop (and destroy) the container using the following line:
+
+.. code-block:: sh
+    
+    docker stop rstudio-micca
+
 Import data and preparation
 ---------------------------
 
