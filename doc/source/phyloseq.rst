@@ -63,7 +63,7 @@ function available in `phyloseq <https://joey711.github.io/phyloseq/>`_ library.
     > library("ggplot2")
     > library("vegan")
     > library("DESeq2")
-    > setwd("denovo_greedy_otus") # set the working directory
+    > setwd("/home/rstudio/micca/garda/denovo_greedy_otus") # set the working directory
     > ps = import_biom("tables.biom", treefilename="tree_rooted.tree", refseqfilename="otus.fasta")
     > sample_data(ps)$Month <- as.numeric(sample_data(ps)$Month)
     > ps
