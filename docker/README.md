@@ -4,7 +4,7 @@ micca (MICrobial Community Analysis) is a software pipeline for the processing
 of amplicon sequencing data, from raw sequences to OTU tables, taxonomy
 classification and phylogenetic tree inference. The pipeline can be applied to a
 range of highly conserved genes/spacers, such as 16S rRNA gene, Internal
-Transcribed Spacer (ITS) and 28S rRNA. Homepage: http://www.micca.org.
+Transcribed Spacer (ITS) and 28S rRNA. Homepage: https://compmetagen.github.io/micca/.
 
 The RDP classifier is preinstalled in the Docker image, so you can check the
 software version by typing ``echo $RDPPATH``
