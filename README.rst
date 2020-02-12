@@ -15,7 +15,7 @@ genes/spacers, such as **16S rRNA gene**, **Internal Transcribed
 Spacer (ITS)** **18S** and **28S rRNA**. micca is an open-source, GPLv3-licensed
 software.
 
-* `Homepage <http://micca.org/>`_
+* `Homepage <https://compmetagen.github.io/micca/>`_
 * `Documentation (latest) <https://micca.readthedocs.io>`_
 * `Issues <https://github.com/compmetagen/micca/issues>`_
 * `Github page <https://github.com/compmetagen/micca>`_
