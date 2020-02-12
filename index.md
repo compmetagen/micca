@@ -2,10 +2,6 @@
 layout: default
 ---
 
-## Notice
-The micca homepage will move to the URL <http://compmetagen.github.io/micca> from February 1, 2020.
-
-
 `Stable version: 1.7.2 (2018/08/07)`
 
 micca is an open-source, command-line software for the processing of **amplicon
