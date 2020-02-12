@@ -82,7 +82,7 @@ def main():
 
         Run 'micca <command> --help' for more information on a specific command.
 
-        For more information, visit <http://micca.org/>.
+        For more information, visit <https://compmetagen.github.io/micca/>.
     '''.format(__version__))
 
     parser = argparse.ArgumentParser(
